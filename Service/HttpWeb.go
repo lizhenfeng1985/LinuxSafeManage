@@ -7,7 +7,7 @@ import (
 )
 
 func InitAll() error {
-	// FirstCreateDB
+	FirstCreateDB()
 
 	db, err := ConnectSqlite(DBUserName)
 	if err != nil {
