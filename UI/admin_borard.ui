@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>login_bkg</class>
+ <widget class="QWidget" name="login_bkg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1244</width>
+    <height>488</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QPushButton" name="AdminTagHome">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>91</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/images/btn_blue_lite.png);</string>
+   </property>
+   <property name="text">
+    <string>首页概览</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>30</y>
+     <width>1244</width>
+     <height>458</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/images/btn_grey.png);</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="AdminTagSafe">
+   <property name="geometry">
+    <rect>
+     <x>92</x>
+     <y>0</y>
+     <width>91</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/images/btn_blue_lite.png);</string>
+   </property>
+   <property name="text">
+    <string>安全保护</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="AdminTagSpecial">
+   <property name="geometry">
+    <rect>
+     <x>184</x>
+     <y>0</y>
+     <width>91</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/images/btn_blue_lite.png);</string>
+   </property>
+   <property name="text">
+    <string>特殊资源</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="AdminTagSpecial_2">
+   <property name="geometry">
+    <rect>
+     <x>276</x>
+     <y>0</y>
+     <width>91</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/images/btn_blue_lite.png);</string>
+   </property>
+   <property name="text">
+    <string>系统设置</string>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
+ <connections/>
+</ui>

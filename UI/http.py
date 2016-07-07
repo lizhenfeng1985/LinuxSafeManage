@@ -19,7 +19,7 @@ def HttpGet(url, params, timeout=3):
         rt = json.loads(response)
         return [0, rt]
     except Exception, e:
-        return [-1, str(e)]
+        return [-1, u'错误:连接服务失败:' + str(e)]
 
 '''
  HTTP POST
@@ -33,7 +33,7 @@ def HttpPost(url, params, timeout=3):
         rt = json.loads(response)
         return [0, rt]
     except Exception, e:
-        return [-1, str(e)]
+        return [-1, u'错误:连接服务失败:' + str(e)]
 
 
 '''
@@ -60,7 +60,7 @@ def HttpsGet(url, params, timeout=3):
         rt = json.loads(response)
         return [0, rt]
     except Exception, e:
-        return [-1, str(e)]
+        return [-1, u'错误:连接服务失败:' + str(e)]
 
 '''
  HTTPS POST
@@ -75,7 +75,7 @@ def HttpsPost(url, params, timeout=3):
         rt = json.loads(response)
         return [0, rt]
     except Exception, e:
-        return [-1, str(e)]
+        return [-1, u'错误:连接服务失败:' + str(e)]
 
 
 def print_rt(rt):

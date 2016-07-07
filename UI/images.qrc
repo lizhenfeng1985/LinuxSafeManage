@@ -1,0 +1,32 @@
+<RCC>
+  <qresource>
+    <file>images/btn_bg_disable.png</file>
+    <file>images/btn_bg_hover.png</file>
+    <file>images/btn_bg_pressed.png</file>
+    <file>images/btn_bg_normal.png</file>
+    <file>images/btn_no_frame.png</file>
+    <file>images/btn_white.png</file>
+    <file>images/btn_grey.png</file>
+    <file>images/btn_grey_line.png</file>
+    <file>images/btn_blue_lite.png</file>    
+    <file>images/btn_off.png</file>
+    <file>images/btn_on.png</file>
+    <file>images/btn_off_2.png</file>
+    <file>images/btn_on_2.png</file>   
+    <file>images/line.jpg</file>
+    <file>images/login_logo.png</file>
+    <file>images/login_title.png</file>
+    <file>images/user_ico.png</file>
+    <file>images/login_input_bk.png</file>
+    <file>images/main_bk.png</file>
+    <file>images/login_admin_ico.png</file>
+    <file>images/login_audit_ico.png</file>
+    <file>images/sys_ico.png</file>
+    <file>images/sys_title.png</file>
+    <file>images/logo.png</file>
+    <file>images/specrc_settime.png</file>
+    <file>images/specrc_shutdown.png</file>
+    <file>images/device_cdrom.png</file>
+    <file>images/device_usb.png</file>
+  </qresource>
+</RCC>
