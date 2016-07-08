@@ -13,6 +13,10 @@
     <file>images/btn_on.png</file>
     <file>images/btn_off_2.png</file>
     <file>images/btn_on_2.png</file>   
+    <file>images/btn_mode_on.png</file> 
+    <file>images/btn_mode_off.png</file> 
+    <file>images/btn_open_1.png</file>
+    <file>images/btn_close_1.png</file>
     <file>images/line.jpg</file>
     <file>images/login_logo.png</file>
     <file>images/login_title.png</file>

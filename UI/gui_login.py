@@ -164,9 +164,14 @@ class GuiLogin(QtGui.QWidget):
                 self._user = res['User']
                 self._tokey = res['Tokey']
                 print 'Login OK :', self._user, self._tokey
-                self.AddAdminBoard()
-                self.loginBoard.hide()
-                self.adminBoard.show()
+                # 进入Admin页面
+                if self._loginName == 'Admin':
+                    self.AddAdminBoard()
+                    self.loginBoard.hide()
+                    self.adminBoard.show()
+                # 进入Audit页面
+                elif self._loginName == 'Audit':
+                    QtGui.QMessageBox.about(self, u"登录", u'页面未添加')
             else:
                 QtGui.QMessageBox.about(self, u"登录", u'%s' % (res['ErrMsg']))
         else:

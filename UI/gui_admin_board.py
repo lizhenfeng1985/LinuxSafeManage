@@ -88,7 +88,7 @@ class GuiAdminBoard(QtGui.QWidget):
             self.adminTagConfigBkg
         ]
 
-        self.adminTagSpecialMode = 0
+        self.adminTagSpecialModeValue = 0
         self.adminTagSpecialSetTimeValue = 0
         self.adminTagSpecialShutDownValue = 0
         self.adminTagSpecialUsbValue = 0
@@ -101,11 +101,12 @@ class GuiAdminBoard(QtGui.QWidget):
         self.AdminSpecialGetStatus()
         
         # 消息处理
+        self.connect(self.adminTagSpecialMode, QtCore.SIGNAL("clicked()"), self.onAdminTagSpecialModeClick)
         self.connect(self.adminTagHome, QtCore.SIGNAL("clicked()"), self.onAdminTagHome)
         self.connect(self.adminTagSafe, QtCore.SIGNAL("clicked()"), self.onAdminTagSafe)
         self.connect(self.adminTagSpecial, QtCore.SIGNAL("clicked()"), self.onAdminTagSpecial)
         self.connect(self.adminTagConfig, QtCore.SIGNAL("clicked()"), self.onAdminTagConfig)
-
+        
         self.connect(self.adminTagSpecialTable, QtCore.SIGNAL("cellClicked(int,int)"), self.onAdminTagSpecialTableClick)
         self.connect(self.adminTagSpecialOk, QtCore.SIGNAL("clicked()"), self.onAdminTagSpecialSet)
 
@@ -119,22 +120,41 @@ class GuiAdminBoard(QtGui.QWidget):
         self.adminTagSpecialTitle.setGeometry(QtCore.QRect(120, 10, 200, 60))
         self.adminTagSpecialTitle.setObjectName(_fromUtf8("adminTagSpecialTitle"))
         self.adminTagSpecialTitle.setStyleSheet(_fromUtf8("border-image: url(:/images/sys_title.png);"))
-        '''
-        self.adminTagSpecialSpace = QtGui.QWidget(self.adminTagSpecialBkg)
-        self.adminTagSpecialSpace.setGeometry(QtCore.QRect(0, 85, 10000, 1))
-        self.adminTagSpecialSpace.setStyleSheet(_fromUtf8("border-image: url(:/images/line.jpg);"))
-        self.adminTagSpecialSpace.setObjectName(_fromUtf8("adminTagSpecialSpace"))
-        '''
+        
+        self.adminTagSpecialSpace1 = QtGui.QWidget(self.adminTagSpecialBkg)
+        self.adminTagSpecialSpace1.setGeometry(QtCore.QRect(0, 74, 10000, 1))
+        self.adminTagSpecialSpace1.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_bg_disable.png);"))
+        self.adminTagSpecialSpace1.setObjectName(_fromUtf8("adminTagSpecialSpace1"))
+
+        self.adminTagSpecialSpace2 = QtGui.QWidget(self.adminTagSpecialBkg)
+        self.adminTagSpecialSpace2.setGeometry(QtCore.QRect(0, 112, 10000, 1))
+        self.adminTagSpecialSpace2.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_bg_disable.png);"))
+        self.adminTagSpecialSpace2.setObjectName(_fromUtf8("adminTagSpecialSpace2"))
+
+        self.adminTagSpecialModeTxet = QtGui.QLabel(self.adminTagSpecialBkg)
+        self.adminTagSpecialModeTxet.setGeometry(QtCore.QRect(40, 80, 91, 30))
+        self.adminTagSpecialModeTxet.setObjectName(_fromUtf8("adminTagSpecialModeTxet"))  
+        self.adminTagSpecialModeTxet.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_no_frame.png);"))
+        self.adminTagSpecialModeTxet.setText(_translate("adminTagSpecialModeTxet", "当前模式", None))
+        self.adminTagSpecialModeTxet.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignCenter)
+
+        # 当前模式
+        self.adminTagSpecialMode = QtGui.QPushButton(self.adminTagSpecialBkg)
+        self.adminTagSpecialMode.setGeometry(QtCore.QRect(140, 80, 140, 30))
+        self.adminTagSpecialMode.setObjectName(_fromUtf8("adminTagSpecialMode"))  
+        self.adminTagSpecialMode.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_mode_off.png);"))
+        self.adminTagSpecialMode.setText(_translate("adminTagSpecialMode", "", None))
+        
         # 应用到服务器
         self.adminTagSpecialOk = QtGui.QPushButton(self.adminTagSpecialBkg)
-        self.adminTagSpecialOk.setGeometry(QtCore.QRect(820, 65, 140, 30))
+        self.adminTagSpecialOk.setGeometry(QtCore.QRect(800, 78, 140, 30))
         self.adminTagSpecialOk.setObjectName(_fromUtf8("adminTagSpecialOk"))  
         self.adminTagSpecialOk.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_grey_line.png);"))
         self.adminTagSpecialOk.setText(_translate("Form", "应用到服务器", None))
 
         self.adminTagSpecialCount = 4
         self.adminTagSpecialTable = QtGui.QTableWidget(self.adminTagSpecialBkg)
-        self.adminTagSpecialTable.setGeometry(QtCore.QRect(25, 100, 950, 290))
+        self.adminTagSpecialTable.setGeometry(QtCore.QRect(25, 122, 950, 290))
         self.adminTagSpecialTable.setObjectName(_fromUtf8("specrc_list_widget"))
         self.adminTagSpecialTable.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_grey_line.jpg);"))
         self.adminTagSpecialTable.verticalHeader().setVisible(False)
@@ -185,7 +205,7 @@ class GuiAdminBoard(QtGui.QWidget):
         img = QtGui.QLabel(item)
         img.setGeometry(QtCore.QRect(55, 5, 150, 30))
         img.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignLeft)
-        img.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_off_2.png);"))
+        img.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_close_1.png);"))
         self.adminTagSpecialTable.setCellWidget(line, 3, item)
         self.adminTagSpecialSetTimeOnOff = img
         
@@ -215,7 +235,7 @@ class GuiAdminBoard(QtGui.QWidget):
         img = QtGui.QLabel(item)
         img.setGeometry(QtCore.QRect(55, 5, 150, 30))
         img.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignLeft)
-        img.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_off_2.png);"))
+        img.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_close_1.png);"))
         self.adminTagSpecialTable.setCellWidget(line, 3, item)
         self.adminTagSpecialShutDownOnOff = img
 
@@ -244,7 +264,7 @@ class GuiAdminBoard(QtGui.QWidget):
         img = QtGui.QLabel(item)
         img.setGeometry(QtCore.QRect(55, 5, 150, 30))
         img.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignLeft)
-        img.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_off_2.png);"))
+        img.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_close_1.png);"))
         self.adminTagSpecialTable.setCellWidget(line, 3, item)
         self.adminTagSpecialUsbOnOff = img
         
@@ -273,7 +293,7 @@ class GuiAdminBoard(QtGui.QWidget):
         img = QtGui.QLabel(item)
         img.setGeometry(QtCore.QRect(55, 5, 150, 30))
         img.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignLeft)
-        img.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_off_2.png);"))
+        img.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_close_1.png);"))
         self.adminTagSpecialTable.setCellWidget(line, 3, item)
         self.adminTagSpecialCdromOnOff = img
             
@@ -296,50 +316,58 @@ class GuiAdminBoard(QtGui.QWidget):
     def onAdminTagConfig(self):
         self._onAdminChangeTags(self.adminTagConfigBkg)
 
+    def onAdminTagSpecialModeClick(self):
+        if self.adminTagSpecialModeValue == 0:
+            self.adminTagSpecialModeValue = 1
+            self.adminTagSpecialMode.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_mode_on.png);"))
+        else:            
+            self.adminTagSpecialModeValue = 0
+            self.adminTagSpecialMode.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_mode_off.png);"))
+
     def onAdminTagSpecialTableClick(self, line, col):
         if line == 0 and col == 3:
             if self.adminTagSpecialSetTimeValue == 0:
                 self.adminTagSpecialSetTimeValue = 1
                 self.adminTagSpecialSetTimeText.setText(_fromUtf8("等待应用到服务器"))
-                self.adminTagSpecialSetTimeOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_on_2.png);"))
+                self.adminTagSpecialSetTimeOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_open_1.png);"))
             else:
                 self.adminTagSpecialSetTimeValue = 0
                 self.adminTagSpecialSetTimeText.setText(_fromUtf8("等待应用到服务器"))
-                self.adminTagSpecialSetTimeOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_off_2.png);"))
+                self.adminTagSpecialSetTimeOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_close_1.png);"))
         elif line == 1 and col == 3:
             if self.adminTagSpecialShutDownValue == 0:
                 self.adminTagSpecialShutDownValue = 1
                 self.adminTagSpecialShutDownText.setText(_fromUtf8("等待应用到服务器"))
-                self.adminTagSpecialShutDownOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_on_2.png);"))
+                self.adminTagSpecialShutDownOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_open_1.png);"))
             else:
                 self.adminTagSpecialShutDownValue = 0
                 self.adminTagSpecialShutDownText.setText(_fromUtf8("等待应用到服务器"))
-                self.adminTagSpecialShutDownOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_off_2.png);"))
+                self.adminTagSpecialShutDownOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_close_1.png);"))
         elif line == 2 and col == 3:
             if self.adminTagSpecialCdromValue == 0:
                 self.adminTagSpecialCdromValue = 1
                 self.adminTagSpecialCdromText.setText(_fromUtf8("等待应用到服务器"))
-                self.adminTagSpecialCdromOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_on_2.png);"))
+                self.adminTagSpecialCdromOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_open_1.png);"))
             else:
                 self.adminTagSpecialCdromValue = 0
                 self.adminTagSpecialCdromText.setText(_fromUtf8("等待应用到服务器"))
-                self.adminTagSpecialCdromOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_off_2.png);"))                
+                self.adminTagSpecialCdromOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_close_1.png);"))                
         elif line == 3 and col == 3:
             if self.adminTagSpecialUsbValue == 0:
                 self.adminTagSpecialUsbValue = 1
                 self.adminTagSpecialUsbText.setText(_fromUtf8("等待应用到服务器"))
-                self.adminTagSpecialUsbOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_on_2.png);"))
+                self.adminTagSpecialUsbOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_open_1.png);"))
             else:
                 self.adminTagSpecialUsbValue = 0
                 self.adminTagSpecialUsbText.setText(_fromUtf8("等待应用到服务器"))
-                self.adminTagSpecialUsbOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_off_2.png);"))
+                self.adminTagSpecialUsbOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_close_1.png);"))
 
 
     def onAdminTagSpecialSet(self):
         url = 'https://%s:%s/specialset/%s' % (self._Config['Service']['IP'], self._Config['Service']['Port'], self._loginName)
         data = {
             'Tokey'   : self._tokey,
-            'Mode'    : self.adminTagSpecialMode,
+            'Mode'    : self.adminTagSpecialModeValue,
             'SetTime' : self.adminTagSpecialSetTimeValue,
             'ShutDown': self.adminTagSpecialShutDownValue,
             'Usb'     : self.adminTagSpecialUsbValue,
@@ -374,6 +402,7 @@ class GuiAdminBoard(QtGui.QWidget):
 
     def _AdminSpecialUpdateStaus(self, res):
         if res['Status'] == 0:
+            self.adminTagSpecialModeValue = res['Mode']
             self.adminTagSpecialSetTimeValue = res['SetTime']
             self.adminTagSpecialShutDownValue = res['ShutDown']
             self.adminTagSpecialUsbValue = res['Usb']
@@ -383,26 +412,31 @@ class GuiAdminBoard(QtGui.QWidget):
             self.adminTagSpecialShutDownText.setText(_fromUtf8("已应用到服务器"))
             self.adminTagSpecialUsbText.setText(_fromUtf8("已应用到服务器"))
             self.adminTagSpecialCdromText.setText(_fromUtf8("已应用到服务器"))
+
+            if self.adminTagSpecialModeValue == 1:
+                self.adminTagSpecialMode.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_mode_on.png);"))
+            else:
+                self.adminTagSpecialMode.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_mode_off.png);"))
                 
             if self.adminTagSpecialSetTimeValue == 1:
-                self.adminTagSpecialSetTimeOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_on_2.png);"))
+                self.adminTagSpecialSetTimeOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_open_1.png);"))
             else:
-                self.adminTagSpecialSetTimeOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_off_2.png);"))
+                self.adminTagSpecialSetTimeOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_close_1.png);"))
 
             if self.adminTagSpecialShutDownValue == 1:
-                self.adminTagSpecialShutDownOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_on_2.png);"))
+                self.adminTagSpecialShutDownOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_open_1.png);"))
             else:
-                self.adminTagSpecialShutDownOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_off_2.png);"))
+                self.adminTagSpecialShutDownOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_close_1.png);"))
 
             if self.adminTagSpecialUsbValue == 1:
-                self.adminTagSpecialUsbOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_on_2.png);"))
+                self.adminTagSpecialUsbOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_open_1.png);"))
             else:
-                self.adminTagSpecialUsbOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_off_2.png);"))
+                self.adminTagSpecialUsbOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_close_1.png);"))
 
             if self.adminTagSpecialCdromValue == 1:
-                self.adminTagSpecialCdromOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_on_2.png);"))
+                self.adminTagSpecialCdromOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_open_1.png);"))
             else:
-                self.adminTagSpecialCdromOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_off_2.png);"))
+                self.adminTagSpecialCdromOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_close_1.png);"))
         else:
             QtGui.QMessageBox.about(self, u"设置", u"获取设置失败:" + res['ErrMsg'])
             

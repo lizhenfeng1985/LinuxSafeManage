@@ -46,7 +46,7 @@
    <property name="geometry">
     <rect>
      <x>25</x>
-     <y>100</y>
+     <y>122</y>
      <width>950</width>
      <height>290</height>
     </rect>
@@ -99,13 +99,71 @@
    <property name="geometry">
     <rect>
      <x>820</x>
-     <y>65</y>
+     <y>78</y>
      <width>140</width>
      <height>30</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">border-image: url(:/images/btn_blue_lite.png);</string>
+   </property>
+   <property name="text">
+    <string>PushButton</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget_3" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>74</y>
+     <width>1000</width>
+     <height>1</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/images/btn_bg_disable.png);</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget_4" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>112</y>
+     <width>1000</width>
+     <height>1</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/images/btn_bg_disable.png);</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_6">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>80</y>
+     <width>91</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/images/btn_blue_lite.png);</string>
+   </property>
+   <property name="text">
+    <string>PushButton</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_7">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>80</y>
+     <width>140</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/images/btn_off_2.png);</string>
    </property>
    <property name="text">
     <string>PushButton</string>
