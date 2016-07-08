@@ -40,7 +40,7 @@ class GuiMain(QtGui.QDialog, gui_login.GuiLogin, gui_admin_board.GuiAdminBoard):
         self.AddLoginBoard()        
 
         # 管理员面板
-        self.AddAdminBoard()  
+        #self.AddAdminBoard()  
         #QtCore.QMetaObject.connectSlotsByName(mainBoard)
         
     def AddMainBoard(self):

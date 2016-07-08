@@ -151,13 +151,12 @@ class GuiLogin(QtGui.QWidget):
                 config.UpdateConfigFile(self._configfile, self._Config)
 
         url = 'https://%s:%s/login/%s' % (self._Config['Service']['IP'], self._Config['Service']['Port'], self._loginName)
-        param = {
-            'User'     : self._loginName,
-            'Password' : pwd,
-            'Local' : localIpPort,
-            'Center' : CenterIpPort,
+        data = {
+            'Password'    : pwd,
+            'LocalIPPort' : localIpPort,
+            'CenterIPPort': CenterIpPort,
         }
-        
+        param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
         if rt[0] == 0:
             res = rt[1]
@@ -165,6 +164,7 @@ class GuiLogin(QtGui.QWidget):
                 self._user = res['User']
                 self._tokey = res['Tokey']
                 print 'Login OK :', self._user, self._tokey
+                self.AddAdminBoard()
                 self.loginBoard.hide()
                 self.adminBoard.show()
             else:

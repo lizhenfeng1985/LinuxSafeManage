@@ -84,11 +84,47 @@ def print_rt(rt):
         
 def testLogin():
     url = 'https://127.0.0.1:9001/login/Admin'
-    param = {'Password':'123456'}
+    data = {
+        'Password' :     '123456',
+	'LocalIPPort' :  '127.0.0.1:9001',
+	'CenterIPPort' : '127.0.0.1:9002',
+    }
+    param = {'Data' : json.dumps(data)}
+    print url
+    print param
+    rt = HttpsPost(url, param)
+    print_rt(rt[1])
+    return rt[1]['Tokey']
 
+def testSpecialGetConfig(tokey):
+    url = 'https://127.0.0.1:9001/specialget/Admin'
+    data = {
+        'Tokey' : tokey,
+    }
+    param = {'Data' : json.dumps(data)}
+    print url
+    print param
+    rt = HttpsPost(url, param)
+    print_rt(rt[1])
+    
+def testSpecialSetConfig(tokey):
+    url = 'https://127.0.0.1:9001/specialset/Admin'
+    data = {
+        'Tokey' : tokey,
+        'Mode' : 1,
+        'SetTime' : 1,
+        'ShutDown' : 1,
+        'Usb' : 1,
+        'Cdrom' : 1,
+    }
+    param = {'Data' : json.dumps(data)}
+    print url
+    print param
     rt = HttpsPost(url, param)
     print_rt(rt[1])
 
     
 if __name__ == '__main__':
-    testLogin()
+    tokey = testLogin()
+    testSpecialGetConfig(tokey)
+    testSpecialSetConfig(tokey)

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from PyQt4 import QtCore, QtGui 
 import sys
+import json
+from http import *
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -86,6 +88,7 @@ class GuiAdminBoard(QtGui.QWidget):
             self.adminTagConfigBkg
         ]
 
+        self.adminTagSpecialMode = 0
         self.adminTagSpecialSetTimeValue = 0
         self.adminTagSpecialShutDownValue = 0
         self.adminTagSpecialUsbValue = 0
@@ -94,8 +97,8 @@ class GuiAdminBoard(QtGui.QWidget):
         # 默认显示首页
         self._onAdminChangeTags(self.adminTagHomeBkg)
 
-        self.AdminSpecialSetStatus()
-
+        # 获取Sepeical设置状态
+        self.AdminSpecialGetStatus()
         
         # 消息处理
         self.connect(self.adminTagHome, QtCore.SIGNAL("clicked()"), self.onAdminTagHome)
@@ -104,7 +107,7 @@ class GuiAdminBoard(QtGui.QWidget):
         self.connect(self.adminTagConfig, QtCore.SIGNAL("clicked()"), self.onAdminTagConfig)
 
         self.connect(self.adminTagSpecialTable, QtCore.SIGNAL("cellClicked(int,int)"), self.onAdminTagSpecialTableClick)
-        self.connect(self.adminTagSpecialOk, QtCore.SIGNAL("clicked()"), self.onAdminTagSpecialOk)
+        self.connect(self.adminTagSpecialOk, QtCore.SIGNAL("clicked()"), self.onAdminTagSpecialSet)
 
     def AddAdminTagSpecial(self):
         self.adminTagSpecialLogo = QtGui.QWidget(self.adminTagSpecialBkg)
@@ -332,63 +335,75 @@ class GuiAdminBoard(QtGui.QWidget):
                 self.adminTagSpecialUsbOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_off_2.png);"))
 
 
-    def onAdminTagSpecialOk(self):
-        rt = [0, {'Status':0, 'ErrMsg':'OK'}]
+    def onAdminTagSpecialSet(self):
+        url = 'https://%s:%s/specialset/%s' % (self._Config['Service']['IP'], self._Config['Service']['Port'], self._loginName)
+        data = {
+            'Tokey'   : self._tokey,
+            'Mode'    : self.adminTagSpecialMode,
+            'SetTime' : self.adminTagSpecialSetTimeValue,
+            'ShutDown': self.adminTagSpecialShutDownValue,
+            'Usb'     : self.adminTagSpecialUsbValue,
+            'Cdrom'   : self.adminTagSpecialCdromValue,
+        }
+        param = {'Data' : json.dumps(data)}        
+        rt = HttpsPost(url, param)
         if rt[0] == 0:
             res = rt[1]
-            if res['Status'] == 0:
-                # 更新数据
-                self.adminTagSpecialSetTimeText.setText(_fromUtf8("已应用到服务器"))
-                self.adminTagSpecialShutDownText.setText(_fromUtf8("已应用到服务器"))
-                self.adminTagSpecialUsbText.setText(_fromUtf8("已应用到服务器"))
-                self.adminTagSpecialCdromText.setText(_fromUtf8("已应用到服务器"))
-            else:
-                QtGui.QMessageBox.about(self, u"设置", u"设置失败:" + res['ErrMsg'])
+            #print 'Request  Set:', data
+            #print 'Response Set:', res
+            self._AdminSpecialUpdateStaus(res)
         else:
             QtGui.QMessageBox.about(self, u"设置", u"设置失败:" + rt[1])
-
-    def AdminSpecialSetStatus(self):
-        rt = [
-            0,
-            {
-                'Status'  :0,
-                'ErrMsg'  :'OK',
-                'SetTime' : 0,
-                'ShutDown' : 1,
-                'Usb' : 0,
-                'Cdrom' : 1,
-            }
-        ]
+            
+        
+    def AdminSpecialGetStatus(self):
+        url = 'https://%s:%s/specialget/%s' % (self._Config['Service']['IP'], self._Config['Service']['Port'], self._loginName)
+        data = {
+            'Tokey'   : self._tokey,
+        }        
+        param = {'Data' : json.dumps(data)}        
+        rt = HttpsPost(url, param)
+        
         if rt[0] == 0:
             res = rt[1]
-            if res['Status'] == 0:
-                self.adminTagSpecialSetTimeValue = res['SetTime']
-                self.adminTagSpecialShutDownValue = res['ShutDown']
-                self.adminTagSpecialUsbValue = res['Usb']
-                self.adminTagSpecialCdromValue = res['Cdrom']
-                # 更新数据
-                if self.adminTagSpecialSetTimeValue == 1:
-                    self.adminTagSpecialSetTimeOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_on_2.png);"))
-                else:
-                    self.adminTagSpecialSetTimeOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_off_2.png);"))
-
-                if self.adminTagSpecialShutDownValue == 1:
-                    self.adminTagSpecialShutDownOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_on_2.png);"))
-                else:
-                    self.adminTagSpecialShutDownOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_off_2.png);"))
-
-                if self.adminTagSpecialUsbValue == 1:
-                    self.adminTagSpecialUsbOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_on_2.png);"))
-                else:
-                    self.adminTagSpecialUsbOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_off_2.png);"))
-
-                if self.adminTagSpecialCdromValue == 1:
-                    self.adminTagSpecialCdromOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_on_2.png);"))
-                else:
-                    self.adminTagSpecialCdromOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_off_2.png);"))
-            else:
-                QtGui.QMessageBox.about(self, u"设置", u"设置失败:" + res['ErrMsg'])
+            #print 'Request  Get:', data
+            #print 'Response Get:', res
+            self._AdminSpecialUpdateStaus(res)
         else:
-            QtGui.QMessageBox.about(self, u"设置", u"设置失败:" + rt[1])
+            QtGui.QMessageBox.about(self, u"设置", u"获取设置失败:" + rt[1])
+
+    def _AdminSpecialUpdateStaus(self, res):
+        if res['Status'] == 0:
+            self.adminTagSpecialSetTimeValue = res['SetTime']
+            self.adminTagSpecialShutDownValue = res['ShutDown']
+            self.adminTagSpecialUsbValue = res['Usb']
+            self.adminTagSpecialCdromValue = res['Cdrom']
+            # 更新数据
+            self.adminTagSpecialSetTimeText.setText(_fromUtf8("已应用到服务器"))
+            self.adminTagSpecialShutDownText.setText(_fromUtf8("已应用到服务器"))
+            self.adminTagSpecialUsbText.setText(_fromUtf8("已应用到服务器"))
+            self.adminTagSpecialCdromText.setText(_fromUtf8("已应用到服务器"))
+                
+            if self.adminTagSpecialSetTimeValue == 1:
+                self.adminTagSpecialSetTimeOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_on_2.png);"))
+            else:
+                self.adminTagSpecialSetTimeOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_off_2.png);"))
+
+            if self.adminTagSpecialShutDownValue == 1:
+                self.adminTagSpecialShutDownOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_on_2.png);"))
+            else:
+                self.adminTagSpecialShutDownOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_off_2.png);"))
+
+            if self.adminTagSpecialUsbValue == 1:
+                self.adminTagSpecialUsbOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_on_2.png);"))
+            else:
+                self.adminTagSpecialUsbOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_off_2.png);"))
+
+            if self.adminTagSpecialCdromValue == 1:
+                self.adminTagSpecialCdromOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_on_2.png);"))
+            else:
+                self.adminTagSpecialCdromOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_off_2.png);"))
+        else:
+            QtGui.QMessageBox.about(self, u"设置", u"获取设置失败:" + res['ErrMsg'])
             
 import images_rc

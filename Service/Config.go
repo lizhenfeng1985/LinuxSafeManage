@@ -13,6 +13,7 @@ var (
 
 	GPwdUsedInfo  string  = "作者:李振逢 QQ:24324962"
 	GHandleDBUser *sql.DB = nil
+	GHandleDBRule *sql.DB = nil
 
 	GUserTockey      LoginUserTokey = make(LoginUserTokey)
 	rwLockGUserTokey sync.Mutex

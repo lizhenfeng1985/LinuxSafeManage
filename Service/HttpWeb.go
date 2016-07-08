@@ -14,6 +14,13 @@ func InitAll() error {
 		return err
 	}
 	GHandleDBUser = db
+
+	db, err = ConnectSqlite(DBRuleName)
+	if err != nil {
+		return err
+	}
+	GHandleDBRule = db
+
 	return nil
 }
 
@@ -25,6 +32,8 @@ func main() {
 	// Add Routers
 	rhttps := mux.NewRouter()
 	rhttps.HandleFunc("/login/{UserName}", LoginHandler)
+	rhttps.HandleFunc("/specialget/{UserName}", SpecialGetHandler)
+	rhttps.HandleFunc("/specialset/{UserName}", SpecialSetHandler)
 
 	/*
 		rhttp := mux.NewRouter()
