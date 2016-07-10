@@ -32,5 +32,19 @@
     <file>images/specrc_shutdown.png</file>
     <file>images/device_cdrom.png</file>
     <file>images/device_usb.png</file>
+    
+    <file>images/admin_safe_logo.png</file>
+    <file>images/admin_safe_title.png</file>
+    <file>images/admin_safe_etc.png</file>
+    <file>images/admin_safe_lib.png</file>
+    <file>images/admin_safe_bin.png</file>
+    <file>images/admin_safe_boot.png</file>
+    <file>images/admin_safe_ftp.png</file>
+    <file>images/admin_safe_telnet.png</file>
+    <file>images/admin_safe_web.png</file>    
+    <file>images/admin_safe_email.png</file>
+    
+    <file>images/admin_special_logo.png</file>
+    <file>images/admin_special_title.png</file>    
   </qresource>
 </RCC>

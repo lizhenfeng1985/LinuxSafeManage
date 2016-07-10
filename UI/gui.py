@@ -9,8 +9,8 @@
 
 from PyQt4 import QtCore, QtGui
 import sys
-import gui_login
-import gui_admin_board
+import login
+import admin_board
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -26,7 +26,7 @@ except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
 
-class GuiMain(QtGui.QDialog, gui_login.GuiLogin, gui_admin_board.GuiAdminBoard):
+class GuiMain(QtGui.QDialog, login.LoginBoard, admin_board.AdminBoard):
     def __init__(self,parent=None):
         super(GuiMain,self).__init__(parent)        
         self.setupUi(self)
@@ -37,7 +37,7 @@ class GuiMain(QtGui.QDialog, gui_login.GuiLogin, gui_admin_board.GuiAdminBoard):
         self.AddMainBoard()
 
         # 登录主面板
-        self.AddLoginBoard()        
+        self.AddLoginBoard()
 
         # 管理员面板
         #self.AddAdminBoard()  

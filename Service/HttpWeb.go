@@ -34,6 +34,8 @@ func main() {
 	rhttps.HandleFunc("/login/{UserName}", LoginHandler)
 	rhttps.HandleFunc("/specialget/{UserName}", SpecialGetHandler)
 	rhttps.HandleFunc("/specialset/{UserName}", SpecialSetHandler)
+	rhttps.HandleFunc("/safeget/{UserName}", SafeGetHandler)
+	rhttps.HandleFunc("/safeset/{UserName}", SafeSetHandler)
 
 	/*
 		rhttp := mux.NewRouter()

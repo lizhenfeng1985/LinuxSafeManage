@@ -18,11 +18,11 @@ except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
     
-class GuiLogin(QtGui.QWidget):
+class LoginBoard(QtGui.QWidget):
     def __init__(self,parent=None):
         self._configfile = 'config.ini'
         self._tokey = ''
-        super(GuiLogin,self).__init__(parent)
+        super(LoginBoard,self).__init__(parent)
         self.setupUi(self)
 
     def LoadLoginBoard(self):
