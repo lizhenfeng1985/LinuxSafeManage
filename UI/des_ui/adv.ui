@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>login_bkg</class>
+ <widget class="QWidget" name="login_bkg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1000</width>
+    <height>420</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">border-image: url(:/images/btn_grey.png);</string>
+  </property>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>10</y>
+     <width>70</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/images/sys_ico.png);</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget_2" native="true">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>10</y>
+     <width>200</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/images/sys_title.png);</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget_3" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>74</y>
+     <width>1000</width>
+     <height>1</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/images/btn_bg_disable.png);</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget_4" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>112</y>
+     <width>1000</width>
+     <height>1</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/images/btn_bg_disable.png);</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_6">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>80</y>
+     <width>90</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/images/btn_blue_lite.png);</string>
+   </property>
+   <property name="text">
+    <string>用户组</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_7">
+   <property name="geometry">
+    <rect>
+     <x>131</x>
+     <y>80</y>
+     <width>90</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/images/btn_blue_lite.png);</string>
+   </property>
+   <property name="text">
+    <string>程序组</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_8">
+   <property name="geometry">
+    <rect>
+     <x>222</x>
+     <y>80</y>
+     <width>90</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/images/btn_blue_lite.png);</string>
+   </property>
+   <property name="text">
+    <string>文件对象</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_9">
+   <property name="geometry">
+    <rect>
+     <x>313</x>
+     <y>80</y>
+     <width>90</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/images/btn_blue_lite.png);</string>
+   </property>
+   <property name="text">
+    <string>进程对象</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_10">
+   <property name="geometry">
+    <rect>
+     <x>404</x>
+     <y>80</y>
+     <width>90</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/images/btn_blue_lite.png);</string>
+   </property>
+   <property name="text">
+    <string>网络对象</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_11">
+   <property name="geometry">
+    <rect>
+     <x>495</x>
+     <y>80</y>
+     <width>90</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/images/btn_blue_lite.png);</string>
+   </property>
+   <property name="text">
+    <string>权限表</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget_5" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>113</y>
+     <width>1000</width>
+     <height>307</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/images/btn_bg_pressed.png);</string>
+   </property>
+   <widget class="QTreeWidget" name="treeWidget">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>40</y>
+      <width>120</width>
+      <height>245</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/images/btn_blue_lite.png);</string>
+    </property>
+    <property name="autoScrollMargin">
+     <number>16</number>
+    </property>
+    <property name="autoExpandDelay">
+     <number>-1</number>
+    </property>
+    <property name="indentation">
+     <number>5</number>
+    </property>
+    <attribute name="headerVisible">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="headerMinimumSectionSize">
+     <number>21</number>
+    </attribute>
+    <column>
+     <property name="text">
+      <string>1</string>
+     </property>
+    </column>
+    <item>
+     <property name="text">
+      <string>所有用户组</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>研发组</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>测试组</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>其他组</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QTableWidget" name="tableWidget">
+    <property name="geometry">
+     <rect>
+      <x>175</x>
+      <y>40</y>
+      <width>785</width>
+      <height>245</height>
+     </rect>
+    </property>
+    <column>
+     <property name="text">
+      <string>用户名</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>选择</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QPushButton" name="pushButton_12">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>5</y>
+      <width>55</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/images/btn_blue_lite.png);</string>
+    </property>
+    <property name="text">
+     <string>添加+</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_13">
+    <property name="geometry">
+     <rect>
+      <x>95</x>
+      <y>5</y>
+      <width>55</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/images/btn_blue_lite.png);</string>
+    </property>
+    <property name="text">
+     <string>删除-</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>5</y>
+      <width>120</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>研发组</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_14">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>5</y>
+      <width>90</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/images/btn_blue_lite.png);</string>
+    </property>
+    <property name="text">
+     <string>添加用户</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_15">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>5</y>
+      <width>90</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/images/btn_blue_lite.png);</string>
+    </property>
+    <property name="text">
+     <string>删除</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="line_left" native="true">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>0</y>
+      <width>1</width>
+      <height>295</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/images/btn_bg_disable.png);</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="line_right" native="true">
+    <property name="geometry">
+     <rect>
+      <x>980</x>
+      <y>0</y>
+      <width>1</width>
+      <height>295</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/images/btn_bg_disable.png);</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="line_di" native="true">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>295</y>
+      <width>960</width>
+      <height>1</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/images/btn_bg_disable.png);</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="line_mid" native="true">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>0</y>
+      <width>1</width>
+      <height>295</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/images/btn_bg_disable.png);</string>
+    </property>
+   </widget>
+   <zorder>treeWidget</zorder>
+   <zorder>tableWidget</zorder>
+   <zorder>pushButton_12</zorder>
+   <zorder>pushButton_13</zorder>
+   <zorder>label</zorder>
+   <zorder>pushButton_14</zorder>
+   <zorder>pushButton_15</zorder>
+   <zorder>line_left</zorder>
+   <zorder>line_di</zorder>
+   <zorder>line_mid</zorder>
+   <zorder>line_right</zorder>
+  </widget>
+ </widget>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
+ <connections/>
+</ui>

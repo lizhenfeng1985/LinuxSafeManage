@@ -25,10 +25,6 @@ class AdminBoardSpecial(QtGui.QWidget):
         #self.setupUi(self)
 
     def AddAdminTagSpecial(self):
-        self.adminTagSpecialBkg.setGeometry(QtCore.QRect(0, 30, 1000, 420))
-        self.adminTagSpecialBkg.setObjectName(_fromUtf8("adminTagSpecialBkg"))
-        self.adminTagSpecialBkg.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_white.png);"))
-
         self.adminTagSpecialLogo = QtGui.QWidget(self.adminTagSpecialBkg)
         self.adminTagSpecialLogo.setGeometry(QtCore.QRect(40, 10, 70, 60))
         self.adminTagSpecialLogo.setObjectName(_fromUtf8("adminTagSpecialLogo"))

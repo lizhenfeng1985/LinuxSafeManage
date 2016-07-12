@@ -13,6 +13,8 @@ import login
 import admin_board
 import admin_board_special
 import admin_board_safe
+import admin_board_high
+import admin_board_high_user
 
 
 try:
@@ -31,7 +33,9 @@ except AttributeError:
 
 class GuiMain(QtGui.QDialog, login.LoginBoard, admin_board.AdminBoard, \
               admin_board_special.AdminBoardSpecial, \
-              admin_board_safe.AdminBoardSafe):
+              admin_board_safe.AdminBoardSafe, \
+              admin_board_high.AdminBoardHigh, \
+              admin_board_high_user.AdminBoardHighUser):
     def __init__(self,parent=None):
         super(GuiMain,self).__init__(parent)        
         self.setupUi(self)

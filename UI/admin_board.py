@@ -49,7 +49,7 @@ class AdminBoard(QtGui.QWidget):
         self.adminTagSafe.setGeometry(QtCore.QRect(92, 0, 91, 30))
         self.adminTagSafe.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_blue_lite.png);"))
         self.adminTagSafe.setObjectName(_fromUtf8("adminTagSafe"))
-        self.adminTagSafe.setText(_translate("adminTagSafe", "安全防护", None))
+        self.adminTagSafe.setText(_translate("adminTagSafe", "基础防护", None))
 
         self.adminTagSafeBkg = QtGui.QWidget(self.adminBoard)
         self.adminTagSafeBkg.setGeometry(QtCore.QRect(0, 30, 1000, 420))
@@ -72,9 +72,22 @@ class AdminBoard(QtGui.QWidget):
 
         self.AddAdminTagSpecial()
 
+        # 高级配置 标签页
+        self.adminTagHigh = QtGui.QPushButton(self.adminBoard)
+        self.adminTagHigh.setGeometry(QtCore.QRect(276, 0, 91, 30))
+        self.adminTagHigh.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_blue_lite.png);"))
+        self.adminTagHigh.setObjectName(_fromUtf8("adminTagHigh"))
+        self.adminTagHigh.setText(_translate("adminTagHigh", "高级配置", None))
+
+        self.adminTagHighBkg = QtGui.QWidget(self.adminBoard)
+        self.adminTagHighBkg.setGeometry(QtCore.QRect(0, 30, 1000, 420))
+        self.adminTagHighBkg.setObjectName(_fromUtf8("adminTagHighBkg"))
+        self.adminTagHighBkg.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_white.png);"))
+        self.AddAdminTagHigh()
+
         # Admin Config 标签页
         self.adminTagConfig = QtGui.QPushButton(self.adminBoard)
-        self.adminTagConfig.setGeometry(QtCore.QRect(276, 0, 91, 30))
+        self.adminTagConfig.setGeometry(QtCore.QRect(368, 0, 91, 30))
         self.adminTagConfig.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_blue_lite.png);"))
         self.adminTagConfig.setObjectName(_fromUtf8("adminTagConfig"))
         self.adminTagConfig.setText(_translate("adminTagConfig", "系统设置", None))
@@ -82,14 +95,15 @@ class AdminBoard(QtGui.QWidget):
         self.adminTagConfigBkg = QtGui.QWidget(self.adminBoard)
         self.adminTagConfigBkg.setGeometry(QtCore.QRect(0, 30, 1000, 420))
         self.adminTagConfigBkg.setObjectName(_fromUtf8("adminTagConfigBkg"))
-        self.adminTagConfigBkg.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_white.png);"))        
+        self.adminTagConfigBkg.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_white.png);"))  
 
         # 初始化变量
         self.adminTags = {
             self.adminTagHome    : self.adminTagHomeBkg,
             self.adminTagSafe    : self.adminTagSafeBkg,
             self.adminTagSpecial : self.adminTagSpecialBkg,
-            self.adminTagConfig  : self.adminTagConfigBkg
+            self.adminTagHigh    : self.adminTagHighBkg,
+            self.adminTagConfig  : self.adminTagConfigBkg,
         }
 
         # 默认显示首页
@@ -99,6 +113,7 @@ class AdminBoard(QtGui.QWidget):
         self.connect(self.adminTagHome, QtCore.SIGNAL("clicked()"), self.onAdminTagHome)
         self.connect(self.adminTagSafe, QtCore.SIGNAL("clicked()"), self.onAdminTagSafe)
         self.connect(self.adminTagSpecial, QtCore.SIGNAL("clicked()"), self.onAdminTagSpecial)
+        self.connect(self.adminTagHigh, QtCore.SIGNAL("clicked()"), self.onAdminTagHigh)
         self.connect(self.adminTagConfig, QtCore.SIGNAL("clicked()"), self.onAdminTagConfig)
 
     def _onAdminChangeTags(self, tagBtn):
@@ -119,6 +134,9 @@ class AdminBoard(QtGui.QWidget):
     def onAdminTagSpecial(self):
         self._onAdminChangeTags(self.adminTagSpecial)
 
+    def onAdminTagHigh(self):
+        self._onAdminChangeTags(self.adminTagHigh)
+        
     def onAdminTagConfig(self):
         self._onAdminChangeTags(self.adminTagConfig)
 
