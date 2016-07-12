@@ -21,7 +21,6 @@ except AttributeError:
 class LoginBoard(QtGui.QWidget):
     def __init__(self,parent=None):
         self._configfile = 'config.ini'
-        self._tokey = ''
         super(LoginBoard,self).__init__(parent)
         self.setupUi(self)
 
@@ -49,7 +48,6 @@ class LoginBoard(QtGui.QWidget):
         
         self.loginChangeUser = QtGui.QPushButton(self.loginBoard)
         self.loginChangeUser.setGeometry(QtCore.QRect(610, 140, 250, 31))
-        #self.loginChangeUser.setStyleSheet(_fromUtf8("border-image: url(:/images/login_input_bk.png);"))
         self.loginChangeUser.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_grey_line.png);"))
         self.loginChangeUser.setObjectName(_fromUtf8("loginChangeUser"))
         self.loginChangeUser.setText(_translate("login_bkg", "点 击 切 换 登 录 账 户", None))
@@ -63,7 +61,6 @@ class LoginBoard(QtGui.QWidget):
         self.loginPwd = QtGui.QLineEdit(self.loginBoard)
         self.loginPwd.setGeometry(QtCore.QRect(610, 200, 250, 31))
         self.loginPwd.setEchoMode( QtGui.QLineEdit.Password )
-        #self.loginPwd.setStyleSheet(_fromUtf8("border-image: url(:/images/login_input_bk.png);"))
         self.loginPwd.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_grey_line.png);"))
         self.loginPwd.setInputMethodHints(QtCore.Qt.ImhNone)
         self.loginPwd.setText(_fromUtf8("123456"))
@@ -95,7 +92,6 @@ class LoginBoard(QtGui.QWidget):
         
         self.loginClick = QtGui.QPushButton(self.loginBoard)
         self.loginClick.setGeometry(QtCore.QRect(610, 370, 250, 31))
-        #self.loginClick.setStyleSheet(_fromUtf8("border-image: url(:/images/login_input_bk.png);"))
         self.loginClick.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_grey_line.png);"))
         self.loginClick.setObjectName(_fromUtf8("loginClick"))
         self.loginClick.setText(_translate("login_bkg", "登  录", None))
@@ -105,8 +101,9 @@ class LoginBoard(QtGui.QWidget):
         self.loginSpace.setStyleSheet(_fromUtf8("border-image: url(:/images/line.jpg);"))
         self.loginSpace.setObjectName(_fromUtf8("loginSpace"))
 
-        # 初始化变量
-        self._loginName = 'Admin'
+        # 初始化变量        
+        self.Tokey = ''
+        self.LoginName = 'Admin'
         self.loadConfig()
         
         # 消息处理
@@ -124,13 +121,13 @@ class LoginBoard(QtGui.QWidget):
             self.loginAdminIco.show()
             self.loginLocalIPPort.setReadOnly(False)
             self.loginCenterIpport.setReadOnly(False)  
-            self._loginName = u'Admin'
+            self.LoginName = u'Admin'
         elif self.loginAuditIco.isHidden():            
             self.loginAdminIco.hide()
             self.loginAuditIco.show()
             self.loginLocalIPPort.setReadOnly(True)
             self.loginCenterIpport.setReadOnly(True)
-            self._loginName = u'Audit'
+            self.LoginName = u'Audit'
         else:
             pass
 
@@ -150,7 +147,7 @@ class LoginBoard(QtGui.QWidget):
                 self._Config['Center']['Port'] = col[1]
                 config.UpdateConfigFile(self._configfile, self._Config)
 
-        url = 'https://%s:%s/login/%s' % (self._Config['Service']['IP'], self._Config['Service']['Port'], self._loginName)
+        url = 'https://%s:%s/login/%s' % (self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
         data = {
             'Password'    : pwd,
             'LocalIPPort' : localIpPort,
@@ -162,15 +159,15 @@ class LoginBoard(QtGui.QWidget):
             res = rt[1]
             if res['Status'] == 0:
                 self._user = res['User']
-                self._tokey = res['Tokey']
-                print 'Login OK :', self._user, self._tokey
+                self.Tokey = res['Tokey']
+                print 'Login OK :', self._user, self.Tokey
                 # 进入Admin页面
-                if self._loginName == 'Admin':
-                    self.AddAdminBoard()
+                if self.LoginName == 'Admin':
+                    self.LoadAdminBoard()
                     self.loginBoard.hide()
                     self.adminBoard.show()
                 # 进入Audit页面
-                elif self._loginName == 'Audit':
+                elif self.LoginName == 'Audit':
                     QtGui.QMessageBox.about(self, u"登录", u'页面未添加')
             else:
                 QtGui.QMessageBox.about(self, u"登录", u'%s' % (res['ErrMsg']))

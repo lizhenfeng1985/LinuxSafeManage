@@ -11,6 +11,9 @@ from PyQt4 import QtCore, QtGui
 import sys
 import login
 import admin_board
+import admin_board_special
+import admin_board_safe
+
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -26,7 +29,9 @@ except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
 
-class GuiMain(QtGui.QDialog, login.LoginBoard, admin_board.AdminBoard):
+class GuiMain(QtGui.QDialog, login.LoginBoard, admin_board.AdminBoard, \
+              admin_board_special.AdminBoardSpecial, \
+              admin_board_safe.AdminBoardSafe):
     def __init__(self,parent=None):
         super(GuiMain,self).__init__(parent)        
         self.setupUi(self)
@@ -38,10 +43,6 @@ class GuiMain(QtGui.QDialog, login.LoginBoard, admin_board.AdminBoard):
 
         # 登录主面板
         self.AddLoginBoard()
-
-        # 管理员面板
-        #self.AddAdminBoard()  
-        #QtCore.QMetaObject.connectSlotsByName(mainBoard)
         
     def AddMainBoard(self):
         # 主面板
@@ -58,10 +59,6 @@ class GuiMain(QtGui.QDialog, login.LoginBoard, admin_board.AdminBoard):
 
     def AddLoginBoard(self):
         self.LoadLoginBoard()
-
-    def AddAdminBoard(self):        
-        self.LoadAdminBoard()
-        self.adminBoard.hide()
         
 
 import images_rc

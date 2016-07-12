@@ -14,6 +14,11 @@ gConfig = {
     },
 }
 
+gLogin = {
+    'User'  : '',
+    'Tokey' : '',
+}
+
 def ReadConfigFile(conffile):
     conf = ConfigParser.ConfigParser() 
     conf.read(conffile)
@@ -25,6 +30,7 @@ def ReadConfigFile(conffile):
     return gConfig
 
 def UpdateConfigFile(conffile, config):
+    gConfig = config
     conf = ConfigParser.ConfigParser() 
     conf.read(conffile)
     for section, items in config.items():
