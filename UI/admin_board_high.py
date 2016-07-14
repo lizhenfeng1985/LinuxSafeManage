@@ -51,8 +51,8 @@ class AdminBoardHigh(QtGui.QWidget):
               
         # 用户组 标签页
         self.adminTagHighTagUser = QtGui.QPushButton(self.adminTagHighBkg)
-        self.adminTagHighTagUser.setGeometry(QtCore.QRect(40, 80, 90, 30))
-        self.adminTagHighTagUser.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_blue_lite.png);"))
+        self.adminTagHighTagUser.setGeometry(QtCore.QRect(40, 90, 90, 20))
+        self.adminTagHighTagUser.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_sub_grey.png);"))
         self.adminTagHighTagUser.setObjectName(_fromUtf8("adminTagHighTagUser"))
         self.adminTagHighTagUser.setText(_translate("adminTagHighTagUser", "用户组", None))
 
@@ -64,8 +64,8 @@ class AdminBoardHigh(QtGui.QWidget):
 
         # 程序组 标签页
         self.adminTagHighTagProc = QtGui.QPushButton(self.adminTagHighBkg)
-        self.adminTagHighTagProc.setGeometry(QtCore.QRect(131, 80, 90, 30))
-        self.adminTagHighTagProc.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_blue_lite.png);"))
+        self.adminTagHighTagProc.setGeometry(QtCore.QRect(123, 90, 90, 20))
+        self.adminTagHighTagProc.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_sub_grey.png);"))
         self.adminTagHighTagProc.setObjectName(_fromUtf8("adminTagHighTagProc"))
         self.adminTagHighTagProc.setText(_translate("adminTagHighTagUser", "程序组", None))
 
@@ -76,8 +76,8 @@ class AdminBoardHigh(QtGui.QWidget):
 
         # 对象 - 文件组 标签页
         self.adminTagHighTagObjFile = QtGui.QPushButton(self.adminTagHighBkg)
-        self.adminTagHighTagObjFile.setGeometry(QtCore.QRect(222, 80, 90, 30))
-        self.adminTagHighTagObjFile.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_blue_lite.png);"))
+        self.adminTagHighTagObjFile.setGeometry(QtCore.QRect(206, 90, 90, 20))
+        self.adminTagHighTagObjFile.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_sub_grey.png);"))
         self.adminTagHighTagObjFile.setObjectName(_fromUtf8("adminTagHighTagObjFile"))
         self.adminTagHighTagObjFile.setText(_translate("adminTagHighTagObjFile", "文件对象", None))
 
@@ -88,8 +88,8 @@ class AdminBoardHigh(QtGui.QWidget):
 
         # 对象 - 进程组 标签页
         self.adminTagHighTagObjProc = QtGui.QPushButton(self.adminTagHighBkg)
-        self.adminTagHighTagObjProc.setGeometry(QtCore.QRect(313, 80, 90, 30))
-        self.adminTagHighTagObjProc.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_blue_lite.png);"))
+        self.adminTagHighTagObjProc.setGeometry(QtCore.QRect(289, 90, 90, 20))
+        self.adminTagHighTagObjProc.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_sub_grey.png);"))
         self.adminTagHighTagObjProc.setObjectName(_fromUtf8("adminTagHighTagObjProc"))
         self.adminTagHighTagObjProc.setText(_translate("adminTagHighTagObjFile", "进程对象", None))
 
@@ -100,8 +100,8 @@ class AdminBoardHigh(QtGui.QWidget):
 
         # 对象 - 网络组 标签页
         self.adminTagHighTagObjNet = QtGui.QPushButton(self.adminTagHighBkg)
-        self.adminTagHighTagObjNet.setGeometry(QtCore.QRect(404, 80, 90, 30))
-        self.adminTagHighTagObjNet.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_blue_lite.png);"))
+        self.adminTagHighTagObjNet.setGeometry(QtCore.QRect(372, 90, 90, 20))
+        self.adminTagHighTagObjNet.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_sub_grey.png);"))
         self.adminTagHighTagObjNet.setObjectName(_fromUtf8("adminTagHighTagObjNet"))
         self.adminTagHighTagObjNet.setText(_translate("adminTagHighTagObjNet", "网络对象", None))
 
@@ -112,8 +112,8 @@ class AdminBoardHigh(QtGui.QWidget):
 
         # 权限表 标签页
         self.adminTagHighTagPerm = QtGui.QPushButton(self.adminTagHighBkg)
-        self.adminTagHighTagPerm.setGeometry(QtCore.QRect(495, 80, 90, 30))
-        self.adminTagHighTagPerm.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_blue_lite.png);"))
+        self.adminTagHighTagPerm.setGeometry(QtCore.QRect(455, 90, 90, 20))
+        self.adminTagHighTagPerm.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_sub_grey.png);"))
         self.adminTagHighTagPerm.setObjectName(_fromUtf8("adminTagHighTagPerm"))
         self.adminTagHighTagPerm.setText(_translate("adminTagHighTagObjNet", "权限表", None))
 
@@ -146,10 +146,10 @@ class AdminBoardHigh(QtGui.QWidget):
     def _onAdminHighChangeTags(self, tagBtn):
         for btn, bkg in self.adminTagsHighTags.items():
             if btn == tagBtn:
-                btn.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_white.png);"))
+                btn.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_sub_grey_sel.png);"))
                 bkg.show()
             else:
-                btn.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_blue_lite.png);"))
+                btn.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_sub_grey.png);"))
                 bkg.hide()
 
     def onAdminTagHighTagUser(self):

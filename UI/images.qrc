@@ -8,7 +8,9 @@
     <file>images/btn_white.png</file>
     <file>images/btn_grey.png</file>
     <file>images/btn_grey_line.png</file>
-    <file>images/btn_blue_lite.png</file>    
+    <file>images/btn_blue_lite.png</file>
+    <file>images/btn_tag_blue.png</file>
+    <file>images/btn_tag_blue_sel.png</file>
     <file>images/btn_off.png</file>
     <file>images/btn_on.png</file>
     <file>images/btn_off_2.png</file>
@@ -17,6 +19,10 @@
     <file>images/btn_mode_off.png</file> 
     <file>images/btn_open_1.png</file>
     <file>images/btn_close_1.png</file>
+    <file>images/btn_sub_yellow.png</file>
+    <file>images/btn_sub_grey.png</file>
+    <file>images/btn_sub_grey_sel.png</file>
+    
     <file>images/line.jpg</file>
     <file>images/login_logo.png</file>
     <file>images/login_title.png</file>

@@ -51,22 +51,22 @@ class AdminBoardHighUser(QtGui.QWidget):
 
         # 组 - 添加
         self.adminTagHighUserGroupAdd = QtGui.QPushButton(self.adminTagHighTagUserBkg)
-        self.adminTagHighUserGroupAdd.setGeometry(QtCore.QRect(30, 5, 55, 30))
-        self.adminTagHighUserGroupAdd.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_blue_lite.png);"))
+        self.adminTagHighUserGroupAdd.setGeometry(QtCore.QRect(30, 8, 55, 25))
+        self.adminTagHighUserGroupAdd.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_grey_line.png);"))
         self.adminTagHighUserGroupAdd.setObjectName(_fromUtf8("adminTagHighUserGroupAdd"))
         self.adminTagHighUserGroupAdd.setText(_translate("adminTagHighUserGroupAdd", "添加+", None))
 
         # 组 - 删除
         self.adminTagHighUserGroupDel = QtGui.QPushButton(self.adminTagHighTagUserBkg)
-        self.adminTagHighUserGroupDel.setGeometry(QtCore.QRect(90, 5, 55, 30))
-        self.adminTagHighUserGroupDel.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_blue_lite.png);"))
+        self.adminTagHighUserGroupDel.setGeometry(QtCore.QRect(90, 8, 55, 25))
+        self.adminTagHighUserGroupDel.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_grey_line.png);"))
         self.adminTagHighUserGroupDel.setObjectName(_fromUtf8("adminTagHighUserGroupDel"))
         self.adminTagHighUserGroupDel.setText(_translate("adminTagHighUserGroupDel", "删除+", None))
 
         # 组 - 列表
         self.adminTagHighUserGroupTree = QtGui.QTreeWidget(self.adminTagHighTagUserBkg)
         self.adminTagHighUserGroupTree.setGeometry(QtCore.QRect(30, 40, 120, 245))
-        self.adminTagHighUserGroupTree.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_blue_lite.png);"))
+        self.adminTagHighUserGroupTree.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_grey.png);"))
         self.adminTagHighUserGroupTree.setObjectName(_fromUtf8("adminTagHighUserGroupTree"))
         self.adminTagHighUserGroupTree.setHeaderHidden(True)
 
@@ -79,15 +79,15 @@ class AdminBoardHighUser(QtGui.QWidget):
 
         # 用户 - 添加
         self.adminTagHighUserAdd = QtGui.QPushButton(self.adminTagHighTagUserBkg)
-        self.adminTagHighUserAdd.setGeometry(QtCore.QRect(710, 5, 90, 30))
-        self.adminTagHighUserAdd.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_blue_lite.png);"))
+        self.adminTagHighUserAdd.setGeometry(QtCore.QRect(760, 8, 70, 25))
+        self.adminTagHighUserAdd.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_grey_line.png);"))
         self.adminTagHighUserAdd.setObjectName(_fromUtf8("adminTagHighUserAdd"))
         self.adminTagHighUserAdd.setText(_translate("adminTagHighUserAdd", "添加用户", None))
 
         # 用户 - 删除
         self.adminTagHighUserDel = QtGui.QPushButton(self.adminTagHighTagUserBkg)
-        self.adminTagHighUserDel.setGeometry(QtCore.QRect(820, 5, 90, 30))
-        self.adminTagHighUserDel.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_blue_lite.png);"))
+        self.adminTagHighUserDel.setGeometry(QtCore.QRect(840, 8, 70, 25))
+        self.adminTagHighUserDel.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_grey_line.png);"))
         self.adminTagHighUserDel.setObjectName(_fromUtf8("adminTagHighUserDel"))
         self.adminTagHighUserDel.setText(_translate("adminTagHighUserDel", "删除用户", None))
 
