@@ -152,6 +152,50 @@ func DBInitRuleSafe() (err error) {
 	return nil
 }
 
+func DBInitRuleUserGroup() (err error) {
+	db, _ := sql.Open("sqlite3", DBRuleName)
+	defer db.Close()
+
+	// Create Table UserGroup
+	sql := `create table if not exists user_group (
+			id integer not null primary key, 
+			groupname char(128) not null unique,
+			gtype int default 0
+		);`
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Printf("DBInitRuleUserGroup:DB.Begin(): %s\n", err)
+		return err
+	}
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitRuleUserGroup:tx.Exec((): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	sql = `insert into user_group (id, groupname, gtype) values 
+		(1, '所有用户',1);`
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitRuleUserGroup:tx.Exec((): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	// 事务提交
+	err = tx.Commit()
+	if err != nil {
+		log.Printf("DBInitRuleUserGroup:tx.Commit: %s\n", err)
+		tx.Rollback()
+		return err
+	}
+	return nil
+}
+
 func FirstCreateDB() (err error) {
 	var errcnt int = 0
 	err = DBInitUser()
@@ -165,6 +209,11 @@ func FirstCreateDB() (err error) {
 	}
 
 	err = DBInitRuleSafe()
+	if err != nil {
+		errcnt += 1
+	}
+
+	err = DBInitRuleUserGroup()
 	if err != nil {
 		errcnt += 1
 	}

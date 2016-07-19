@@ -153,21 +153,33 @@ class AdminBoardHigh(QtGui.QWidget):
                 bkg.hide()
 
     def onAdminTagHighTagUser(self):
+        if self.AdminBoardCheckPopUp():
+            return
         self._onAdminHighChangeTags(self.adminTagHighTagUser)
 
     def onAdminTagHighTagProc(self):
+        if self.AdminBoardCheckPopUp():
+            return
         self._onAdminHighChangeTags(self.adminTagHighTagProc)
 
     def onAdminTagHighTagObjFile(self):
+        if self.AdminBoardCheckPopUp():
+            return
         self._onAdminHighChangeTags(self.adminTagHighTagObjFile)
 
     def onAdminTagHighTagObjProc(self):
+        if self.AdminBoardCheckPopUp():
+            return
         self._onAdminHighChangeTags(self.adminTagHighTagObjProc)
 
     def onAdminTagHighTagObjNet(self):
+        if self.AdminBoardCheckPopUp():
+            return
         self._onAdminHighChangeTags(self.adminTagHighTagObjNet)
 
     def onAdminTagHighTagPerm(self):
+        if self.AdminBoardCheckPopUp():
+            return
         self._onAdminHighChangeTags(self.adminTagHighTagPerm)
 
 import images_rc

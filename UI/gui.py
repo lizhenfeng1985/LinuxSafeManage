@@ -31,7 +31,8 @@ except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
 
-class GuiMain(QtGui.QDialog, login.LoginBoard, admin_board.AdminBoard, \
+class GuiMain(QtGui.QDialog, \
+              login.LoginBoard, admin_board.AdminBoard, \
               admin_board_special.AdminBoardSpecial, \
               admin_board_safe.AdminBoardSafe, \
               admin_board_high.AdminBoardHigh, \

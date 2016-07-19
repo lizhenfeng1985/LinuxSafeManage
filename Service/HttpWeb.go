@@ -37,6 +37,10 @@ func main() {
 	rhttps.HandleFunc("/safeget/{UserName}", SafeGetHandler)
 	rhttps.HandleFunc("/safeset/{UserName}", SafeSetHandler)
 
+	rhttps.HandleFunc("/highuser/groupadd/{UserName}", HighUserGroupAddHandler)
+	rhttps.HandleFunc("/highuser/groupdel/{UserName}", HighUserGroupDelHandler)
+	rhttps.HandleFunc("/highuser/groupsearch/{UserName}", HighUserGroupSearchHandler)
+
 	/*
 		rhttp := mux.NewRouter()
 		rhttp.HandleFunc("/test", HandlerTest)

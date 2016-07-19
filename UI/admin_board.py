@@ -21,9 +21,19 @@ except AttributeError:
         return QtGui.QApplication.translate(context, text, disambig)
     
 class AdminBoard(QtGui.QWidget):
-    def __init__(self,parent=None):  
+    def __init__(self,parent=None):
+        self._adminBoardPopUp = False
         super(AdminBoard,self).__init__(parent)        
         self.setupUi(self)
+
+    def AdminBoardSetPopUp(self):
+        self._adminBoardPopUp = True
+
+    def AdminBoardUnsetPopUp(self):
+        self._adminBoardPopUp = False
+        
+    def AdminBoardCheckPopUp(self):
+        return self._adminBoardPopUp
 
     def LoadAdminBoard(self):
         # Admin主面板
@@ -132,18 +142,28 @@ class AdminBoard(QtGui.QWidget):
                 bkg.hide()
 
     def onAdminTagHome(self):
+        if self.AdminBoardCheckPopUp():
+            return
         self._onAdminChangeTags(self.adminTagHome)
 
     def onAdminTagSafe(self):
+        if self.AdminBoardCheckPopUp():
+            return
         self._onAdminChangeTags(self.adminTagSafe)
 
     def onAdminTagSpecial(self):
+        if self.AdminBoardCheckPopUp():
+            return
         self._onAdminChangeTags(self.adminTagSpecial)
 
     def onAdminTagHigh(self):
+        if self.AdminBoardCheckPopUp():
+            return
         self._onAdminChangeTags(self.adminTagHigh)
         
     def onAdminTagConfig(self):
+        if self.AdminBoardCheckPopUp():
+            return
         self._onAdminChangeTags(self.adminTagConfig)
 
 

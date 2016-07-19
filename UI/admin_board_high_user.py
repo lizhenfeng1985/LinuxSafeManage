@@ -25,6 +25,9 @@ class AdminBoardHighUser(QtGui.QWidget):
         #self.setupUi(self)
 
     def AddAdminTagHighUser(self):
+        # 变量
+        self.adminTagHighUserGroupSelect = ''
+        
         # 画线 左
         self.adminTagHighUserSpaceLeft = QtGui.QWidget(self.adminTagHighTagUserBkg)
         self.adminTagHighUserSpaceLeft.setGeometry(QtCore.QRect(20, 0, 1, 295))
@@ -88,7 +91,7 @@ class AdminBoardHighUser(QtGui.QWidget):
         self.adminTagHighUserNext = QtGui.QPushButton(self.adminTagHighTagUserBkg)
         self.adminTagHighUserNext.setGeometry(QtCore.QRect(520, 8, 70, 25))
         #self.adminTagHighUserNext.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_grey.png);"))
-        self.adminTagHighUserNext.setObjectName(_fromUtf8("adminTagHighUserAdd"))
+        self.adminTagHighUserNext.setObjectName(_fromUtf8("adminTagHighUserNext"))
         self.adminTagHighUserNext.setText(_translate("adminTagHighUserNext", "下一页  >>", None))
 
         # 用户 - 添加
@@ -201,14 +204,16 @@ class AdminBoardHighUser(QtGui.QWidget):
         
         ###############################################################
         # 添加组
-        self.AdddminTagHighUserGroupTree(_fromUtf8('默认组'), _fromUtf8('默认组D'))
-        self.AdddminTagHighUserGroupTree(_fromUtf8('测试组'), _fromUtf8('测试组D'))
-
+        self.onAdminTagHighUserGroupSet()
+        #self.AdddminTagHighUserGroupTree(u'默认组', _fromUtf8('默认组D'))
+        #self.AdddminTagHighUserGroupTree(u'测试组', _fromUtf8('测试组D'))
+        
         # 组列表消息
         self.connect(self.adminTagHighUserGroupTree, QtCore.SIGNAL("itemClicked(QTreeWidgetItem*, int)"), self.onAdminTagHighUserGroupClick)
 
         # 添加组消息
         self.connect(self.adminTagHighUserGroupAdd, QtCore.SIGNAL("clicked()"), self.onAdminTagHighUserGroupAdd)
+        self.connect(self.adminTagHighUserGroupDel, QtCore.SIGNAL("clicked()"), self.onAdminTagHighUserGroupDel)
         self.connect(self.adminTagHighUserGroupAddDlgOK, QtCore.SIGNAL("clicked()"), self.onAdminTagHighUserGroupAddDlgOK)
         self.connect(self.adminTagHighUserGroupAddDlgCancel, QtCore.SIGNAL("clicked()"), self.onAdminTagHighUserGroupAddDlgCancel)
         
@@ -225,31 +230,117 @@ class AdminBoardHighUser(QtGui.QWidget):
         #item.setCheckState (0, QtCore.Qt.Unchecked)
 
     def onAdminTagHighUserGroupClick(self, item, column):
-        data = item.text(column)
-        #QtGui.QMessageBox.about(self, u"点击", u'%s' % (data))
+        self.adminTagHighUserGroupSelect = unicode(item.text(column))
+        #print type(self.adminTagHighUserGroupSelect)
+        #QtGui.QMessageBox.about(self, u"点击", u'%s' % (self.adminTagHighUserGroupSelect))
 
+
+    # 设置组列表
+    def onAdminTagHighUserGroupSet(self):
+        url = 'https://%s:%s/highuser/groupsearch/%s' % (self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
+        data = {
+            'Tokey'   : self.Tokey
+        }
+        print url, data
+        param = {'Data' : json.dumps(data)}        
+        rt = HttpsPost(url, param)
+        print rt
+        if rt[0] == 0:
+            res = rt[1]
+            if res['Status'] == 0:             
+                self.adminTagHighUserGroupTree.clear()
+                for group in res['Groups']:                    
+                    self.AdddminTagHighUserGroupTree(group, group)
+            else:
+                QtGui.QMessageBox.about(self, u"设置", u"查找组列表失败:" + res['ErrMsg'])
+        else:
+            QtGui.QMessageBox.about(self, u"设置", u"查找组列表失败:" + rt[1])
+    
     # 弹出 - 添加组
     def onAdminTagHighUserGroupAdd(self):
+        if self.AdminBoardCheckPopUp():
+            return
+        self.AdminBoardSetPopUp()
         self.adminTagHighUserGroupAddDlg.show()
+
+    # 删除组
+    def onAdminTagHighUserGroupDel(self):
+        group = self.adminTagHighUserGroupSelect
+        if group == '':
+            QtGui.QMessageBox.about(self, u"设置", u"请选择一个组")
+            return
+        url = 'https://%s:%s/highuser/groupdel/%s' % (self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
+        data = {
+            'Tokey'   : self.Tokey,
+            'Group'   : group
+        }
+        print url, data
+        param = {'Data' : json.dumps(data)}        
+        rt = HttpsPost(url, param)
+        print rt
+        if rt[0] == 0:
+            res = rt[1]
+            if res['Status'] == 0:
+                QtGui.QMessageBox.about(self, u"设置", u"删除成功:")
+                self.onAdminTagHighUserGroupSet()
+            else:
+                QtGui.QMessageBox.about(self, u"设置", u"删除失败:" + res['ErrMsg'])
+        else:
+            QtGui.QMessageBox.about(self, u"设置", u"删除失败:" + rt[1])
+        self.adminTagHighUserGroupSelect = u''
+    
 
     # 弹出 - 添加组 - OK
     def onAdminTagHighUserGroupAddDlgOK(self):
+        self.AdminBoardUnsetPopUp()        
         self.adminTagHighUserGroupAddDlg.hide()
+
+        group = unicode(self.adminTagHighUserGroupAddDlgName.text())
+
+        if group == '':
+            QtGui.QMessageBox.about(self, u"设置", u"组名称不能为空")
+            return
+        
+        url = 'https://%s:%s/highuser/groupadd/%s' % (self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
+        data = {
+            'Tokey'   : self.Tokey,
+            'Group'   : group
+        }
+        print url, data
+        param = {'Data' : json.dumps(data)}        
+        rt = HttpsPost(url, param)
+        print rt
+        if rt[0] == 0:
+            res = rt[1]
+            if res['Status'] == 0:
+                QtGui.QMessageBox.about(self, u"设置", u"添加成功:")
+                self.adminTagHighUserGroupAddDlgName.setText(_fromUtf8(''))                
+                self.onAdminTagHighUserGroupSet()
+            else:
+                QtGui.QMessageBox.about(self, u"设置", u"添加失败:" + res['ErrMsg'])
+        else:
+            QtGui.QMessageBox.about(self, u"设置", u"添加失败:" + rt[1])
 
     # 弹出 - 添加组 - Cancel
     def onAdminTagHighUserGroupAddDlgCancel(self):
+        self.AdminBoardUnsetPopUp()
         self.adminTagHighUserGroupAddDlg.hide()
 
     # 弹出 - 添加用户
     def onAdminTagHighUserAdd(self):
+        if self.AdminBoardCheckPopUp():
+            return
+        self.AdminBoardSetPopUp()
         self.adminTagHighUserAddDlg.show()
 
     # 弹出 - 用户 - OK
     def onAdminTagHighUserAddDlgOk(self):
+        self.AdminBoardUnsetPopUp()
         self.adminTagHighUserAddDlg.hide()
 
     # 弹出 - 用户 - Cancel
     def onAdminTagHighUserAddDlgCancel(self):
+        self.AdminBoardUnsetPopUp()
         self.adminTagHighUserAddDlg.hide()
         
 import images_rc
