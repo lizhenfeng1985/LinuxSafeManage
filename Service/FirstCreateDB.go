@@ -196,6 +196,40 @@ func DBInitRuleUserGroup() (err error) {
 	return nil
 }
 
+func DBInitRuleUser() (err error) {
+	db, _ := sql.Open("sqlite3", DBRuleName)
+	defer db.Close()
+
+	// Create Table User
+	sql := `create table if not exists user (
+			id integer not null primary key,
+			gid int not null default 0,
+			username char(128) not null unique
+		);`
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Printf("DBInitRuleUser:DB.Begin(): %s\n", err)
+		return err
+	}
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitRuleUser:tx.Exec((): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	// 事务提交
+	err = tx.Commit()
+	if err != nil {
+		log.Printf("DBInitRuleUser:tx.Commit: %s\n", err)
+		tx.Rollback()
+		return err
+	}
+	return nil
+}
+
 func FirstCreateDB() (err error) {
 	var errcnt int = 0
 	err = DBInitUser()
@@ -214,6 +248,11 @@ func FirstCreateDB() (err error) {
 	}
 
 	err = DBInitRuleUserGroup()
+	if err != nil {
+		errcnt += 1
+	}
+
+	err = DBInitRuleUser()
 	if err != nil {
 		errcnt += 1
 	}
