@@ -130,6 +130,7 @@ func HighUserGroupAddHandler(w http.ResponseWriter, r *http.Request) {
 		jdata := r.PostFormValue("Data")
 
 		log.Printf("POST /highuser/groupadd {User:%s, Data=%s}", uname, jdata)
+		defer log.Println("RESP /highuser/groupadd ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -181,6 +182,7 @@ func HighUserGroupDelHandler(w http.ResponseWriter, r *http.Request) {
 		jdata := r.PostFormValue("Data")
 
 		log.Printf("POST /highuser/groupdel {User:%s, Data=%s}", uname, jdata)
+		defer log.Println("RESP /highuser/groupdel ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -231,6 +233,7 @@ func HighUserGroupSearchHandler(w http.ResponseWriter, r *http.Request) {
 		jdata := r.PostFormValue("Data")
 
 		log.Printf("POST /highuser/groupsearch {User:%s, Data=%s}", uname, jdata)
+		defer log.Println("RESP /highuser/groupsearch ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -283,6 +286,7 @@ func HighUserListHandler(w http.ResponseWriter, r *http.Request) {
 		jdata := r.PostFormValue("Data")
 
 		log.Printf("POST /highuser/list {User:%s, Data=%s}", uname, jdata)
+		defer log.Println("RESP /highuser/list ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -335,6 +339,7 @@ func HighUserAddHandler(w http.ResponseWriter, r *http.Request) {
 		jdata := r.PostFormValue("Data")
 
 		log.Printf("POST /highuser/add {User:%s, Data=%s}", uname, jdata)
+		defer log.Println("RESP /highuser/add ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -386,6 +391,7 @@ func HighUserDelHandler(w http.ResponseWriter, r *http.Request) {
 		jdata := r.PostFormValue("Data")
 
 		log.Printf("POST /highuser/del {User:%s, Data=%s}", uname, jdata)
+		defer log.Println("RESP /highuser/del ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -437,6 +443,7 @@ func HighUserSearchHandler(w http.ResponseWriter, r *http.Request) {
 		jdata := r.PostFormValue("Data")
 
 		log.Printf("POST /highuser/search {User:%s, Data=%s}", uname, jdata)
+		defer log.Println("RESP /highuser/search ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {

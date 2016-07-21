@@ -46,7 +46,8 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /Login {User:%s, Data:%s}", uname, jdata)
+		log.Printf("POST /login {User:%s, Data:%s}", uname, jdata)
+		defer log.Println("RESP /login ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {

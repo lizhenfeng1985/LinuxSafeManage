@@ -124,7 +124,7 @@ func DBHighUserGroupSearch() (groups []string, err error) {
 	}
 	rows.Close()
 
-	log.Println("DBHighUserGroupSearch:", groups)
+	//log.Println("DBHighUserGroupSearch:", groups)
 	// 事务提交
 	err = tx.Commit()
 	if err != nil {
@@ -204,7 +204,7 @@ func DBHighUserAdd(group, user string) (err error) {
 		return err
 	}
 
-	log.Println("DBHighUserAdd:", gid, group, user)
+	//log.Println("DBHighUserAdd:", gid, group, user)
 
 	// 事务提交
 	err = tx.Commit()
@@ -253,7 +253,7 @@ func DBHighUserDel(user string) (err error) {
 		return err
 	}
 
-	log.Println("DBHighUserDel:", uid, user)
+	//log.Println("DBHighUserDel:", uid, user)
 
 	// 事务提交
 	err = tx.Commit()
@@ -294,7 +294,6 @@ func DBHighUserSearch(group string, start, length int) (users []string, total in
 	rows.Close()
 
 	if total == 0 {
-		log.Println("DBHighUserSearch:", group, start, length, users)
 		return users, total, nil
 	}
 
@@ -317,7 +316,7 @@ func DBHighUserSearch(group string, start, length int) (users []string, total in
 	}
 	rows.Close()
 
-	log.Println("DBHighUserSearch:", group, start, length, users)
+	//log.Println("DBHighUserSearch:", group, start, length, users)
 
 	// 事务提交
 	err = tx.Commit()

@@ -230,6 +230,230 @@ func DBInitRuleUser() (err error) {
 	return nil
 }
 
+func DBInitRuleProcGroup() (err error) {
+	db, _ := sql.Open("sqlite3", DBRuleName)
+	defer db.Close()
+
+	// Create Table ProcGroup
+	sql := `create table if not exists proc_group (
+			id integer not null primary key, 
+			groupname char(128) not null unique,
+			gtype int default 0
+		);`
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Printf("DBInitRuleProcGroup:DB.Begin(): %s\n", err)
+		return err
+	}
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitRuleProcGroup:tx.Exec((): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	sql = `insert into proc_group (id, groupname, gtype) values 
+		(1, '所有进程',1);`
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitRuleProcGroup:tx.Exec((): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	// 事务提交
+	err = tx.Commit()
+	if err != nil {
+		log.Printf("DBInitRuleProcGroup:tx.Commit: %s\n", err)
+		tx.Rollback()
+		return err
+	}
+	return nil
+}
+
+func DBInitRuleProc() (err error) {
+	db, _ := sql.Open("sqlite3", DBRuleName)
+	defer db.Close()
+
+	// Create Table Proc
+	sql := `create table if not exists proc (
+			id integer not null primary key,
+			gid int not null default 0,
+			procname char(128) not null unique
+		);`
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Printf("DBInitRuleProc:DB.Begin(): %s\n", err)
+		return err
+	}
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitRuleProc:tx.Exec((): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	// 事务提交
+	err = tx.Commit()
+	if err != nil {
+		log.Printf("DBInitRuleProc:tx.Commit: %s\n", err)
+		tx.Rollback()
+		return err
+	}
+	return nil
+}
+
+func DBInitRuleObjProcGroup() (err error) {
+	db, _ := sql.Open("sqlite3", DBRuleName)
+	defer db.Close()
+
+	// Create Table ObjProcGroup
+	sql := `create table if not exists obj_proc_group (
+			id integer not null primary key, 
+			groupname char(128) not null unique,
+			gtype int default 0
+		);`
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Printf("DBInitRuleObjProcGroup:DB.Begin(): %s\n", err)
+		return err
+	}
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitRuleObjProcGroup:tx.Exec((): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	sql = `insert into obj_proc_group (id, groupname, gtype) values 
+		(1, '所有进程',1);`
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitRuleObjProcGroup:tx.Exec((): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	// 事务提交
+	err = tx.Commit()
+	if err != nil {
+		log.Printf("DBInitRuleObjProcGroup:tx.Commit: %s\n", err)
+		tx.Rollback()
+		return err
+	}
+	return nil
+}
+
+func DBInitRuleObjProc() (err error) {
+	db, _ := sql.Open("sqlite3", DBRuleName)
+	defer db.Close()
+
+	// Create Table ObjProc
+	sql := `create table if not exists obj_proc (
+			id integer not null primary key,
+			gid int not null default 0,
+			obj_procname char(128) not null unique
+		);`
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Printf("DBInitRuleObjProc:DB.Begin(): %s\n", err)
+		return err
+	}
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitRuleObjProc:tx.Exec((): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	// 事务提交
+	err = tx.Commit()
+	if err != nil {
+		log.Printf("DBInitRuleObjProc:tx.Commit: %s\n", err)
+		tx.Rollback()
+		return err
+	}
+	return nil
+}
+
+func DBInitRuleObjFileGroup() (err error) {
+	db, _ := sql.Open("sqlite3", DBRuleName)
+	defer db.Close()
+
+	// Create Table ObjFileGroup
+	sql := `create table if not exists obj_file_group (
+			id integer not null primary key, 
+			groupname char(128) not null unique,
+			gtype int default 0
+		);`
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Printf("DBInitRuleObjFileGroup:DB.Begin(): %s\n", err)
+		return err
+	}
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitRuleObjFileGroup:tx.Exec((): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	// 事务提交
+	err = tx.Commit()
+	if err != nil {
+		log.Printf("DBInitRuleObjFileGroup:tx.Commit: %s\n", err)
+		tx.Rollback()
+		return err
+	}
+	return nil
+}
+
+func DBInitRuleObjFile() (err error) {
+	db, _ := sql.Open("sqlite3", DBRuleName)
+	defer db.Close()
+
+	// Create Table ObjFile
+	sql := `create table if not exists obj_file (
+			id integer not null primary key,
+			gid int not null default 0,
+			obj_filename char(128) not null unique
+		);`
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Printf("DBInitRuleObjFile:DB.Begin(): %s\n", err)
+		return err
+	}
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitRuleObjFile:tx.Exec((): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	// 事务提交
+	err = tx.Commit()
+	if err != nil {
+		log.Printf("DBInitRuleObjFile:tx.Commit: %s\n", err)
+		tx.Rollback()
+		return err
+	}
+	return nil
+}
+
 func FirstCreateDB() (err error) {
 	var errcnt int = 0
 	err = DBInitUser()
@@ -253,6 +477,36 @@ func FirstCreateDB() (err error) {
 	}
 
 	err = DBInitRuleUser()
+	if err != nil {
+		errcnt += 1
+	}
+
+	err = DBInitRuleProcGroup()
+	if err != nil {
+		errcnt += 1
+	}
+
+	err = DBInitRuleProc()
+	if err != nil {
+		errcnt += 1
+	}
+
+	err = DBInitRuleObjProcGroup()
+	if err != nil {
+		errcnt += 1
+	}
+
+	err = DBInitRuleObjProc()
+	if err != nil {
+		errcnt += 1
+	}
+
+	err = DBInitRuleObjFileGroup()
+	if err != nil {
+		errcnt += 1
+	}
+
+	err = DBInitRuleObjFile()
 	if err != nil {
 		errcnt += 1
 	}

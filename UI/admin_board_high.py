@@ -73,6 +73,7 @@ class AdminBoardHigh(QtGui.QWidget):
         self.adminTagHighTagProcBkg.setGeometry(QtCore.QRect(0, 113, 1000, 307))
         self.adminTagHighTagProcBkg.setObjectName(_fromUtf8("adminTagHighTagProcBkg"))
         self.adminTagHighTagProcBkg.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_white.png);"))
+        self.AddAdminTagHighProc()
 
         # 对象 - 文件组 标签页
         self.adminTagHighTagObjFile = QtGui.QPushButton(self.adminTagHighBkg)
@@ -85,6 +86,7 @@ class AdminBoardHigh(QtGui.QWidget):
         self.adminTagHighTagObjFileBkg.setGeometry(QtCore.QRect(0, 113, 1000, 307))
         self.adminTagHighTagObjFileBkg.setObjectName(_fromUtf8("adminTagHighTagObjFileBkg"))
         self.adminTagHighTagObjFileBkg.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_white.png);"))
+        self.AddAdminTagHighObjFile()
 
         # 对象 - 进程组 标签页
         self.adminTagHighTagObjProc = QtGui.QPushButton(self.adminTagHighBkg)
@@ -97,6 +99,7 @@ class AdminBoardHigh(QtGui.QWidget):
         self.adminTagHighTagObjProcBkg.setGeometry(QtCore.QRect(0, 113, 1000, 307))
         self.adminTagHighTagObjProcBkg.setObjectName(_fromUtf8("adminTagHighTagObjProcBkg"))
         self.adminTagHighTagObjProcBkg.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_white.png);"))
+        self.AddAdminTagHighObjProc()
 
         # 对象 - 网络组 标签页
         self.adminTagHighTagObjNet = QtGui.QPushButton(self.adminTagHighBkg)

@@ -394,6 +394,8 @@ class AdminBoardHighUser(QtGui.QWidget):
             res = rt[1]
             if res['Status'] == 0:             
                 self.adminTagHighUserGroupTree.clear()
+                if res['Groups'] == None:
+                    return
                 for group in res['Groups']:                    
                     self.AdddminTagHighUserGroupTree(group, group)
             else:

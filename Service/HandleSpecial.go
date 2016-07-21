@@ -58,6 +58,7 @@ func SpecialGetHandler(w http.ResponseWriter, r *http.Request) {
 		jdata := r.PostFormValue("Data")
 
 		log.Printf("POST /specialget {User:%s, Data=%s}", uname, jdata)
+		defer log.Println("RESP /specialget ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -108,6 +109,7 @@ func SpecialSetHandler(w http.ResponseWriter, r *http.Request) {
 		jdata := r.PostFormValue("Data")
 
 		log.Printf("POST /specialset {User:%s, Data=%s}", uname, jdata)
+		defer log.Println("RESP /specialset ", &res)
 
 		// Check User
 		if uname != "Admin" && uname != "CenterAdmin" {

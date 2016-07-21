@@ -15,6 +15,9 @@ import admin_board_special
 import admin_board_safe
 import admin_board_high
 import admin_board_high_user
+import admin_board_high_proc
+import admin_board_high_objproc
+import admin_board_high_objfile
 
 
 try:
@@ -36,7 +39,10 @@ class GuiMain(QtGui.QDialog, \
               admin_board_special.AdminBoardSpecial, \
               admin_board_safe.AdminBoardSafe, \
               admin_board_high.AdminBoardHigh, \
-              admin_board_high_user.AdminBoardHighUser):
+              admin_board_high_user.AdminBoardHighUser, \
+              admin_board_high_proc.AdminBoardHighProc, \
+              admin_board_high_objproc.AdminBoardHighObjProc, \
+              admin_board_high_objfile.AdminBoardHighObjFile):
     def __init__(self,parent=None):
         super(GuiMain,self).__init__(parent)        
         self.setupUi(self)

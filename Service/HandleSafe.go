@@ -66,6 +66,7 @@ func SafeGetHandler(w http.ResponseWriter, r *http.Request) {
 		jdata := r.PostFormValue("Data")
 
 		log.Printf("POST /safeget {User:%s, Data=%s}", uname, jdata)
+		defer log.Println("RESP /safeget ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -116,6 +117,7 @@ func SafeSetHandler(w http.ResponseWriter, r *http.Request) {
 		jdata := r.PostFormValue("Data")
 
 		log.Printf("POST /safeset {User:%s, Data=%s}", uname, jdata)
+		defer log.Println("RESP /safeset ", &res)
 
 		// Check User
 		if uname != "Admin" && uname != "CenterAdmin" {
