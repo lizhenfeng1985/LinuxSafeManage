@@ -153,9 +153,9 @@ class AdminBoardHighObjFile(QtGui.QWidget):
 
         # 添加客体文件弹出 - 请选择客体文件
         self.adminTagHighObjFileAddDlgTextLab = QtGui.QLabel(self.adminTagHighObjFileAddDlg)
-        self.adminTagHighObjFileAddDlgTextLab.setGeometry(QtCore.QRect(20, 10, 70, 21))
+        self.adminTagHighObjFileAddDlgTextLab.setGeometry(QtCore.QRect(20, 10, 270, 21))
         self.adminTagHighObjFileAddDlgTextLab.setObjectName(_fromUtf8('adminTagHighObjFileAddDlgText'))
-        self.adminTagHighObjFileAddDlgTextLab.setText(_translate('adminTagHighObjFileAddDlgText', '请选择客体文件:', None))
+        self.adminTagHighObjFileAddDlgTextLab.setText(_translate('adminTagHighObjFileAddDlgText', '请选择客体文件或目录(双击展开目录):', None))
 
         # 添加客体文件弹出 - 客体文件列表
         self.adminTagHighObjFileAddDlgTree = QtGui.QTreeWidget(self.adminTagHighObjFileAddDlg)
@@ -267,10 +267,27 @@ class AdminBoardHighObjFile(QtGui.QWidget):
         item.setData(0, QtCore.Qt.UserRole, data)
         #item.setCheckState (0, QtCore.Qt.Unchecked)
 
-    def AdddminTagHighObjFileTree(self, title, data):
+    # Tree 添加父节点
+    def AddAdminTagHighObjFileTreeParent(self, parent, column, title, data):
+        item = QtGui.QTreeWidgetItem(parent, [title])
+        item.setData(column, QtCore.Qt.UserRole, data)
+        item.setChildIndicatorPolicy(QtGui.QTreeWidgetItem.ShowIndicator)
+        return item
+    
+    # Tree 添加子节点
+    def AddAdminTagHighObjFileTreeChild(self, parent, column, title, data):
+        item = QtGui.QTreeWidgetItem(parent, [title])
+        item.setData(column, QtCore.Qt.UserRole, data)
+        #item.setChildIndicatorPolicy(QtGui.QTreeWidgetItem.ShowIndicator)
+        #item.setCheckState (column, QtCore.Qt.Unchecked)        
+        return item
+    
+    def AddAdminTagHighObjFileTreeRoot(self):
         root = self.adminTagHighObjFileAddDlgTree.invisibleRootItem()
-        item = QtGui.QTreeWidgetItem(root, [title])
-        item.setData(0, QtCore.Qt.UserRole, data)
+        rootitem = self.AddAdminTagHighObjFileTreeChild(root, 0, u'/', u'/')
+        rootitem.setExpanded (True)
+        rootitem.setChildIndicatorPolicy(QtGui.QTreeWidgetItem.ShowIndicator)
+        return rootitem
 
     def onAdminTagHighObjFileGroupClick(self, item, column):
         if self.AdminBoardCheckPopUp():
@@ -278,9 +295,54 @@ class AdminBoardHighObjFile(QtGui.QWidget):
         self.adminTagHighObjFileGroupName.setText(item.text(column))
         self.AdminTagHighObjFileSet(0, self.adminTagHighObjFilePageLength)
 
-    def onAdminTagHighObjFileAddDlgTreeClick(self, item, column):
-        self.adminTagHighObjFileAddDlgFName.setText(item.text(column))
+    def AdminTagHighObjFileAddDlgTreeGetPath(self, item):
+        if item == None:
+            return ""        
+        path = item.text(0)
+        parent = item.parent()
+        if parent == None:
+            return path
+        else:
+            return self.AdminTagHighObjFileAddDlgTreeGetPath(parent) + path
 
+    def AdminTagHighObjFileAddDlgTreeDelChildren(self, item):
+        items = item.takeChildren()
+        for i in items:
+            item.removeChild(i)
+        
+    def onAdminTagHighObjFileAddDlgTreeClick(self, item, column):
+        fullpath = self.AdminTagHighObjFileAddDlgTreeGetPath(item)
+        self.adminTagHighObjFileAddDlgFName.setText(fullpath)
+
+        upath = unicode(fullpath)
+        if upath[-1:] != u'/':
+            return
+        
+        # 获取系统文件列表
+        url = 'https://%s:%s/highobjfile/list/%s' % (self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
+        data = {
+            'Tokey'   : self.Tokey,
+            'ObjDir'  : upath
+        }
+        print url, data
+        param = {'Data' : json.dumps(data)}        
+        rt = HttpsPost(url, param)
+        print rt
+        if rt[0] == 0:
+            res = rt[1]
+            if res['Status'] == 0:
+                self.AdminTagHighObjFileAddDlgTreeDelChildren(item)
+                for ofile, t in res['ObjFiles'].items():
+                    if t == 1:
+                        ofile = ofile + '/'
+                        self.AddAdminTagHighObjFileTreeParent(item, 0, ofile, ofile)
+                    else:
+                        self.AddAdminTagHighObjFileTreeChild(item, 0, ofile, ofile)
+            else:
+                QtGui.QMessageBox.about(self, u'错误提示', u'获取系统文件列表失败:' + res['ErrMsg'])
+        else:
+            QtGui.QMessageBox.about(self, u'错误提示', u'获取系统文件列表失败:' + rt[1])
+            
 
     # 客体文件 - 全选
     def onAdminTagHighObjFileSelect(self):
@@ -516,10 +578,13 @@ class AdminBoardHighObjFile(QtGui.QWidget):
             res = rt[1]
             if res['Status'] == 0:             
                 self.adminTagHighObjFileAddDlgTree.clear()
+                root = self.AddAdminTagHighObjFileTreeRoot()
                 for ofile, t in res['ObjFiles'].items():
                     if t == 1:
                         ofile = ofile + '/'
-                    self.AdddminTagHighObjFileTree(ofile, ofile)                
+                        self.AddAdminTagHighObjFileTreeParent(root, 0, ofile, ofile)
+                    else:
+                        self.AddAdminTagHighObjFileTreeChild(root, 0, ofile, ofile)
             else:
                 QtGui.QMessageBox.about(self, u'错误提示', u'获取系统文件列表失败:' + res['ErrMsg'])
         else:

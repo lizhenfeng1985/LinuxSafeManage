@@ -138,9 +138,11 @@ func DBHighObjFileGroupSearch() (groups []string, err error) {
 // 获取客体程序列表
 func DBHighObjFileList() (obj_files map[string]int, err error) {
 	obj_files = make(map[string]int)
-	for i := 1; i <= 4; i++ {
-		obj_files[fmt.Sprintf("/FF%d", i)] = i % 2
-	}
+
+	obj_files["dir1"] = 1
+	obj_files["dir2"] = 1
+	obj_files["file1"] = 0
+	obj_files["file2"] = 0
 	return obj_files, err
 }
 

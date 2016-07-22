@@ -29,13 +29,13 @@ class AdminBoardHigh(QtGui.QWidget):
         self.adminTagHighLogo = QtGui.QWidget(self.adminTagHighBkg)
         self.adminTagHighLogo.setGeometry(QtCore.QRect(40, 10, 70, 60))
         self.adminTagHighLogo.setObjectName(_fromUtf8("adminTagHighLogo"))
-        self.adminTagHighLogo.setStyleSheet(_fromUtf8("border-image: url(:/images/admin_special_logo.png);"))
+        self.adminTagHighLogo.setStyleSheet(_fromUtf8("border-image: url(:/images/admin_high_logo.png);"))
 
         # 标题
         self.adminTagHighTitle = QtGui.QWidget(self.adminTagHighBkg)
         self.adminTagHighTitle.setGeometry(QtCore.QRect(120, 10, 200, 60))
         self.adminTagHighTitle.setObjectName(_fromUtf8("adminTagHighTitle"))
-        self.adminTagHighTitle.setStyleSheet(_fromUtf8("border-image: url(:/images/admin_special_title.png);"))
+        self.adminTagHighTitle.setStyleSheet(_fromUtf8("border-image: url(:/images/admin_high_title.png);"))
 
         # 画线 
         self.adminTagHighSpace1 = QtGui.QWidget(self.adminTagHighBkg)

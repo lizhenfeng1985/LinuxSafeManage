@@ -52,6 +52,10 @@
     <file>images/admin_safe_email.png</file>
     
     <file>images/admin_special_logo.png</file>
-    <file>images/admin_special_title.png</file>    
+    <file>images/admin_special_title.png</file>   
+    
+    <file>images/admin_high_logo.png</file>
+    <file>images/admin_high_title.png</file>
+     
   </qresource>
 </RCC>
