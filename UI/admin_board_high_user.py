@@ -428,9 +428,9 @@ class AdminBoardHighUser(QtGui.QWidget):
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:
+                self.onAdminTagHighUserGroupSet()
                 QtGui.QMessageBox.about(self, u'设置', u'删除组成功:')
                 self.adminTagHighUserGroupName.setText(u'')
-                self.onAdminTagHighUserGroupSet()
             else:
                 QtGui.QMessageBox.about(self, u'错误提示', u'删除组失败:' + res['ErrMsg'])
         else:
@@ -459,10 +459,10 @@ class AdminBoardHighUser(QtGui.QWidget):
         print rt
         if rt[0] == 0:
             res = rt[1]
-            if res['Status'] == 0:
-                QtGui.QMessageBox.about(self, u'设置', u'添加成功:')
-                self.adminTagHighUserGroupAddDlgName.setText(_fromUtf8(''))                
+            if res['Status'] == 0:               
                 self.onAdminTagHighUserGroupSet()
+                QtGui.QMessageBox.about(self, u'设置', u'添加成功:')
+                self.adminTagHighUserGroupAddDlgName.setText(_fromUtf8('')) 
             else:
                 QtGui.QMessageBox.about(self, u'错误提示', u'添加组失败:' + res['ErrMsg'])
         else:

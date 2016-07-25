@@ -512,9 +512,9 @@ class AdminBoardHighObjFile(QtGui.QWidget):
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:
+                self.onAdminTagHighObjFileGroupSet()
                 QtGui.QMessageBox.about(self, u'设置', u'删除组成功:')
                 self.adminTagHighObjFileGroupName.setText(u'')
-                self.onAdminTagHighObjFileGroupSet()
             else:
                 QtGui.QMessageBox.about(self, u'错误提示', u'删除组失败:' + res['ErrMsg'])
         else:
@@ -543,10 +543,10 @@ class AdminBoardHighObjFile(QtGui.QWidget):
         print rt
         if rt[0] == 0:
             res = rt[1]
-            if res['Status'] == 0:
-                QtGui.QMessageBox.about(self, u'设置', u'添加成功:')
-                self.adminTagHighObjFileGroupAddDlgName.setText(_fromUtf8(''))                
+            if res['Status'] == 0:               
                 self.onAdminTagHighObjFileGroupSet()
+                QtGui.QMessageBox.about(self, u'设置', u'添加成功:')
+                self.adminTagHighObjFileGroupAddDlgName.setText(_fromUtf8('')) 
             else:
                 QtGui.QMessageBox.about(self, u'错误提示', u'添加组失败:' + res['ErrMsg'])
         else:

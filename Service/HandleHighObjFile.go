@@ -130,7 +130,7 @@ func HighObjFileGroupAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highobjfile/groupadd {ObjFile:%s, Data=%s}", uname, jdata)
+		log.Printf("POST /highobjfile/groupadd {User:%s, Data=%s}", uname, jdata)
 		defer log.Println("RESP /highobjfile/groupadd ", &res)
 
 		// check data
@@ -182,7 +182,7 @@ func HighObjFileGroupDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highobjfile/groupdel {ObjFile:%s, Data=%s}", uname, jdata)
+		log.Printf("POST /highobjfile/groupdel {User:%s, Data=%s}", uname, jdata)
 		defer log.Println("RESP /highobjfile/groupdel ", &res)
 
 		// check data
@@ -233,7 +233,7 @@ func HighObjFileGroupSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highobjfile/groupsearch {ObjFile:%s, Data=%s}", uname, jdata)
+		log.Printf("POST /highobjfile/groupsearch {User:%s, Data=%s}", uname, jdata)
 		defer log.Println("RESP /highobjfile/groupsearch ", &res)
 
 		// check data
@@ -286,7 +286,7 @@ func HighObjFileListHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highobjfile/list {ObjFile:%s, Data=%s}", uname, jdata)
+		log.Printf("POST /highobjfile/list {User:%s, Data=%s}", uname, jdata)
 		defer log.Println("RESP /highobjfile/list ", &res)
 
 		// check data
@@ -339,7 +339,7 @@ func HighObjFileAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highobjfile/add {ObjFile:%s, Data=%s}", uname, jdata)
+		log.Printf("POST /highobjfile/add {User:%s, Data=%s}", uname, jdata)
 		defer log.Println("RESP /highobjfile/add ", &res)
 
 		// check data
@@ -391,7 +391,7 @@ func HighObjFileDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highobjfile/del {ObjFile:%s, Data=%s}", uname, jdata)
+		log.Printf("POST /highobjfile/del {User:%s, Data=%s}", uname, jdata)
 		defer log.Println("RESP /highobjfile/del ", &res)
 
 		// check data
@@ -443,7 +443,7 @@ func HighObjFileSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highobjfile/search {ObjFile:%s, Data=%s}", uname, jdata)
+		log.Printf("POST /highobjfile/search {User:%s, Data=%s}", uname, jdata)
 		defer log.Println("RESP /highobjfile/search ", &res)
 
 		// check data

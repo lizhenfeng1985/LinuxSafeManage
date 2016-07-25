@@ -49,7 +49,7 @@ func DBHighObjFileGroupDel(group string) (err error) {
 	rows, err := db.Query(sqlstr)
 	if err != nil {
 		log.Printf("DBHighObjFileGroupSearch(): %s, %s", err, sqlstr)
-		return errors.New("错误:查询客体程序组失败")
+		return errors.New("错误:查询客体文件组失败")
 	}
 	defer rows.Close()
 
@@ -62,12 +62,12 @@ func DBHighObjFileGroupDel(group string) (err error) {
 		return errors.New("错误:默认组不允许删除")
 	}
 
-	// 查找组的客体程序数 如果大于0 不允许删除
+	// 查找组的客体文件数 如果大于0 不允许删除
 	sqlstr = fmt.Sprintf("SELECT count(*) FROM obj_file u JOIN obj_file_group g ON u.gid = g.id WHERE g.groupname = '%s';", group)
 	rows, err = db.Query(sqlstr)
 	if err != nil {
 		log.Printf("DBHighObjFileGroupSearch(): %s, %s", err, sqlstr)
-		return errors.New("错误:查询客体程序组失败")
+		return errors.New("错误:查询客体文件组失败")
 	}
 	defer rows.Close()
 
@@ -77,7 +77,7 @@ func DBHighObjFileGroupDel(group string) (err error) {
 	}
 	rows.Close()
 	if cnt > 0 {
-		return errors.New("错误:请先删除当前组中的客体程序")
+		return errors.New("错误:请先删除当前组中的客体文件")
 	}
 
 	sqlstr = fmt.Sprintf("DELETE FROM obj_file_group WHERE groupname = '%s' and gtype != 1;", group)
@@ -113,7 +113,7 @@ func DBHighObjFileGroupSearch() (groups []string, err error) {
 	rows, err := db.Query(sqlstr)
 	if err != nil {
 		log.Printf("DBHighObjFileGroupSearch(): %s, %s", err, sqlstr)
-		return groups, errors.New("错误:查询客体程序组失败")
+		return groups, errors.New("错误:查询客体文件组失败")
 	}
 	defer rows.Close()
 
@@ -135,7 +135,7 @@ func DBHighObjFileGroupSearch() (groups []string, err error) {
 	return groups, nil
 }
 
-// 获取客体程序列表
+// 获取客体文件列表
 func DBHighObjFileList() (obj_files map[string]int, err error) {
 	obj_files = make(map[string]int)
 
@@ -146,7 +146,7 @@ func DBHighObjFileList() (obj_files map[string]int, err error) {
 	return obj_files, err
 }
 
-// 添加客体程序
+// 添加客体文件
 func DBHighObjFileAdd(group, obj_file string) (err error) {
 	db := GHandleDBRule
 
@@ -173,10 +173,10 @@ func DBHighObjFileAdd(group, obj_file string) (err error) {
 	rows.Close()
 
 	if gid == 0 {
-		return errors.New("错误:请先选择客体程序组")
+		return errors.New("错误:请先选择客体文件组")
 	}
 
-	// 查找客体程序是否已经添加到某个组
+	// 查找客体文件是否已经添加到某个组
 	sqlstr = "SELECT g.groupname FROM obj_file_group g JOIN obj_file u " +
 		"ON u.gid = g.id " +
 		fmt.Sprintf("WHERE u.obj_filename = '%s';", obj_file)
@@ -196,7 +196,7 @@ func DBHighObjFileAdd(group, obj_file string) (err error) {
 	}
 	rows.Close()
 	if isAdd == 1 {
-		return errors.New("错误:该客体程序已经存在于分组:" + gname)
+		return errors.New("错误:该客体文件已经存在于分组:" + gname)
 	}
 
 	sqlstr = fmt.Sprintf("INSERT INTO obj_file (id, gid, obj_filename) VALUES (null, %d, '%s');", gid, obj_file)
@@ -219,7 +219,7 @@ func DBHighObjFileAdd(group, obj_file string) (err error) {
 	return nil
 }
 
-// 删除客体程序
+// 删除客体文件
 func DBHighObjFileDel(obj_file string) (err error) {
 	db := GHandleDBRule
 
@@ -229,7 +229,7 @@ func DBHighObjFileDel(obj_file string) (err error) {
 		return err
 	}
 
-	// 查找客体程序是否存在
+	// 查找客体文件是否存在
 	sqlstr := fmt.Sprintf("SELECT id FROM obj_file WHERE obj_filename = '%s';", obj_file)
 	rows, err := db.Query(sqlstr)
 	if err != nil {
@@ -245,7 +245,7 @@ func DBHighObjFileDel(obj_file string) (err error) {
 	}
 	rows.Close()
 	if uid == 0 {
-		return errors.New("错误:该客体程序不存在")
+		return errors.New("错误:该客体文件不存在")
 	}
 
 	sqlstr = fmt.Sprintf("DELETE FROM obj_file WHERE id = %d;", uid)
@@ -268,7 +268,7 @@ func DBHighObjFileDel(obj_file string) (err error) {
 	return nil
 }
 
-// 查找客体程序
+// 查找客体文件
 func DBHighObjFileSearch(group string, start, length int) (obj_files []string, total int, err error) {
 	db := GHandleDBRule
 
@@ -300,7 +300,7 @@ func DBHighObjFileSearch(group string, start, length int) (obj_files []string, t
 		return obj_files, total, nil
 	}
 
-	// 查找客体程序
+	// 查找客体文件
 	sqlstr = "SELECT u.obj_filename FROM obj_file u JOIN obj_file_group g " +
 		"ON u.gid = g.id " +
 		fmt.Sprintf("WHERE g.groupname = '%s' ORDER BY u.obj_filename ASC LIMIT %d, %d;", group, start, length)

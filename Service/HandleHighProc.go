@@ -129,7 +129,7 @@ func HighProcGroupAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highproc/groupadd {Proc:%s, Data=%s}", uname, jdata)
+		log.Printf("POST /highproc/groupadd {User:%s, Data=%s}", uname, jdata)
 		defer log.Println("RESP /highproc/groupadd ", &res)
 
 		// check data
@@ -181,7 +181,7 @@ func HighProcGroupDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highproc/groupdel {Proc:%s, Data=%s}", uname, jdata)
+		log.Printf("POST /highproc/groupdel {User:%s, Data=%s}", uname, jdata)
 		defer log.Println("RESP /highproc/groupdel ", &res)
 
 		// check data
@@ -232,7 +232,7 @@ func HighProcGroupSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highproc/groupsearch {Proc:%s, Data=%s}", uname, jdata)
+		log.Printf("POST /highproc/groupsearch {User:%s, Data=%s}", uname, jdata)
 		defer log.Println("RESP /highproc/groupsearch ", &res)
 
 		// check data
@@ -285,7 +285,7 @@ func HighProcListHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highproc/list {Proc:%s, Data=%s}", uname, jdata)
+		log.Printf("POST /highproc/list {User:%s, Data=%s}", uname, jdata)
 		defer log.Println("RESP /highproc/list ", &res)
 
 		// check data
@@ -338,7 +338,7 @@ func HighProcAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highproc/add {Proc:%s, Data=%s}", uname, jdata)
+		log.Printf("POST /highproc/add {User:%s, Data=%s}", uname, jdata)
 		defer log.Println("RESP /highproc/add ", &res)
 
 		// check data
@@ -390,7 +390,7 @@ func HighProcDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highproc/del {Proc:%s, Data=%s}", uname, jdata)
+		log.Printf("POST /highproc/del {User:%s, Data=%s}", uname, jdata)
 		defer log.Println("RESP /highproc/del ", &res)
 
 		// check data
@@ -442,7 +442,7 @@ func HighProcSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highproc/search {Proc:%s, Data=%s}", uname, jdata)
+		log.Printf("POST /highproc/search {User:%s, Data=%s}", uname, jdata)
 		defer log.Println("RESP /highproc/search ", &res)
 
 		// check data

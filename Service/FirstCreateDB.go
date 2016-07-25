@@ -332,16 +332,6 @@ func DBInitRuleObjProcGroup() (err error) {
 		return err
 	}
 
-	sql = `insert into obj_proc_group (id, groupname, gtype) values 
-		(1, '所有进程',1);`
-
-	_, err = tx.Exec(sql)
-	if err != nil {
-		log.Printf("DBInitRuleObjProcGroup:tx.Exec((): %s, %s\n", err, sql)
-		tx.Rollback()
-		return err
-	}
-
 	// 事务提交
 	err = tx.Commit()
 	if err != nil {
@@ -454,6 +444,74 @@ func DBInitRuleObjFile() (err error) {
 	return nil
 }
 
+func DBInitRuleObjNetGroup() (err error) {
+	db, _ := sql.Open("sqlite3", DBRuleName)
+	defer db.Close()
+
+	// Create Table ObjNetGroup
+	sql := `create table if not exists obj_net_group (
+			id integer not null primary key, 
+			groupname char(128) not null unique,
+			gtype int default 0
+		);`
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Printf("DBInitRuleObjNetGroup:DB.Begin(): %s\n", err)
+		return err
+	}
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitRuleObjNetGroup:tx.Exec((): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	// 事务提交
+	err = tx.Commit()
+	if err != nil {
+		log.Printf("DBInitRuleObjNetGroup:tx.Commit: %s\n", err)
+		tx.Rollback()
+		return err
+	}
+	return nil
+}
+
+func DBInitRuleObjNet() (err error) {
+	db, _ := sql.Open("sqlite3", DBRuleName)
+	defer db.Close()
+
+	// Create Table ObjFile
+	sql := `create table if not exists obj_net (
+			id integer not null primary key,
+			gid int not null default 0,
+			obj_netname char(128) not null unique
+		);`
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Printf("DBInitRuleObjNet:DB.Begin(): %s\n", err)
+		return err
+	}
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitRuleObjNet:tx.Exec((): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	// 事务提交
+	err = tx.Commit()
+	if err != nil {
+		log.Printf("DBInitRuleObjNet:tx.Commit: %s\n", err)
+		tx.Rollback()
+		return err
+	}
+	return nil
+}
+
 func FirstCreateDB() (err error) {
 	var errcnt int = 0
 	err = DBInitUser()
@@ -507,6 +565,16 @@ func FirstCreateDB() (err error) {
 	}
 
 	err = DBInitRuleObjFile()
+	if err != nil {
+		errcnt += 1
+	}
+
+	err = DBInitRuleObjNetGroup()
+	if err != nil {
+		errcnt += 1
+	}
+
+	err = DBInitRuleObjNet()
 	if err != nil {
 		errcnt += 1
 	}

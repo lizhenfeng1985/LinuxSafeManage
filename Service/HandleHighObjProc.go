@@ -129,7 +129,7 @@ func HighObjProcGroupAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highobjproc/groupadd {ObjProc:%s, Data=%s}", uname, jdata)
+		log.Printf("POST /highobjproc/groupadd {User:%s, Data=%s}", uname, jdata)
 		defer log.Println("RESP /highobjproc/groupadd ", &res)
 
 		// check data
@@ -181,7 +181,7 @@ func HighObjProcGroupDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highobjproc/groupdel {ObjProc:%s, Data=%s}", uname, jdata)
+		log.Printf("POST /highobjproc/groupdel {User:%s, Data=%s}", uname, jdata)
 		defer log.Println("RESP /highobjproc/groupdel ", &res)
 
 		// check data
@@ -232,7 +232,7 @@ func HighObjProcGroupSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highobjproc/groupsearch {ObjProc:%s, Data=%s}", uname, jdata)
+		log.Printf("POST /highobjproc/groupsearch {User:%s, Data=%s}", uname, jdata)
 		defer log.Println("RESP /highobjproc/groupsearch ", &res)
 
 		// check data
@@ -285,7 +285,7 @@ func HighObjProcListHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highobjproc/list {ObjProc:%s, Data=%s}", uname, jdata)
+		log.Printf("POST /highobjproc/list {User:%s, Data=%s}", uname, jdata)
 		defer log.Println("RESP /highobjproc/list ", &res)
 
 		// check data
@@ -338,7 +338,7 @@ func HighObjProcAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highobjproc/add {ObjProc:%s, Data=%s}", uname, jdata)
+		log.Printf("POST /highobjproc/add {User:%s, Data=%s}", uname, jdata)
 		defer log.Println("RESP /highobjproc/add ", &res)
 
 		// check data
@@ -390,7 +390,7 @@ func HighObjProcDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highobjproc/del {ObjProc:%s, Data=%s}", uname, jdata)
+		log.Printf("POST /highobjproc/del {User:%s, Data=%s}", uname, jdata)
 		defer log.Println("RESP /highobjproc/del ", &res)
 
 		// check data
@@ -442,7 +442,7 @@ func HighObjProcSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highobjproc/search {ObjProc:%s, Data=%s}", uname, jdata)
+		log.Printf("POST /highobjproc/search {User:%s, Data=%s}", uname, jdata)
 		defer log.Println("RESP /highobjproc/search ", &res)
 
 		// check data

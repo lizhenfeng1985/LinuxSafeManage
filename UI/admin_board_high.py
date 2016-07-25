@@ -112,6 +112,7 @@ class AdminBoardHigh(QtGui.QWidget):
         self.adminTagHighTagObjNetBkg.setGeometry(QtCore.QRect(0, 113, 1000, 307))
         self.adminTagHighTagObjNetBkg.setObjectName(_fromUtf8("adminTagHighTagObjNetBkg"))
         self.adminTagHighTagObjNetBkg.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_white.png);"))
+        self.AddAdminTagHighObjNet()
 
         # 权限表 标签页
         self.adminTagHighTagPerm = QtGui.QPushButton(self.adminTagHighBkg)

@@ -151,7 +151,7 @@ class AdminBoardHighObjProc(QtGui.QWidget):
 
         # 添加客体程序弹出 - 请选择客体程序
         self.adminTagHighObjProcAddDlgTextLab = QtGui.QLabel(self.adminTagHighObjProcAddDlg)
-        self.adminTagHighObjProcAddDlgTextLab.setGeometry(QtCore.QRect(20, 10, 70, 21))
+        self.adminTagHighObjProcAddDlgTextLab.setGeometry(QtCore.QRect(20, 10, 100, 21))
         self.adminTagHighObjProcAddDlgTextLab.setObjectName(_fromUtf8('adminTagHighObjProcAddDlgText'))
         self.adminTagHighObjProcAddDlgTextLab.setText(_translate('adminTagHighObjProcAddDlgText', '请选择客体程序:', None))
 
@@ -435,9 +435,9 @@ class AdminBoardHighObjProc(QtGui.QWidget):
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:
+                self.onAdminTagHighObjProcGroupSet()
                 QtGui.QMessageBox.about(self, u'设置', u'删除组成功:')
                 self.adminTagHighObjProcGroupName.setText(u'')
-                self.onAdminTagHighObjProcGroupSet()
             else:
                 QtGui.QMessageBox.about(self, u'错误提示', u'删除组失败:' + res['ErrMsg'])
         else:
@@ -466,10 +466,10 @@ class AdminBoardHighObjProc(QtGui.QWidget):
         print rt
         if rt[0] == 0:
             res = rt[1]
-            if res['Status'] == 0:
-                QtGui.QMessageBox.about(self, u'设置', u'添加成功:')
-                self.adminTagHighObjProcGroupAddDlgName.setText(_fromUtf8(''))                
+            if res['Status'] == 0:                
                 self.onAdminTagHighObjProcGroupSet()
+                QtGui.QMessageBox.about(self, u'设置', u'添加成功:')
+                self.adminTagHighObjProcGroupAddDlgName.setText(_fromUtf8(''))
             else:
                 QtGui.QMessageBox.about(self, u'错误提示', u'添加组失败:' + res['ErrMsg'])
         else:

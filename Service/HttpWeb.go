@@ -86,6 +86,16 @@ func main() {
 	rhttps.HandleFunc("/highobjfile/del/{UserName}", HighObjFileDelHandler)
 	rhttps.HandleFunc("/highobjfile/search/{UserName}", HighObjFileSearchHandler)
 
+	// 高级安全 - 对象 - 网络组
+	rhttps.HandleFunc("/highobjnet/groupadd/{UserName}", HighObjNetGroupAddHandler)
+	rhttps.HandleFunc("/highobjnet/groupdel/{UserName}", HighObjNetGroupDelHandler)
+	rhttps.HandleFunc("/highobjnet/groupsearch/{UserName}", HighObjNetGroupSearchHandler)
+
+	// 高级安装 - 对象 - 网络
+	rhttps.HandleFunc("/highobjnet/add/{UserName}", HighObjNetAddHandler)
+	rhttps.HandleFunc("/highobjnet/del/{UserName}", HighObjNetDelHandler)
+	rhttps.HandleFunc("/highobjnet/search/{UserName}", HighObjNetSearchHandler)
+
 	/*
 		rhttp := mux.NewRouter()
 		rhttp.HandleFunc("/test", HandlerTest)
