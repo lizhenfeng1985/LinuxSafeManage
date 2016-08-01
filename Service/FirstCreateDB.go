@@ -512,6 +512,43 @@ func DBInitRuleObjNet() (err error) {
 	return nil
 }
 
+func DBInitRulePerms() (err error) {
+	db, _ := sql.Open("sqlite3", DBRuleName)
+	defer db.Close()
+
+	// Create Table ObjFile
+	sql := `create table if not exists perms (
+			id integer not null primary key,
+			user char(128) not null,
+			proc char(128) not null,
+			obj char(128) not null,
+			objtype char(64) not null,
+			perm char(64) not null
+		);`
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Printf("DBInitRulePerms:DB.Begin(): %s\n", err)
+		return err
+	}
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitRulePerms:tx.Exec((): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	// 事务提交
+	err = tx.Commit()
+	if err != nil {
+		log.Printf("DBInitRulePerms:tx.Commit: %s\n", err)
+		tx.Rollback()
+		return err
+	}
+	return nil
+}
+
 func FirstCreateDB() (err error) {
 	var errcnt int = 0
 	err = DBInitUser()
@@ -575,6 +612,11 @@ func FirstCreateDB() (err error) {
 	}
 
 	err = DBInitRuleObjNet()
+	if err != nil {
+		errcnt += 1
+	}
+
+	err = DBInitRulePerms()
 	if err != nil {
 		errcnt += 1
 	}

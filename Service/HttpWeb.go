@@ -91,10 +91,15 @@ func main() {
 	rhttps.HandleFunc("/highobjnet/groupdel/{UserName}", HighObjNetGroupDelHandler)
 	rhttps.HandleFunc("/highobjnet/groupsearch/{UserName}", HighObjNetGroupSearchHandler)
 
-	// 高级安装 - 对象 - 网络
+	// 高级安全 - 对象 - 网络
 	rhttps.HandleFunc("/highobjnet/add/{UserName}", HighObjNetAddHandler)
 	rhttps.HandleFunc("/highobjnet/del/{UserName}", HighObjNetDelHandler)
 	rhttps.HandleFunc("/highobjnet/search/{UserName}", HighObjNetSearchHandler)
+
+	// 高级安全 - 权限
+	rhttps.HandleFunc("/highperm/add/{UserName}", HighPermAddHandler)
+	rhttps.HandleFunc("/highperm/del/{UserName}", HighPermDelHandler)
+	rhttps.HandleFunc("/highperm/search/{UserName}", HighPermSearchHandler)
 
 	/*
 		rhttp := mux.NewRouter()
