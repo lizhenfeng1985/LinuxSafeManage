@@ -1,13 +1,14 @@
 package main
 
 import (
+	"database/sql"
 	"errors"
 	"fmt"
 	"log"
 )
 
-func DBHighObjNetGroupAdd(group string) (err error) {
-	db := GHandleDBRule
+func DBHighObjNetGroupAdd(db *sql.DB, group string) (err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -35,8 +36,8 @@ func DBHighObjNetGroupAdd(group string) (err error) {
 	return nil
 }
 
-func DBHighObjNetGroupDel(group string) (err error) {
-	db := GHandleDBRule
+func DBHighObjNetGroupDel(db *sql.DB, group string) (err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -48,7 +49,7 @@ func DBHighObjNetGroupDel(group string) (err error) {
 	sqlstr := fmt.Sprintf("SELECT gtype FROM obj_net_group WHERE groupname = '%s';", group)
 	rows, err := db.Query(sqlstr)
 	if err != nil {
-		log.Printf("DBHighObjNetGroupSearch(): %s, %s", err, sqlstr)
+		log.Printf("DBHighObjNetGroupDel(): %s, %s", err, sqlstr)
 		return errors.New("错误:查询客体网络组失败")
 	}
 	defer rows.Close()
@@ -66,7 +67,7 @@ func DBHighObjNetGroupDel(group string) (err error) {
 	sqlstr = fmt.Sprintf("SELECT count(*) FROM obj_net u JOIN obj_net_group g ON u.gid = g.id WHERE g.groupname = '%s';", group)
 	rows, err = db.Query(sqlstr)
 	if err != nil {
-		log.Printf("DBHighObjNetGroupSearch(): %s, %s", err, sqlstr)
+		log.Printf("DBHighObjNetGroupDel(): %s, %s", err, sqlstr)
 		return errors.New("错误:查询客体网络组失败")
 	}
 	defer rows.Close()
@@ -99,8 +100,8 @@ func DBHighObjNetGroupDel(group string) (err error) {
 	return nil
 }
 
-func DBHighObjNetGroupSearch() (groups []string, err error) {
-	db := GHandleDBRule
+func DBHighObjNetGroupSearch(db *sql.DB) (groups []string, err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -136,8 +137,8 @@ func DBHighObjNetGroupSearch() (groups []string, err error) {
 }
 
 // 添加客体网络
-func DBHighObjNetAdd(group, obj_net string) (err error) {
-	db := GHandleDBRule
+func DBHighObjNetAdd(db *sql.DB, group, obj_net string) (err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -209,8 +210,8 @@ func DBHighObjNetAdd(group, obj_net string) (err error) {
 }
 
 // 删除客体网络
-func DBHighObjNetDel(obj_net string) (err error) {
-	db := GHandleDBRule
+func DBHighObjNetDel(db *sql.DB, obj_net string) (err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -258,8 +259,8 @@ func DBHighObjNetDel(obj_net string) (err error) {
 }
 
 // 查找客体网络
-func DBHighObjNetSearch(group string, start, length int) (obj_nets []string, total int, err error) {
-	db := GHandleDBRule
+func DBHighObjNetSearch(db *sql.DB, group string, start, length int) (obj_nets []string, total int, err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {

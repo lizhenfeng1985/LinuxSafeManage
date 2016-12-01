@@ -7,7 +7,7 @@ import (
 )
 
 func DBSpecialConfigGet() (mode, settime, shutdown, usb, cdrom int, err error) {
-	db := GHandleDBRule
+	db := GHandleDBRuleCfg
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -42,7 +42,7 @@ func DBSpecialConfigGet() (mode, settime, shutdown, usb, cdrom int, err error) {
 }
 
 func DBSpecialConfigSet(mode, settime, shutdown, usb, cdrom int) (err error) {
-	db := GHandleDBRule
+	db := GHandleDBRuleCfg
 
 	tx, err := db.Begin()
 	if err != nil {

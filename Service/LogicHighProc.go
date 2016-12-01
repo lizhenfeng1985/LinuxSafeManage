@@ -1,13 +1,14 @@
 package main
 
 import (
+	"database/sql"
 	"errors"
 	"fmt"
 	"log"
 )
 
-func DBHighProcGroupAdd(group string) (err error) {
-	db := GHandleDBRule
+func DBHighProcGroupAdd(db *sql.DB, group string) (err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -35,8 +36,8 @@ func DBHighProcGroupAdd(group string) (err error) {
 	return nil
 }
 
-func DBHighProcGroupDel(group string) (err error) {
-	db := GHandleDBRule
+func DBHighProcGroupDel(db *sql.DB, group string) (err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -48,7 +49,7 @@ func DBHighProcGroupDel(group string) (err error) {
 	sqlstr := fmt.Sprintf("SELECT gtype FROM proc_group WHERE groupname = '%s';", group)
 	rows, err := db.Query(sqlstr)
 	if err != nil {
-		log.Printf("DBHighProcGroupSearch(): %s, %s", err, sqlstr)
+		log.Printf("DBHighProcGroupDel(): %s, %s", err, sqlstr)
 		return errors.New("错误:查询程序组失败")
 	}
 	defer rows.Close()
@@ -66,7 +67,7 @@ func DBHighProcGroupDel(group string) (err error) {
 	sqlstr = fmt.Sprintf("SELECT count(*) FROM proc u JOIN proc_group g ON u.gid = g.id WHERE g.groupname = '%s';", group)
 	rows, err = db.Query(sqlstr)
 	if err != nil {
-		log.Printf("DBHighProcGroupSearch(): %s, %s", err, sqlstr)
+		log.Printf("DBHighProcGroupDel(): %s, %s", err, sqlstr)
 		return errors.New("错误:查询程序组失败")
 	}
 	defer rows.Close()
@@ -99,8 +100,8 @@ func DBHighProcGroupDel(group string) (err error) {
 	return nil
 }
 
-func DBHighProcGroupSearch() (groups []string, err error) {
-	db := GHandleDBRule
+func DBHighProcGroupSearch(db *sql.DB) (groups []string, err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -144,8 +145,8 @@ func DBHighProcList() (procs []string, err error) {
 }
 
 // 添加程序
-func DBHighProcAdd(group, proc string) (err error) {
-	db := GHandleDBRule
+func DBHighProcAdd(db *sql.DB, group, proc string) (err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -217,8 +218,8 @@ func DBHighProcAdd(group, proc string) (err error) {
 }
 
 // 删除程序
-func DBHighProcDel(proc string) (err error) {
-	db := GHandleDBRule
+func DBHighProcDel(db *sql.DB, proc string) (err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -266,8 +267,8 @@ func DBHighProcDel(proc string) (err error) {
 }
 
 // 查找程序
-func DBHighProcSearch(group string, start, length int) (procs []string, total int, err error) {
-	db := GHandleDBRule
+func DBHighProcSearch(db *sql.DB, group string, start, length int) (procs []string, total int, err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {

@@ -125,7 +125,7 @@ func HighObjNetGroupAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		err := DBHighObjNetGroupAdd(req.Group)
+		err := DBHighObjNetGroupAdd(GHandleDBRuleUser, req.Group)
 		if err != nil {
 			w.Write(HighObjNetErrResponse(&res, -1, err.Error()))
 			return
@@ -177,7 +177,7 @@ func HighObjNetGroupDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		err := DBHighObjNetGroupDel(req.Group)
+		err := DBHighObjNetGroupDel(GHandleDBRuleUser, req.Group)
 		if err != nil {
 			w.Write(HighObjNetErrResponse(&res, -1, err.Error()))
 			return
@@ -228,7 +228,7 @@ func HighObjNetGroupSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		res.Groups, err = DBHighObjNetGroupSearch()
+		res.Groups, err = DBHighObjNetGroupSearch(GHandleDBRuleUser)
 		if err != nil {
 			w.Write(HighObjNetGroupSearchErrResponse(&res, -1, err.Error()))
 			return
@@ -281,7 +281,7 @@ func HighObjNetAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		err := DBHighObjNetAdd(req.Group, req.ObjNet)
+		err := DBHighObjNetAdd(GHandleDBRuleUser, req.Group, req.ObjNet)
 		if err != nil {
 			w.Write(HighObjNetErrResponse(&res, -1, err.Error()))
 			return
@@ -333,7 +333,7 @@ func HighObjNetDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		err := DBHighObjNetDel(req.ObjNet)
+		err := DBHighObjNetDel(GHandleDBRuleUser, req.ObjNet)
 		if err != nil {
 			w.Write(HighObjNetErrResponse(&res, -1, err.Error()))
 			return
@@ -385,7 +385,7 @@ func HighObjNetSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		res.ObjNets, res.Total, err = DBHighObjNetSearch(req.Group, req.Start, req.Length)
+		res.ObjNets, res.Total, err = DBHighObjNetSearch(GHandleDBRuleUser, req.Group, req.Start, req.Length)
 		if err != nil {
 			w.Write(HighObjNetSearchErrResponse(&res, -1, err.Error()))
 			return

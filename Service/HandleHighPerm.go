@@ -50,7 +50,7 @@ type PermItem struct {
 	Perm      string
 }
 
-// 客体网络组 - 查找 - 响应
+// 权限组 - 查找 - 响应
 type HighPermSearchResponse struct {
 	Status    int
 	ErrMsg    string
@@ -107,7 +107,7 @@ func HighPermAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		err := DBHighPermAdd(req.UserGroup, req.ProcGroup, req.ObjGroup, req.ObjType, req.Perm)
+		err := DBHighPermAdd(GHandleDBRuleUser, req.UserGroup, req.ProcGroup, req.ObjGroup, req.ObjType, req.Perm)
 		if err != nil {
 			w.Write(HighPermErrResponse(&res, -1, err.Error()))
 			return
@@ -159,7 +159,7 @@ func HighPermDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		err := DBHighPermDel(req.UserGroup, req.ProcGroup, req.ObjGroup, req.ObjType, req.Perm)
+		err := DBHighPermDel(GHandleDBRuleUser, req.UserGroup, req.ProcGroup, req.ObjGroup, req.ObjType, req.Perm)
 		if err != nil {
 			w.Write(HighPermErrResponse(&res, -1, err.Error()))
 			return
@@ -210,7 +210,7 @@ func HighPermSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		res.PermItems, err = DBHighPermSearch(req.UserGroup, req.Start, req.Length)
+		res.PermItems, err = DBHighPermSearch(GHandleDBRuleUser, req.UserGroup, req.Start, req.Length)
 		if err != nil {
 			w.Write(HighPermSearchErrResponse(&res, -1, err.Error()))
 			return

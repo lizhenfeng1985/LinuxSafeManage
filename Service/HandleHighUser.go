@@ -145,7 +145,7 @@ func HighUserGroupAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		err := DBHighUserGroupAdd(req.Group)
+		err := DBHighUserGroupAdd(GHandleDBRuleUser, req.Group)
 		if err != nil {
 			w.Write(HighUserErrResponse(&res, -1, err.Error()))
 			return
@@ -197,7 +197,7 @@ func HighUserGroupDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		err := DBHighUserGroupDel(req.Group)
+		err := DBHighUserGroupDel(GHandleDBRuleUser, req.Group)
 		if err != nil {
 			w.Write(HighUserErrResponse(&res, -1, err.Error()))
 			return
@@ -248,7 +248,7 @@ func HighUserGroupSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		res.Groups, err = DBHighUserGroupSearch()
+		res.Groups, err = DBHighUserGroupSearch(GHandleDBRuleUser)
 		if err != nil {
 			w.Write(HighUserGroupSearchErrResponse(&res, -1, err.Error()))
 			return
@@ -354,7 +354,7 @@ func HighUserAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		err := DBHighUserAdd(req.Group, req.User)
+		err := DBHighUserAdd(GHandleDBRuleUser, req.Group, req.User)
 		if err != nil {
 			w.Write(HighUserErrResponse(&res, -1, err.Error()))
 			return
@@ -406,7 +406,7 @@ func HighUserDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		err := DBHighUserDel(req.User)
+		err := DBHighUserDel(GHandleDBRuleUser, req.User)
 		if err != nil {
 			w.Write(HighUserErrResponse(&res, -1, err.Error()))
 			return
@@ -458,7 +458,7 @@ func HighUserSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		res.Users, res.Total, err = DBHighUserSearch(req.Group, req.Start, req.Length)
+		res.Users, res.Total, err = DBHighUserSearch(GHandleDBRuleUser, req.Group, req.Start, req.Length)
 		if err != nil {
 			w.Write(HighUserSearchErrResponse(&res, -1, err.Error()))
 			return

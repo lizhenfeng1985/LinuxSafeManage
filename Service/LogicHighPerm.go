@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"errors"
 	"fmt"
 	"log"
@@ -40,8 +41,8 @@ func checkTypePerm(ObjType, Perm string) (err error) {
 	}
 }
 
-func checkGroupExists(UserGroup, ProcGroup, ObjGroup, ObjType string) (err error) {
-	db := GHandleDBRule
+func checkGroupExists(db *sql.DB, UserGroup, ProcGroup, ObjGroup, ObjType string) (err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -125,15 +126,15 @@ func checkGroupExists(UserGroup, ProcGroup, ObjGroup, ObjType string) (err error
 	return nil
 }
 
-func DBHighPermAdd(UserGroup, ProcGroup, ObjGroup, ObjType, Perm string) (err error) {
-	db := GHandleDBRule
+func DBHighPermAdd(db *sql.DB, UserGroup, ProcGroup, ObjGroup, ObjType, Perm string) (err error) {
+	//db := GHandleDBRuleUser
 
 	err = checkTypePerm(ObjType, Perm)
 	if err != nil {
 		return err
 	}
 
-	err = checkGroupExists(UserGroup, ProcGroup, ObjGroup, ObjType)
+	err = checkGroupExists(db, UserGroup, ProcGroup, ObjGroup, ObjType)
 	if err != nil {
 		return err
 	}
@@ -163,8 +164,8 @@ func DBHighPermAdd(UserGroup, ProcGroup, ObjGroup, ObjType, Perm string) (err er
 	return nil
 }
 
-func DBHighPermDel(UserGroup, ProcGroup, ObjGroup, ObjType, Perm string) (err error) {
-	db := GHandleDBRule
+func DBHighPermDel(db *sql.DB, UserGroup, ProcGroup, ObjGroup, ObjType, Perm string) (err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -211,8 +212,8 @@ func DBHighPermDel(UserGroup, ProcGroup, ObjGroup, ObjType, Perm string) (err er
 	return nil
 }
 
-func DBHighPermSearch(UserGroup string, Start, Length int) (PermItems []PermItem, err error) {
-	db := GHandleDBRule
+func DBHighPermSearch(db *sql.DB, UserGroup string, Start, Length int) (PermItems []PermItem, err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {

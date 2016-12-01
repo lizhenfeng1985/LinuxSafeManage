@@ -145,7 +145,7 @@ func HighObjProcGroupAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		err := DBHighObjProcGroupAdd(req.Group)
+		err := DBHighObjProcGroupAdd(GHandleDBRuleUser, req.Group)
 		if err != nil {
 			w.Write(HighObjProcErrResponse(&res, -1, err.Error()))
 			return
@@ -197,7 +197,7 @@ func HighObjProcGroupDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		err := DBHighObjProcGroupDel(req.Group)
+		err := DBHighObjProcGroupDel(GHandleDBRuleUser, req.Group)
 		if err != nil {
 			w.Write(HighObjProcErrResponse(&res, -1, err.Error()))
 			return
@@ -248,7 +248,7 @@ func HighObjProcGroupSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		res.Groups, err = DBHighObjProcGroupSearch()
+		res.Groups, err = DBHighObjProcGroupSearch(GHandleDBRuleUser)
 		if err != nil {
 			w.Write(HighObjProcGroupSearchErrResponse(&res, -1, err.Error()))
 			return
@@ -354,7 +354,7 @@ func HighObjProcAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		err := DBHighObjProcAdd(req.Group, req.ObjProc)
+		err := DBHighObjProcAdd(GHandleDBRuleUser, req.Group, req.ObjProc)
 		if err != nil {
 			w.Write(HighObjProcErrResponse(&res, -1, err.Error()))
 			return
@@ -406,7 +406,7 @@ func HighObjProcDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		err := DBHighObjProcDel(req.ObjProc)
+		err := DBHighObjProcDel(GHandleDBRuleUser, req.ObjProc)
 		if err != nil {
 			w.Write(HighObjProcErrResponse(&res, -1, err.Error()))
 			return
@@ -458,7 +458,7 @@ func HighObjProcSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		res.ObjProcs, res.Total, err = DBHighObjProcSearch(req.Group, req.Start, req.Length)
+		res.ObjProcs, res.Total, err = DBHighObjProcSearch(GHandleDBRuleUser, req.Group, req.Start, req.Length)
 		if err != nil {
 			w.Write(HighObjProcSearchErrResponse(&res, -1, err.Error()))
 			return

@@ -1,13 +1,14 @@
 package main
 
 import (
+	"database/sql"
 	"errors"
 	"fmt"
 	"log"
 )
 
-func DBHighObjFileGroupAdd(group string) (err error) {
-	db := GHandleDBRule
+func DBHighObjFileGroupAdd(db *sql.DB, group string) (err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -35,8 +36,8 @@ func DBHighObjFileGroupAdd(group string) (err error) {
 	return nil
 }
 
-func DBHighObjFileGroupDel(group string) (err error) {
-	db := GHandleDBRule
+func DBHighObjFileGroupDel(db *sql.DB, group string) (err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -99,8 +100,8 @@ func DBHighObjFileGroupDel(group string) (err error) {
 	return nil
 }
 
-func DBHighObjFileGroupSearch() (groups []string, err error) {
-	db := GHandleDBRule
+func DBHighObjFileGroupSearch(db *sql.DB) (groups []string, err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -147,8 +148,8 @@ func DBHighObjFileList() (obj_files map[string]int, err error) {
 }
 
 // 添加客体文件
-func DBHighObjFileAdd(group, obj_file string) (err error) {
-	db := GHandleDBRule
+func DBHighObjFileAdd(db *sql.DB, group, obj_file string) (err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -220,8 +221,8 @@ func DBHighObjFileAdd(group, obj_file string) (err error) {
 }
 
 // 删除客体文件
-func DBHighObjFileDel(obj_file string) (err error) {
-	db := GHandleDBRule
+func DBHighObjFileDel(db *sql.DB, obj_file string) (err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -269,8 +270,8 @@ func DBHighObjFileDel(obj_file string) (err error) {
 }
 
 // 查找客体文件
-func DBHighObjFileSearch(group string, start, length int) (obj_files []string, total int, err error) {
-	db := GHandleDBRule
+func DBHighObjFileSearch(db *sql.DB, group string, start, length int) (obj_files []string, total int, err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {

@@ -1,13 +1,14 @@
 package main
 
 import (
+	"database/sql"
 	"errors"
 	"fmt"
 	"log"
 )
 
-func DBHighUserGroupAdd(group string) (err error) {
-	db := GHandleDBRule
+func DBHighUserGroupAdd(db *sql.DB, group string) (err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -35,8 +36,8 @@ func DBHighUserGroupAdd(group string) (err error) {
 	return nil
 }
 
-func DBHighUserGroupDel(group string) (err error) {
-	db := GHandleDBRule
+func DBHighUserGroupDel(db *sql.DB, group string) (err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -48,7 +49,7 @@ func DBHighUserGroupDel(group string) (err error) {
 	sqlstr := fmt.Sprintf("SELECT gtype FROM user_group WHERE groupname = '%s';", group)
 	rows, err := db.Query(sqlstr)
 	if err != nil {
-		log.Printf("DBHighUserGroupSearch(): %s, %s", err, sqlstr)
+		log.Printf("DBHighUserGroupDel(): %s, %s", err, sqlstr)
 		return errors.New("错误:查询用户组失败")
 	}
 	defer rows.Close()
@@ -66,7 +67,7 @@ func DBHighUserGroupDel(group string) (err error) {
 	sqlstr = fmt.Sprintf("SELECT count(*) FROM user u JOIN user_group g ON u.gid = g.id WHERE g.groupname = '%s';", group)
 	rows, err = db.Query(sqlstr)
 	if err != nil {
-		log.Printf("DBHighUserGroupSearch(): %s, %s", err, sqlstr)
+		log.Printf("DBHighUserGroupDel(): %s, %s", err, sqlstr)
 		return errors.New("错误:查询用户组失败")
 	}
 	defer rows.Close()
@@ -99,8 +100,8 @@ func DBHighUserGroupDel(group string) (err error) {
 	return nil
 }
 
-func DBHighUserGroupSearch() (groups []string, err error) {
-	db := GHandleDBRule
+func DBHighUserGroupSearch(db *sql.DB) (groups []string, err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -144,8 +145,8 @@ func DBHighUserList() (users []string, err error) {
 }
 
 // 添加用户
-func DBHighUserAdd(group, user string) (err error) {
-	db := GHandleDBRule
+func DBHighUserAdd(db *sql.DB, group, user string) (err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -217,8 +218,8 @@ func DBHighUserAdd(group, user string) (err error) {
 }
 
 // 删除用户
-func DBHighUserDel(user string) (err error) {
-	db := GHandleDBRule
+func DBHighUserDel(db *sql.DB, user string) (err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -266,8 +267,8 @@ func DBHighUserDel(user string) (err error) {
 }
 
 // 查找用户
-func DBHighUserSearch(group string, start, length int) (users []string, total int, err error) {
-	db := GHandleDBRule
+func DBHighUserSearch(db *sql.DB, group string, start, length int) (users []string, total int, err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {

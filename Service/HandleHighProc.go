@@ -145,7 +145,7 @@ func HighProcGroupAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		err := DBHighProcGroupAdd(req.Group)
+		err := DBHighProcGroupAdd(GHandleDBRuleUser, req.Group)
 		if err != nil {
 			w.Write(HighProcErrResponse(&res, -1, err.Error()))
 			return
@@ -197,7 +197,7 @@ func HighProcGroupDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		err := DBHighProcGroupDel(req.Group)
+		err := DBHighProcGroupDel(GHandleDBRuleUser, req.Group)
 		if err != nil {
 			w.Write(HighProcErrResponse(&res, -1, err.Error()))
 			return
@@ -248,7 +248,7 @@ func HighProcGroupSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		res.Groups, err = DBHighProcGroupSearch()
+		res.Groups, err = DBHighProcGroupSearch(GHandleDBRuleUser)
 		if err != nil {
 			w.Write(HighProcGroupSearchErrResponse(&res, -1, err.Error()))
 			return
@@ -354,7 +354,7 @@ func HighProcAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		err := DBHighProcAdd(req.Group, req.Proc)
+		err := DBHighProcAdd(GHandleDBRuleUser, req.Group, req.Proc)
 		if err != nil {
 			w.Write(HighProcErrResponse(&res, -1, err.Error()))
 			return
@@ -406,7 +406,7 @@ func HighProcDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		err := DBHighProcDel(req.Proc)
+		err := DBHighProcDel(GHandleDBRuleUser, req.Proc)
 		if err != nil {
 			w.Write(HighProcErrResponse(&res, -1, err.Error()))
 			return
@@ -458,7 +458,7 @@ func HighProcSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		res.Procs, res.Total, err = DBHighProcSearch(req.Group, req.Start, req.Length)
+		res.Procs, res.Total, err = DBHighProcSearch(GHandleDBRuleUser, req.Group, req.Start, req.Length)
 		if err != nil {
 			w.Write(HighProcSearchErrResponse(&res, -1, err.Error()))
 			return

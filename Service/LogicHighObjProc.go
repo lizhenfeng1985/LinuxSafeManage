@@ -1,13 +1,14 @@
 package main
 
 import (
+	"database/sql"
 	"errors"
 	"fmt"
 	"log"
 )
 
-func DBHighObjProcGroupAdd(group string) (err error) {
-	db := GHandleDBRule
+func DBHighObjProcGroupAdd(db *sql.DB, group string) (err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -35,8 +36,8 @@ func DBHighObjProcGroupAdd(group string) (err error) {
 	return nil
 }
 
-func DBHighObjProcGroupDel(group string) (err error) {
-	db := GHandleDBRule
+func DBHighObjProcGroupDel(db *sql.DB, group string) (err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -48,7 +49,7 @@ func DBHighObjProcGroupDel(group string) (err error) {
 	sqlstr := fmt.Sprintf("SELECT gtype FROM obj_proc_group WHERE groupname = '%s';", group)
 	rows, err := db.Query(sqlstr)
 	if err != nil {
-		log.Printf("DBHighObjProcGroupSearch(): %s, %s", err, sqlstr)
+		log.Printf("DBHighObjProcGroupDel(): %s, %s", err, sqlstr)
 		return errors.New("错误:查询客体程序组失败")
 	}
 	defer rows.Close()
@@ -66,7 +67,7 @@ func DBHighObjProcGroupDel(group string) (err error) {
 	sqlstr = fmt.Sprintf("SELECT count(*) FROM obj_proc u JOIN obj_proc_group g ON u.gid = g.id WHERE g.groupname = '%s';", group)
 	rows, err = db.Query(sqlstr)
 	if err != nil {
-		log.Printf("DBHighObjProcGroupSearch(): %s, %s", err, sqlstr)
+		log.Printf("DBHighObjProcGroupDel(): %s, %s", err, sqlstr)
 		return errors.New("错误:查询客体程序组失败")
 	}
 	defer rows.Close()
@@ -99,8 +100,8 @@ func DBHighObjProcGroupDel(group string) (err error) {
 	return nil
 }
 
-func DBHighObjProcGroupSearch() (groups []string, err error) {
-	db := GHandleDBRule
+func DBHighObjProcGroupSearch(db *sql.DB) (groups []string, err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -144,8 +145,8 @@ func DBHighObjProcList() (obj_procs []string, err error) {
 }
 
 // 添加客体程序
-func DBHighObjProcAdd(group, obj_proc string) (err error) {
-	db := GHandleDBRule
+func DBHighObjProcAdd(db *sql.DB, group, obj_proc string) (err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -217,8 +218,8 @@ func DBHighObjProcAdd(group, obj_proc string) (err error) {
 }
 
 // 删除客体程序
-func DBHighObjProcDel(obj_proc string) (err error) {
-	db := GHandleDBRule
+func DBHighObjProcDel(db *sql.DB, obj_proc string) (err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -266,8 +267,8 @@ func DBHighObjProcDel(obj_proc string) (err error) {
 }
 
 // 查找客体程序
-func DBHighObjProcSearch(group string, start, length int) (obj_procs []string, total int, err error) {
-	db := GHandleDBRule
+func DBHighObjProcSearch(db *sql.DB, group string, start, length int) (obj_procs []string, total int, err error) {
+	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {

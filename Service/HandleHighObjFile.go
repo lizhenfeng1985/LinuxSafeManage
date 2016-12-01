@@ -146,7 +146,7 @@ func HighObjFileGroupAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		err := DBHighObjFileGroupAdd(req.Group)
+		err := DBHighObjFileGroupAdd(GHandleDBRuleUser, req.Group)
 		if err != nil {
 			w.Write(HighObjFileErrResponse(&res, -1, err.Error()))
 			return
@@ -198,7 +198,7 @@ func HighObjFileGroupDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		err := DBHighObjFileGroupDel(req.Group)
+		err := DBHighObjFileGroupDel(GHandleDBRuleUser, req.Group)
 		if err != nil {
 			w.Write(HighObjFileErrResponse(&res, -1, err.Error()))
 			return
@@ -249,7 +249,7 @@ func HighObjFileGroupSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		res.Groups, err = DBHighObjFileGroupSearch()
+		res.Groups, err = DBHighObjFileGroupSearch(GHandleDBRuleUser)
 		if err != nil {
 			w.Write(HighObjFileGroupSearchErrResponse(&res, -1, err.Error()))
 			return
@@ -355,7 +355,7 @@ func HighObjFileAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		err := DBHighObjFileAdd(req.Group, req.ObjFile)
+		err := DBHighObjFileAdd(GHandleDBRuleUser, req.Group, req.ObjFile)
 		if err != nil {
 			w.Write(HighObjFileErrResponse(&res, -1, err.Error()))
 			return
@@ -407,7 +407,7 @@ func HighObjFileDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		err := DBHighObjFileDel(req.ObjFile)
+		err := DBHighObjFileDel(GHandleDBRuleUser, req.ObjFile)
 		if err != nil {
 			w.Write(HighObjFileErrResponse(&res, -1, err.Error()))
 			return
@@ -459,7 +459,7 @@ func HighObjFileSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		res.ObjFiles, res.Total, err = DBHighObjFileSearch(req.Group, req.Start, req.Length)
+		res.ObjFiles, res.Total, err = DBHighObjFileSearch(GHandleDBRuleUser, req.Group, req.Start, req.Length)
 		if err != nil {
 			w.Write(HighObjFileSearchErrResponse(&res, -1, err.Error()))
 			return

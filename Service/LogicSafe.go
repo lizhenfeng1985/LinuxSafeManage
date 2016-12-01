@@ -7,7 +7,7 @@ import (
 )
 
 func DBSafeConfigGet() (mode, fileetc, filelib, filebin, fileboot, netftp, nettelnet, netmail, netweb int, err error) {
-	db := GHandleDBRule
+	db := GHandleDBRuleCfg
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -42,7 +42,7 @@ func DBSafeConfigGet() (mode, fileetc, filelib, filebin, fileboot, netftp, nette
 }
 
 func DBSafeConfigSet(mode, fileetc, filelib, filebin, fileboot, netftp, nettelnet, netmail, netweb int) (err error) {
-	db := GHandleDBRule
+	db := GHandleDBRuleCfg
 
 	tx, err := db.Begin()
 	if err != nil {
