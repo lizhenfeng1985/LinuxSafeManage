@@ -214,6 +214,12 @@ func DBHighObjProcAdd(db *sql.DB, group, obj_proc string) (err error) {
 		tx.Rollback()
 		return err
 	}
+
+	// 更新内存
+	LockGMemRuleUserHandle.Lock()
+	GMemRuleUserHandle.RObjProc[obj_proc] = group
+	LockGMemRuleUserHandle.Unlock()
+
 	return nil
 }
 
@@ -263,6 +269,12 @@ func DBHighObjProcDel(db *sql.DB, obj_proc string) (err error) {
 		tx.Rollback()
 		return err
 	}
+
+	// 更新内存
+	LockGMemRuleUserHandle.Lock()
+	delete(GMemRuleUserHandle.RObjProc, obj_proc)
+	LockGMemRuleUserHandle.Unlock()
+
 	return nil
 }
 

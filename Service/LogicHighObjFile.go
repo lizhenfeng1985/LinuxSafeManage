@@ -217,6 +217,11 @@ func DBHighObjFileAdd(db *sql.DB, group, obj_file string) (err error) {
 		tx.Rollback()
 		return err
 	}
+
+	// 更新内存
+	LockGMemRuleUserHandle.Lock()
+	GMemRuleUserHandle.RObjFile[obj_file] = group
+	LockGMemRuleUserHandle.Unlock()
 	return nil
 }
 
@@ -266,6 +271,11 @@ func DBHighObjFileDel(db *sql.DB, obj_file string) (err error) {
 		tx.Rollback()
 		return err
 	}
+
+	// 更新内存
+	LockGMemRuleUserHandle.Lock()
+	delete(GMemRuleUserHandle.RObjFile, obj_file)
+	LockGMemRuleUserHandle.Unlock()
 	return nil
 }
 

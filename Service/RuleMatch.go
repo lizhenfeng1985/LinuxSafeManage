@@ -347,6 +347,7 @@ func RuleMatchNewMessage(c *TCPClient, message []byte, tid int) {
 		}
 	}
 
+	fmt.Println(perm)
 	binary.Write(sendbuf, binary.LittleEndian, perm)
 	c.SendBytes(sendbuf.Bytes())
 }

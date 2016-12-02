@@ -33,6 +33,7 @@ func DBHighUserGroupAdd(db *sql.DB, group string) (err error) {
 		tx.Rollback()
 		return err
 	}
+
 	return nil
 }
 
@@ -214,6 +215,12 @@ func DBHighUserAdd(db *sql.DB, group, user string) (err error) {
 		tx.Rollback()
 		return err
 	}
+
+	// 更新内存
+	LockGMemRuleUserHandle.Lock()
+	GMemRuleUserHandle.RUser[user] = group
+	LockGMemRuleUserHandle.Unlock()
+
 	return nil
 }
 
@@ -263,6 +270,12 @@ func DBHighUserDel(db *sql.DB, user string) (err error) {
 		tx.Rollback()
 		return err
 	}
+
+	// 更新内存
+	LockGMemRuleUserHandle.Lock()
+	delete(GMemRuleUserHandle.RUser, user)
+	LockGMemRuleUserHandle.Unlock()
+
 	return nil
 }
 

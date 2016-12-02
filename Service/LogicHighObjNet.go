@@ -206,6 +206,11 @@ func DBHighObjNetAdd(db *sql.DB, group, obj_net string) (err error) {
 		tx.Rollback()
 		return err
 	}
+
+	// 更新内存
+	LockGMemRuleUserHandle.Lock()
+	GMemRuleUserHandle.RObjNet[obj_net] = group
+	LockGMemRuleUserHandle.Unlock()
 	return nil
 }
 
@@ -255,6 +260,10 @@ func DBHighObjNetDel(db *sql.DB, obj_net string) (err error) {
 		tx.Rollback()
 		return err
 	}
+	// 更新内存
+	LockGMemRuleUserHandle.Lock()
+	delete(GMemRuleUserHandle.RObjNet, obj_net)
+	LockGMemRuleUserHandle.Unlock()
 	return nil
 }
 

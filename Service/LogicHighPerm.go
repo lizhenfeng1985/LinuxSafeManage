@@ -145,7 +145,7 @@ func DBHighPermAdd(db *sql.DB, UserGroup, ProcGroup, ObjGroup, ObjType, Perm str
 		return err
 	}
 
-	sqlstr := fmt.Sprintf("INSERT INTO perms (id, user, proc, obj, objtype, perm) VALUES (null, '%s', '%s', '%s', '%s', '%s', );", UserGroup, ProcGroup, ObjGroup, ObjType, Perm)
+	sqlstr := fmt.Sprintf("INSERT INTO perms (id, user, proc, obj, objtype, perm) VALUES (null, '%s', '%s', '%s', '%s', '%s');", UserGroup, ProcGroup, ObjGroup, ObjType, Perm)
 	_, err = tx.Exec(sqlstr)
 	if err != nil {
 		log.Printf("DBHighPermAdd:tx.Exec((): %s, %s\n", err, sqlstr)
@@ -161,6 +161,12 @@ func DBHighPermAdd(db *sql.DB, UserGroup, ProcGroup, ObjGroup, ObjType, Perm str
 		tx.Rollback()
 		return err
 	}
+
+	// 更新内存
+	perm_str := ObjType + "_" + UserGroup + "_" + ProcGroup + "_" + ObjGroup + "_" + Perm
+	LockGMemRuleUserHandle.Lock()
+	GMemRuleUserHandle.RPerm[perm_str] = 0
+	LockGMemRuleUserHandle.Unlock()
 	return nil
 }
 
@@ -209,6 +215,12 @@ func DBHighPermDel(db *sql.DB, UserGroup, ProcGroup, ObjGroup, ObjType, Perm str
 		tx.Rollback()
 		return err
 	}
+
+	// 更新内存
+	perm_str := ObjType + "_" + UserGroup + "_" + ProcGroup + "_" + ObjGroup + "_" + Perm
+	LockGMemRuleUserHandle.Lock()
+	delete(GMemRuleUserHandle.RPerm, perm_str)
+	LockGMemRuleUserHandle.Unlock()
 	return nil
 }
 
