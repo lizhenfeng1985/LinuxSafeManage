@@ -35,4 +35,9 @@ var (
 
 	GMemRuleSuperHandle     map[string]int // 超级进程策略内存句柄
 	LockGMemRuleSuperHandle sync.Mutex     // 超级进程策略内存句柄锁
+
+	GRuleMatchTCPMsgRecvSize int    = 808     // TCP每个消息请求的大小
+	GRuleMatchTCPMsgSendSize int    = 4       // TCP每个消息返回的大小
+	GRuleMatchTCPAddr        string = ":9002" // 接收内核消息的TCL服务地址
+	GHttpWebAddr             string = ":9001" // 接收界面消息的HTTP服务地址
 )
