@@ -619,6 +619,216 @@ func DBInitRulePolicy(db *sql.DB) (errcnt int) {
 	return errcnt
 }
 
+func DBInitRuleStatusSelf(db *sql.DB) (err error) {
+	// Create Table self_status
+	sql := `create table if not exists status_self (
+			id integer not null primary key, 
+			proc int default 0,
+			net int default 0,
+			file int default 0
+		);`
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Printf("DBInitRuleStatusSelf:DB.Begin(): %s\n", err)
+		return err
+	}
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitRuleStatusSelf:tx.Exec((): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	sql = `insert into status_self (id, proc, net, file) values 
+		(1, 0, 0, 0);`
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitRuleStatusSelf:tx.Exec((): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	// 事务提交
+	err = tx.Commit()
+	if err != nil {
+		log.Printf("DBInitRuleStatusSelf:tx.Commit: %s\n", err)
+		tx.Rollback()
+		return err
+	}
+	return nil
+}
+
+func DBInitRuleStatusUser(db *sql.DB) (err error) {
+	// Create Table self_status
+	sql := `create table if not exists status_user (
+			id integer not null primary key, 
+			proc int default 0,
+			net int default 0,
+			file int default 0
+		);`
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Printf("DBInitRuleStatusUser:DB.Begin(): %s\n", err)
+		return err
+	}
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitRuleStatusUser:tx.Exec((): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	sql = `insert into status_user (id, proc, net, file) values 
+		(1, 0, 0, 0);`
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitRuleStatusUser:tx.Exec((): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	// 事务提交
+	err = tx.Commit()
+	if err != nil {
+		log.Printf("DBInitRuleStatusUser:tx.Commit: %s\n", err)
+		tx.Rollback()
+		return err
+	}
+	return nil
+}
+
+func DBInitRuleStatusSafe(db *sql.DB) (err error) {
+	// Create Table status_safe
+	sql := `create table if not exists status_safe (
+			id integer not null primary key, 
+			proc int default 0,
+			net int default 0,
+			file int default 0
+		);`
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Printf("DBInitRuleStatusSafe:DB.Begin(): %s\n", err)
+		return err
+	}
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitRuleStatusSafe:tx.Exec((): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	sql = `insert into status_safe (id, proc, net, file) values 
+		(1, 0, 0, 0);`
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitRuleStatusSafe:tx.Exec((): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	// 事务提交
+	err = tx.Commit()
+	if err != nil {
+		log.Printf("DBInitRuleStatusSafe:tx.Commit: %s\n", err)
+		tx.Rollback()
+		return err
+	}
+	return nil
+}
+
+func DBInitLogSystem(db *sql.DB) (err error) {
+	// login_name : 登录名称
+	// op         : 执行的操作（只记录修改）
+	// result     : 执行结果（成功|失败）
+	// info       : 执行的具体内容
+	// logtime    : 时间
+	sql := `create table if not exists log_sys (
+			id integer not null primary key, 
+			login_name  varchar(128) not null,
+			op          varchar(128) not null,
+			result      varchar(12) not null,
+			info        varchar(256) not null,
+			logtime     datetime
+		);`
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Printf("DBInitLogSystem:DB.Begin(): %s\n", err)
+		return err
+	}
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitLogSystem:tx.Exec((): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	// 事务提交
+	err = tx.Commit()
+	if err != nil {
+		log.Printf("DBInitLogSystem:tx.Commit: %s\n", err)
+		tx.Rollback()
+		return err
+	}
+	return nil
+}
+
+func DBInitLogEvent(db *sql.DB) (err error) {
+	//  module : 模块（自保护、基础安全、特殊资源、用户策略）
+	//	status : 模块状态（开启、关闭）
+	//	etype  : 事件类型（进程、文件、网络）
+	//	eop    : 具体操作（文件读取、进程执行...）
+	//	uname  : 用户
+	//	proc   : 进程
+	//	obj    : 操作对象
+	//	result : 操作结果（拦截、允许） - 这里只记录拦截的
+	//	logtime: 时间
+	sql := `create table if not exists log_event (
+			id integer not null primary key, 
+			module      varchar(64) not null,
+			status      varchar(12) not null,
+			etype       varchar(12) not null,
+			eop         varchar(32) not null,
+			uname       varchar(128) not null,
+			proc        varchar(256) not null,
+			obj         varchar(512) not null,
+			result      varchar(12) not null,
+			logtime     datetime
+		);`
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Printf("DBInitLogEvent:DB.Begin(): %s\n", err)
+		return err
+	}
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitLogEvent:tx.Exec((): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	// 事务提交
+	err = tx.Commit()
+	if err != nil {
+		log.Printf("DBInitLogEvent:tx.Commit: %s\n", err)
+		tx.Rollback()
+		return err
+	}
+	return nil
+}
+
 func FirstCreateDB() (err error) {
 	var errcnt int = 0
 
@@ -656,6 +866,24 @@ func FirstCreateDB() (err error) {
 	if err != nil {
 		errcnt += 1
 	}
+
+	// 初始化配置 - 自保护状态
+	err = DBInitRuleStatusSelf(db)
+	if err != nil {
+		errcnt += 1
+	}
+
+	// 初始化配置 - 基础安全保护状态
+	err = DBInitRuleStatusSafe(db)
+	if err != nil {
+		errcnt += 1
+	}
+
+	// 初始化配置 - 用户保护状态
+	err = DBInitRuleStatusUser(db)
+	if err != nil {
+		errcnt += 1
+	}
 	CloseSqlite(db)
 
 	// 初始化自保护规则
@@ -663,7 +891,14 @@ func FirstCreateDB() (err error) {
 	if err != nil {
 		return err
 	}
+	errcnt += DBInitRulePolicy(db)
+	CloseSqlite(db)
 
+	// 初始化基础安全保护规则
+	db, err = ConnectSqlite(DBFileRuleSafe)
+	if err != nil {
+		return err
+	}
 	errcnt += DBInitRulePolicy(db)
 	CloseSqlite(db)
 
@@ -672,8 +907,24 @@ func FirstCreateDB() (err error) {
 	if err != nil {
 		return err
 	}
-
 	errcnt += DBInitRulePolicy(db)
+	CloseSqlite(db)
+
+	// 初始化系统日志
+	db, err = ConnectSqlite(DBFileLog)
+	if err != nil {
+		return err
+	}
+	err = DBInitLogSystem(db)
+	if err != nil {
+		errcnt += 1
+	}
+
+	// 初始化事件日志
+	err = DBInitLogEvent(db)
+	if err != nil {
+		errcnt += 1
+	}
 	CloseSqlite(db)
 
 	if errcnt > 0 {

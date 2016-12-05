@@ -69,3 +69,31 @@ func DBSuperProcSet(proc string) (err error) {
 	//log.Println("DBSuperProcSet:", proc)
 	return nil
 }
+
+func DBSuperProcDel(proc string) (err error) {
+	db := GHandleDBRuleCfg
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Printf("DBSuperProcDel: %s\n", err)
+		return err
+	}
+
+	sqlstr := fmt.Sprintf("delete from super_process where procname = '%s';", proc)
+	_, err = tx.Exec(sqlstr)
+	if err != nil {
+		log.Printf("DBSuperProcDel:tx.Exec(): %s, %s\n", err, sqlstr)
+		tx.Rollback()
+		return err
+	}
+
+	// 事务提交
+	err = tx.Commit()
+	if err != nil {
+		log.Printf("DBSuperProcDel:tx.Commit: %s\n", err)
+		tx.Rollback()
+		return err
+	}
+	//log.Println("DBSuperProcDel:", proc)
+	return nil
+}

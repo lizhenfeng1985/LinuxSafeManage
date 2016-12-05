@@ -67,5 +67,13 @@ func DBSafeConfigSet(mode, fileetc, filelib, filebin, fileboot, netftp, nettelne
 		return err
 	}
 	//log.Println("DB_SET:", mode, settime, shutdown, usb, cdrom)
+
+	// 更新内存
+	LockGMemRuleSafeHandle.Lock()
+	GMemRuleSafeHandle.StatusFile = mode
+	GMemRuleSafeHandle.StatusNet = mode
+	GMemRuleSafeHandle.StatusProc = mode
+	// 根据每项的结果，添加不同的策略
+	LockGMemRuleSafeHandle.Unlock()
 	return nil
 }

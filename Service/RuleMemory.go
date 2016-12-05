@@ -10,12 +10,23 @@ type RuleObjFile map[string]string // 客体文件 - 组名
 type RulePerm map[string]int       // string(类型+用户组+主体组+客体组+权限) - 0
 
 type RuleMemHandle struct {
-	RUser    RuleUser
-	RProc    RuleProc
-	RObjProc RuleObjProc
-	RObjNet  RuleObjNet
-	RObjFile RuleObjFile
-	RPerm    RulePerm
+	RUser      RuleUser
+	RProc      RuleProc
+	RObjProc   RuleObjProc
+	RObjNet    RuleObjNet
+	RObjFile   RuleObjFile
+	RPerm      RulePerm
+	StatusProc int
+	StatusFile int
+	StatusNet  int
+}
+
+type RuleSpecialMemHandle struct {
+	StatusMode     int
+	StatusSetTime  int
+	StatusShutDown int
+	StatusUsb      int
+	StatusCdrom    int
 }
 
 func MemRuleInitRuleSuper() (err error) {
@@ -151,12 +162,33 @@ func MemRuleInit() (err error) {
 	if err != nil {
 		return err
 	}
-	LockGMemRuleSelfrHandle.Lock()
+	rh.StatusProc, rh.StatusFile, rh.StatusNet, err = DBRuleStatSelfGet()
+	if err != nil {
+		return err
+	}
+	LockGMemRuleSelfHandle.Lock()
 	GMemRuleSelfHandle = rh
-	LockGMemRuleSelfrHandle.Unlock()
+	LockGMemRuleSelfHandle.Unlock()
+
+	// 初始化 - 基础安全策略
+	rh, err = MemRuleInitRule(GHandleDBRuleSafe)
+	if err != nil {
+		return err
+	}
+	rh.StatusProc, rh.StatusFile, rh.StatusNet, err = DBRuleStatSafeGet()
+	if err != nil {
+		return err
+	}
+	LockGMemRuleSafeHandle.Lock()
+	GMemRuleSafeHandle = rh
+	LockGMemRuleSafeHandle.Unlock()
 
 	// 初始化 - 用户策略
 	rh, err = MemRuleInitRule(GHandleDBRuleUser)
+	if err != nil {
+		return err
+	}
+	rh.StatusProc, rh.StatusFile, rh.StatusNet, err = DBRuleStatUserGet()
 	if err != nil {
 		return err
 	}
@@ -164,5 +196,17 @@ func MemRuleInit() (err error) {
 	GMemRuleUserHandle = rh
 	LockGMemRuleUserHandle.Unlock()
 
+	// 初始化 - 特殊资源策略
+	mode, settime, shutdown, usb, cdrom, err := DBSpecialConfigGet()
+	if err != nil {
+		return err
+	}
+	LockGMemRuleSpecialHandle.Lock()
+	GMemRuleSpecialHandle.StatusMode = mode
+	GMemRuleSpecialHandle.StatusSetTime = settime
+	GMemRuleSpecialHandle.StatusShutDown = shutdown
+	GMemRuleSpecialHandle.StatusUsb = usb
+	GMemRuleSpecialHandle.StatusCdrom = cdrom
+	LockGMemRuleSpecialHandle.Unlock()
 	return nil
 }

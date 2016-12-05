@@ -13,7 +13,7 @@ func checkFileIsExist(filename string) bool {
 	return exist
 }
 
-func LogInit(log_file string) (hlog *log.Logger, err error) {
+func LogFileInit(log_file string) (hlog *log.Logger, err error) {
 	if _, err := os.Stat(log_file); os.IsNotExist(err) {
 		// 不存在
 		fp, err := os.Create(log_file)

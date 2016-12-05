@@ -72,9 +72,20 @@ func MatchProc(user, proc, obj_proc, op string) (perm bool, err error) {
 	}
 
 	// 自保护策略
-	LockGMemRuleSelfrHandle.Lock()
-	perm, err = MatchProcPolicy(&GMemRuleSelfHandle, user, proc, obj_proc, op, "自保护")
-	LockGMemRuleSelfrHandle.Unlock()
+	LockGMemRuleSelfHandle.Lock()
+	perm, err = MatchProcPolicy(&GMemRuleSelfHandle, user, proc, obj_proc, op, "自我保护")
+	LockGMemRuleSelfHandle.Unlock()
+	if err != nil {
+		return perm, err
+	}
+	if perm == false {
+		return perm, nil
+	}
+
+	// 基础安全保护策略
+	LockGMemRuleSafeHandle.Lock()
+	perm, err = MatchProcPolicy(&GMemRuleSafeHandle, user, proc, obj_proc, op, "基础安全")
+	LockGMemRuleSafeHandle.Unlock()
 	if err != nil {
 		return perm, err
 	}
@@ -139,9 +150,20 @@ func MatchNet(user, proc, obj_net, op string) (perm bool, err error) {
 	}
 
 	// 自保护策略
-	LockGMemRuleSelfrHandle.Lock()
+	LockGMemRuleSelfHandle.Lock()
 	perm, err = MatchNetPolicy(&GMemRuleSelfHandle, user, proc, obj_net, op, "自保护")
-	LockGMemRuleSelfrHandle.Unlock()
+	LockGMemRuleSelfHandle.Unlock()
+	if err != nil {
+		return perm, err
+	}
+	if perm == false {
+		return perm, nil
+	}
+
+	// 基础安全保护策略
+	LockGMemRuleSafeHandle.Lock()
+	perm, err = MatchNetPolicy(&GMemRuleSafeHandle, user, proc, obj_net, op, "基础安全")
+	LockGMemRuleSafeHandle.Unlock()
 	if err != nil {
 		return perm, err
 	}
@@ -198,7 +220,6 @@ func MatchFileSplitPath(obj_file string) (fs []string) {
 }
 
 func MatchFilePolicy(handle *RuleMemHandle, user, proc, op, rule_type string, obj_files []string) (perm bool, err error) {
-
 	user_group, ok := handle.RUser[user]
 	if ok == false {
 		user_group = "所有用户" // 客体有组，用户无组 : 尝试默认组
@@ -246,9 +267,20 @@ func MatchFile(user, proc, obj_file, op string) (perm bool, err error) {
 	obj_fs := MatchFileSplitPath(obj_file)
 
 	// 自保护策略
-	LockGMemRuleSelfrHandle.Lock()
+	LockGMemRuleSelfHandle.Lock()
 	perm, err = MatchFilePolicy(&GMemRuleSelfHandle, user, proc, op, "自保护", obj_fs)
-	LockGMemRuleSelfrHandle.Unlock()
+	LockGMemRuleSelfHandle.Unlock()
+	if err != nil {
+		return perm, err
+	}
+	if perm == false {
+		return perm, nil
+	}
+
+	// 基础安全保护策略
+	LockGMemRuleSafeHandle.Lock()
+	perm, err = MatchFilePolicy(&GMemRuleSafeHandle, user, proc, op, "基础安全", obj_fs)
+	LockGMemRuleSafeHandle.Unlock()
 	if err != nil {
 		return perm, err
 	}
@@ -261,6 +293,94 @@ func MatchFile(user, proc, obj_file, op string) (perm bool, err error) {
 	perm, err = MatchFilePolicy(&GMemRuleUserHandle, user, proc, op, "用户策略", obj_fs)
 	LockGMemRuleUserHandle.Unlock()
 
+	return perm, nil
+}
+
+// 匹配 设置时间
+func MatchSetTime(user, proc, obj_src, obj_dst, op string) (perm bool, err error) {
+	// 超级进程
+	LockGMemRuleSuperHandle.Lock()
+	_, ok := GMemRuleSuperHandle[proc]
+	if ok {
+		return true, nil
+	}
+	LockGMemRuleSuperHandle.Unlock()
+
+	LockGMemRuleSpecialHandle.Lock()
+	if GMemRuleSpecialHandle.StatusSetTime == 0 {
+		perm = true
+	} else {
+		perm = false
+	}
+	LockGMemRuleSpecialHandle.Unlock()
+
+	// add log
+	return perm, nil
+}
+
+// 匹配 关机
+func MatchShutDown(user, proc, obj_src, op string) (perm bool, err error) {
+	// 超级进程
+	LockGMemRuleSuperHandle.Lock()
+	_, ok := GMemRuleSuperHandle[proc]
+	if ok {
+		return true, nil
+	}
+	LockGMemRuleSuperHandle.Unlock()
+
+	LockGMemRuleSpecialHandle.Lock()
+	if GMemRuleSpecialHandle.StatusShutDown == 0 {
+		perm = true
+	} else {
+		perm = false
+	}
+	LockGMemRuleSpecialHandle.Unlock()
+
+	// add log
+	return perm, nil
+}
+
+// 匹配 USB
+func MatchUSB(user, proc, obj_src, op string) (perm bool, err error) {
+	// 超级进程
+	LockGMemRuleSuperHandle.Lock()
+	_, ok := GMemRuleSuperHandle[proc]
+	if ok {
+		return true, nil
+	}
+	LockGMemRuleSuperHandle.Unlock()
+
+	LockGMemRuleSpecialHandle.Lock()
+	if GMemRuleSpecialHandle.StatusUsb == 0 {
+		perm = true
+	} else {
+		perm = false
+	}
+	LockGMemRuleSpecialHandle.Unlock()
+
+	// add log
+	return perm, nil
+}
+
+// 匹配 CDROM
+func MatchCdRom(user, proc, obj_src, op string) (perm bool, err error) {
+	// 超级进程
+	LockGMemRuleSuperHandle.Lock()
+	_, ok := GMemRuleSuperHandle[proc]
+	if ok {
+		return true, nil
+	}
+	LockGMemRuleSuperHandle.Unlock()
+
+	LockGMemRuleSpecialHandle.Lock()
+	if GMemRuleSpecialHandle.StatusCdrom == 0 {
+		perm = true
+	} else {
+		perm = false
+	}
+	LockGMemRuleSpecialHandle.Unlock()
+
+	// add log
 	return perm, nil
 }
 
@@ -303,6 +423,7 @@ func MatchAll(hook *GoHookInfo) (perm bool, err error) {
 		perm, err = MatchProc(UserName, SubPath, ObjSrcPath, "进程执行")
 	case 51:
 		fmt.Println("时间_设置：", hook.OpType)
+		perm, err = MatchSetTime(UserName, SubPath, ObjSrcPath, ObjDstPath, "设置时间")
 	case 61:
 		fmt.Println("网络_连接：", hook.OpType)
 		perm, err = MatchNet(UserName, SubPath, ObjSrcPath, "网络连接")
@@ -322,7 +443,7 @@ func MatchAll(hook *GoHookInfo) (perm bool, err error) {
 func RuleMatchNewClient(c *TCPClient) {
 	c.RecvSize = GRuleMatchTCPMsgRecvSize
 	c.SendSize = GRuleMatchTCPMsgSendSize
-	GLogRunHandle.Println("[INFO]", "TCPClientNew:", c.Conn.RemoteAddr().String())
+	GHandleFileRunLog.Println("[INFO]", "TCPClientNew:", c.Conn.RemoteAddr().String())
 }
 
 // 接收客户端消息 - 回调
@@ -354,12 +475,12 @@ func RuleMatchNewMessage(c *TCPClient, message []byte, tid int) {
 
 // 客户端关闭 - 回调
 func RuleMatchClientClose(c *TCPClient, err error) {
-	GLogRunHandle.Println("[INFO]", "TCPClientClose:", c.Conn.RemoteAddr().String(), err)
+	GHandleFileRunLog.Println("[INFO]", "TCPClientClose:", c.Conn.RemoteAddr().String(), err)
 }
 
 // 启动TCP服务
 func RuleMatchInitTCPServer(run_in_thread bool) {
-	GLogRunHandle.Println("[INFO]", "TCPServerStart:", GRuleMatchTCPAddr)
+	GHandleFileRunLog.Println("[INFO]", "TCPServerStart:", GRuleMatchTCPAddr)
 	server := TCPServerNew(GRuleMatchTCPAddr)
 	server.OnNewClient(RuleMatchNewClient)
 	server.OnNewMessage(RuleMatchNewMessage)

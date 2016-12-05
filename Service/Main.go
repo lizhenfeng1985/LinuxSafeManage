@@ -1,11 +1,11 @@
 package main
 
 func InitAllRule() error {
-	hlog, err := LogInit(LogRunFile)
+	hlog, err := LogFileInit(LogFileRunLog)
 	if err != nil {
 		return err
 	}
-	GLogRunHandle = hlog
+	GHandleFileRunLog = hlog
 
 	hlog.Println("[INFO]", "-------START----------")
 	hlog.Println("[INFO]", "Init()...")
@@ -30,6 +30,15 @@ func InitAllRule() error {
 	}
 	GHandleDBRuleSelf = db
 
+	// 基础保护规则DB
+	hlog.Println("[INFO]", "ConnectSqlite():", DBFileRuleSafe)
+	db, err = ConnectSqlite(DBFileRuleSafe)
+	if err != nil {
+		hlog.Fatalln("[INFO]", err)
+		return err
+	}
+	GHandleDBRuleSafe = db
+
 	// 自保护规则DB
 	hlog.Println("[INFO]", "ConnectSqlite():", DBFileRuleUser)
 	db, err = ConnectSqlite(DBFileRuleUser)
@@ -48,6 +57,14 @@ func InitAllRule() error {
 	}
 	GHandleDBRuleCfg = db
 
+	// 配置系统操作日志 和 拦截事件
+	hlog.Println("[INFO]", "LogInit()...")
+	err = LogDBInit()
+	if err != nil {
+		hlog.Fatalln("[INFO]", err)
+		return err
+	}
+
 	// 加载规则到内存DB
 	hlog.Println("[INFO]", "MemRuleInit()...")
 	err = MemRuleInit()
@@ -64,6 +81,6 @@ func main() {
 		return
 	}
 	RuleMatchInitTCPServer(true)
-	GLogRunHandle.Println("[INFO]", "HttpWebStart:", GHttpWebAddr)
+	GHandleFileRunLog.Println("[INFO]", "HttpWebStart:", GHttpWebAddr)
 	HttpInitWeb(false)
 }

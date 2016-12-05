@@ -79,6 +79,14 @@ func HttpInitWeb(run_in_thread bool) {
 	rhttps.HandleFunc("/highperm/del/{UserName}", HighPermDelHandler)
 	rhttps.HandleFunc("/highperm/search/{UserName}", HighPermSearchHandler)
 
+	// 自保护状态
+	rhttps.HandleFunc("/statself/get/{UserName}", RuleStatSelfGetHandler)
+	rhttps.HandleFunc("/statself/set/{UserName}", RuleStatSelfSetHandler)
+
+	// 用户策略保护状态
+	rhttps.HandleFunc("/statuser/get/{UserName}", RuleStatUserGetHandler)
+	rhttps.HandleFunc("/statuser/set/{UserName}", RuleStatUserSetHandler)
+
 	/*
 		rhttp := mux.NewRouter()
 		rhttp.HandleFunc("/test", HandlerTest)

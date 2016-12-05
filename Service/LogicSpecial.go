@@ -66,6 +66,16 @@ func DBSpecialConfigSet(mode, settime, shutdown, usb, cdrom int) (err error) {
 		tx.Rollback()
 		return err
 	}
+
 	//log.Println("DB_SET:", mode, settime, shutdown, usb, cdrom)
+	// 更新内存
+	LockGMemRuleSpecialHandle.Lock()
+	GMemRuleSpecialHandle.StatusMode = mode
+	GMemRuleSpecialHandle.StatusSetTime = settime
+	GMemRuleSpecialHandle.StatusShutDown = shutdown
+	GMemRuleSpecialHandle.StatusUsb = usb
+	GMemRuleSpecialHandle.StatusCdrom = cdrom
+	LockGMemRuleSpecialHandle.Unlock()
+
 	return nil
 }
