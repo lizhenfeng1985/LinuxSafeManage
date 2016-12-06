@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -65,8 +64,8 @@ func SafeGetHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /safeget {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /safeget ", &res)
+		//log.Printf("POST /safeget {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /safeget ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -116,8 +115,9 @@ func SafeSetHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /safeset {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /safeset ", &res)
+		//log.Printf("POST /safeset {User:%s, Data=%s}", uname, jdata)
+		//defer //log.Println("RESP /safeset ", &res)
+		defer LogInsertSys(uname, "设置基础安全策略状态", getResMsgByStatus(res.Status), jdata)
 
 		// Check User
 		if uname != "Admin" && uname != "CenterAdmin" {

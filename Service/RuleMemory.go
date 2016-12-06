@@ -166,6 +166,7 @@ func MemRuleInit() (err error) {
 	if err != nil {
 		return err
 	}
+
 	LockGMemRuleSelfHandle.Lock()
 	GMemRuleSelfHandle = rh
 	LockGMemRuleSelfHandle.Unlock()

@@ -23,6 +23,13 @@ type GoPerm struct {
 	Perm uint32
 }
 
+func getStatusString(status int) (str_stat string) {
+	if status == 1 {
+		return "开启"
+	}
+	return "关闭"
+}
+
 func MatchCacheProc(user, proc, obj_proc, op string) (in_cache, perm bool, err error) {
 	in_cache = false
 	return in_cache, perm, nil
@@ -48,6 +55,11 @@ func MatchProcPolicy(handle *RuleMemHandle, user, proc, obj_proc, op, rule_type 
 	_, ok = handle.RPerm[perm_str]
 	if ok == false {
 		// add log
+		LogInsertEvent(rule_type, getStatusString(handle.StatusProc), "进程", op, user, proc, obj_proc, "拦截")
+
+		if handle.StatusProc == 0 {
+			return true, nil // 维护模式 : 允许
+		}
 		return false, nil // 客体有组，用户有组，程序有组，无权限 : 拒绝
 	}
 
@@ -61,6 +73,7 @@ func MatchProc(user, proc, obj_proc, op string) (perm bool, err error) {
 	LockGMemRuleSuperHandle.Lock()
 	_, ok := GMemRuleSuperHandle[proc]
 	if ok {
+		LockGMemRuleSuperHandle.Unlock()
 		return true, nil
 	}
 	LockGMemRuleSuperHandle.Unlock()
@@ -126,6 +139,10 @@ func MatchNetPolicy(handle *RuleMemHandle, user, proc, obj_net, op, rule_type st
 	_, ok = handle.RPerm[perm_str]
 	if ok == false {
 		// add log
+		LogInsertEvent(rule_type, getStatusString(handle.StatusNet), "网络", op, user, proc, obj_net, "拦截")
+		if handle.StatusNet == 0 {
+			return true, nil // 维护模式 : 允许
+		}
 		return false, nil // 客体有组，用户有组，程序有组，无权限 : 拒绝
 	}
 
@@ -139,6 +156,7 @@ func MatchNet(user, proc, obj_net, op string) (perm bool, err error) {
 	LockGMemRuleSuperHandle.Lock()
 	_, ok := GMemRuleSuperHandle[proc]
 	if ok {
+		LockGMemRuleSuperHandle.Unlock()
 		return true, nil
 	}
 	LockGMemRuleSuperHandle.Unlock()
@@ -240,6 +258,12 @@ func MatchFilePolicy(handle *RuleMemHandle, user, proc, op, rule_type string, ob
 		_, ok = handle.RPerm[perm_str]
 		if ok == false {
 			// add log
+			LogInsertEvent(rule_type, getStatusString(handle.StatusFile), "文件", op, user, proc, obj_file, "拦截")
+
+			if handle.StatusFile == 0 {
+				//return true, nil // 维护模式 : 允许
+				continue
+			}
 			return false, nil // 客体有组，用户有组，程序有组，无权限 : 拒绝
 		}
 	}
@@ -253,6 +277,7 @@ func MatchFile(user, proc, obj_file, op string) (perm bool, err error) {
 	LockGMemRuleSuperHandle.Lock()
 	_, ok := GMemRuleSuperHandle[proc]
 	if ok {
+		LockGMemRuleSuperHandle.Unlock()
 		return true, nil
 	}
 	LockGMemRuleSuperHandle.Unlock()
@@ -302,19 +327,24 @@ func MatchSetTime(user, proc, obj_src, obj_dst, op string) (perm bool, err error
 	LockGMemRuleSuperHandle.Lock()
 	_, ok := GMemRuleSuperHandle[proc]
 	if ok {
+		LockGMemRuleSuperHandle.Unlock()
 		return true, nil
 	}
 	LockGMemRuleSuperHandle.Unlock()
 
 	LockGMemRuleSpecialHandle.Lock()
-	if GMemRuleSpecialHandle.StatusSetTime == 0 {
-		perm = true
-	} else {
+	if GMemRuleSpecialHandle.StatusSetTime == 1 {
 		perm = false
+		// add log
+		LogInsertEvent("特殊资源", getStatusString(GMemRuleSpecialHandle.StatusMode), "设置时间", op, user, proc, obj_src, "拦截")
+		if GMemRuleSpecialHandle.StatusMode == 0 {
+			perm = true // 维护模式 : 允许
+		}
+	} else {
+		perm = true
 	}
 	LockGMemRuleSpecialHandle.Unlock()
 
-	// add log
 	return perm, nil
 }
 
@@ -324,19 +354,23 @@ func MatchShutDown(user, proc, obj_src, op string) (perm bool, err error) {
 	LockGMemRuleSuperHandle.Lock()
 	_, ok := GMemRuleSuperHandle[proc]
 	if ok {
+		LockGMemRuleSuperHandle.Unlock()
 		return true, nil
 	}
 	LockGMemRuleSuperHandle.Unlock()
 
 	LockGMemRuleSpecialHandle.Lock()
-	if GMemRuleSpecialHandle.StatusShutDown == 0 {
-		perm = true
-	} else {
+	if GMemRuleSpecialHandle.StatusShutDown == 1 {
 		perm = false
+		// add log
+		LogInsertEvent("特殊资源", getStatusString(GMemRuleSpecialHandle.StatusMode), "关机", op, user, proc, obj_src, "拦截")
+		if GMemRuleSpecialHandle.StatusMode == 0 {
+			perm = true // 维护模式 : 允许
+		}
+	} else {
+		perm = true
 	}
 	LockGMemRuleSpecialHandle.Unlock()
-
-	// add log
 	return perm, nil
 }
 
@@ -346,19 +380,24 @@ func MatchUSB(user, proc, obj_src, op string) (perm bool, err error) {
 	LockGMemRuleSuperHandle.Lock()
 	_, ok := GMemRuleSuperHandle[proc]
 	if ok {
+		LockGMemRuleSuperHandle.Unlock()
 		return true, nil
 	}
 	LockGMemRuleSuperHandle.Unlock()
 
 	LockGMemRuleSpecialHandle.Lock()
-	if GMemRuleSpecialHandle.StatusUsb == 0 {
-		perm = true
-	} else {
+	if GMemRuleSpecialHandle.StatusUsb == 1 {
 		perm = false
+		// add log
+		LogInsertEvent("特殊资源", getStatusString(GMemRuleSpecialHandle.StatusMode), "USB", op, user, proc, obj_src, "拦截")
+		if GMemRuleSpecialHandle.StatusMode == 0 {
+			perm = true // 维护模式 : 允许
+		}
+	} else {
+		perm = true
 	}
 	LockGMemRuleSpecialHandle.Unlock()
 
-	// add log
 	return perm, nil
 }
 
@@ -368,19 +407,24 @@ func MatchCdRom(user, proc, obj_src, op string) (perm bool, err error) {
 	LockGMemRuleSuperHandle.Lock()
 	_, ok := GMemRuleSuperHandle[proc]
 	if ok {
+		LockGMemRuleSuperHandle.Unlock()
 		return true, nil
 	}
 	LockGMemRuleSuperHandle.Unlock()
 
 	LockGMemRuleSpecialHandle.Lock()
-	if GMemRuleSpecialHandle.StatusCdrom == 0 {
-		perm = true
-	} else {
+	if GMemRuleSpecialHandle.StatusCdrom == 1 {
 		perm = false
+		// add log
+		LogInsertEvent("特殊资源", getStatusString(GMemRuleSpecialHandle.StatusMode), "CDROM", op, user, proc, obj_src, "拦截")
+		if GMemRuleSpecialHandle.StatusMode == 0 {
+			perm = true // 维护模式 : 允许
+		}
+	} else {
+		perm = true
 	}
 	LockGMemRuleSpecialHandle.Unlock()
 
-	// add log
 	return perm, nil
 }
 
@@ -468,7 +512,6 @@ func RuleMatchNewMessage(c *TCPClient, message []byte, tid int) {
 		}
 	}
 
-	fmt.Println(perm)
 	binary.Write(sendbuf, binary.LittleEndian, perm)
 	c.SendBytes(sendbuf.Bytes())
 }

@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -130,8 +129,9 @@ func HighObjFileGroupAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highobjfile/groupadd {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highobjfile/groupadd ", &res)
+		//log.Printf("POST /highobjfile/groupadd {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highobjfile/groupadd ", &res)
+		defer LogInsertSys(uname, "添加文件对象组", getResMsgByStatus(res.Status), jdata)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -182,8 +182,9 @@ func HighObjFileGroupDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highobjfile/groupdel {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highobjfile/groupdel ", &res)
+		//log.Printf("POST /highobjfile/groupdel {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highobjfile/groupdel ", &res)
+		defer LogInsertSys(uname, "删除文件对象组", getResMsgByStatus(res.Status), jdata)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -233,8 +234,8 @@ func HighObjFileGroupSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highobjfile/groupsearch {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highobjfile/groupsearch ", &res)
+		//log.Printf("POST /highobjfile/groupsearch {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highobjfile/groupsearch ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -286,8 +287,8 @@ func HighObjFileListHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highobjfile/list {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highobjfile/list ", &res)
+		//log.Printf("POST /highobjfile/list {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highobjfile/list ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -339,8 +340,9 @@ func HighObjFileAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highobjfile/add {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highobjfile/add ", &res)
+		//log.Printf("POST /highobjfile/add {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highobjfile/add ", &res)
+		defer LogInsertSys(uname, "添加文件对象", getResMsgByStatus(res.Status), jdata)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -391,8 +393,9 @@ func HighObjFileDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highobjfile/del {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highobjfile/del ", &res)
+		//log.Printf("POST /highobjfile/del {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highobjfile/del ", &res)
+		defer LogInsertSys(uname, "删除文件对象", getResMsgByStatus(res.Status), jdata)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -443,8 +446,8 @@ func HighObjFileSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highobjfile/search {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highobjfile/search ", &res)
+		//log.Printf("POST /highobjfile/search {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highobjfile/search ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {

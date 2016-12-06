@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -57,8 +56,8 @@ func SpecialGetHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /specialget {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /specialget ", &res)
+		//log.Printf("POST /specialget {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /specialget ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -108,8 +107,9 @@ func SpecialSetHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /specialset {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /specialset ", &res)
+		//log.Printf("POST /specialset {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /specialset ", &res)
+		defer LogInsertSys(uname, "设置特殊资源策略状态", getResMsgByStatus(res.Status), jdata)
 
 		// Check User
 		if uname != "Admin" && uname != "CenterAdmin" {

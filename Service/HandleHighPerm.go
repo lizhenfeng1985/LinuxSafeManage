@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -91,8 +90,9 @@ func HighPermAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highperm/add {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highperm/add ", &res)
+		//log.Printf("POST /highperm/add {User:%s, Data=%s}", uname, jdata)
+		//defer //log.Println("RESP /highperm/add ", &res)
+		defer LogInsertSys(uname, "添加权限", getResMsgByStatus(res.Status), jdata)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -143,8 +143,9 @@ func HighPermDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highperm/del {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highperm/del ", &res)
+		//log.Printf("POST /highperm/del {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highperm/del ", &res)
+		defer LogInsertSys(uname, "删除权限", getResMsgByStatus(res.Status), jdata)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -194,8 +195,8 @@ func HighPermSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highperm/search {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highperm/search ", &res)
+		//log.Printf("POST /highperm/search {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highperm/search ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {

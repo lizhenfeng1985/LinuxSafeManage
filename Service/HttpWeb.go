@@ -6,6 +6,13 @@ import (
 	"github.com/gorilla/mux"
 )
 
+func getResMsgByStatus(status int) (msg string) {
+	if status == 0 {
+		return "成功"
+	}
+	return "失败"
+}
+
 func HttpInitWeb(run_in_thread bool) {
 	// Add Routers
 	rhttps := mux.NewRouter()

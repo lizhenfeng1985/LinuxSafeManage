@@ -15,8 +15,8 @@ var (
 	DBFileRuleUser string = "./db/rule_user.db" // 用户保护策略DB文件
 	DBFileRuleCfg  string = "./db/rule_cfg.db"  // 开关配置和超级进程配置DB文件
 
-	LogFileRunLog string = "./log/run.log"    // 程序运行日志文件
-	DBFileLog     string = "./log/sys_env.db" // 系统运行|拦截事件 日志文件
+	LogFileRunLog string = "./log/run.log"      // 程序运行日志文件
+	DBFileLog     string = "./log/event_log.db" // 系统运行|拦截事件 日志文件
 
 	GHandleFileRunLog *log.Logger = nil // 运行日志句柄
 	GHandleDBUser     *sql.DB     = nil // 登录用户DB句柄

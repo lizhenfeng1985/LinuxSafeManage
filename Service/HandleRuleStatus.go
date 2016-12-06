@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -49,8 +48,8 @@ func RuleStatSelfGetHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /statself/get {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /statself/get ", &res)
+		//log.Printf("POST /statself/get {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /statself/get ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -105,8 +104,9 @@ func RuleStatSelfSetHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /statself/set {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /statself/set ", &res)
+		//log.Printf("POST /statself/set {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /statself/set ", &res)
+		defer LogInsertSys(uname, "设置自我保护策略状态", getResMsgByStatus(res.Status), jdata)
 
 		// Check User
 		if uname != "Admin" && uname != "CenterAdmin" {
@@ -163,8 +163,8 @@ func RuleStatUserGetHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /statuser/get {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /statuser/get ", &res)
+		//log.Printf("POST /statuser/get {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /statuser/get ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -219,8 +219,9 @@ func RuleStatUserSetHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /statuser/set {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /statuser/set ", &res)
+		//log.Printf("POST /statuser/set {User:%s, Data=%s}", uname, jdata)
+		//defer //log.Println("RESP /statuser/set ", &res)
+		defer LogInsertSys(uname, "设置用户保护策略状态", getResMsgByStatus(res.Status), jdata)
 
 		// Check User
 		if uname != "Admin" && uname != "CenterAdmin" {

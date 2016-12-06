@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -129,8 +128,9 @@ func HighProcGroupAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highproc/groupadd {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highproc/groupadd ", &res)
+		//log.Printf("POST /highproc/groupadd {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highproc/groupadd ", &res)
+		defer LogInsertSys(uname, "添加进程组", getResMsgByStatus(res.Status), jdata)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -181,8 +181,9 @@ func HighProcGroupDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highproc/groupdel {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highproc/groupdel ", &res)
+		//log.Printf("POST /highproc/groupdel {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highproc/groupdel ", &res)
+		defer LogInsertSys(uname, "删除进程组", getResMsgByStatus(res.Status), jdata)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -232,8 +233,8 @@ func HighProcGroupSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highproc/groupsearch {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highproc/groupsearch ", &res)
+		//log.Printf("POST /highproc/groupsearch {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highproc/groupsearch ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -285,8 +286,8 @@ func HighProcListHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highproc/list {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highproc/list ", &res)
+		//log.Printf("POST /highproc/list {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highproc/list ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -338,8 +339,9 @@ func HighProcAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highproc/add {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highproc/add ", &res)
+		//log.Printf("POST /highproc/add {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highproc/add ", &res)
+		defer LogInsertSys(uname, "添加进程", getResMsgByStatus(res.Status), jdata)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -390,8 +392,9 @@ func HighProcDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highproc/del {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highproc/del ", &res)
+		//log.Printf("POST /highproc/del {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highproc/del ", &res)
+		defer LogInsertSys(uname, "删除进程组", getResMsgByStatus(res.Status), jdata)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -442,8 +445,8 @@ func HighProcSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highproc/search {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highproc/search ", &res)
+		//log.Printf("POST /highproc/search {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highproc/search ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {

@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -129,8 +128,9 @@ func HighUserGroupAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highuser/groupadd {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highuser/groupadd ", &res)
+		//log.Printf("POST /highuser/groupadd {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highuser/groupadd ", &res)
+		defer LogInsertSys(uname, "添加用户组", getResMsgByStatus(res.Status), jdata)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -181,8 +181,9 @@ func HighUserGroupDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highuser/groupdel {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highuser/groupdel ", &res)
+		//log.Printf("POST /highuser/groupdel {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highuser/groupdel ", &res)
+		defer LogInsertSys(uname, "删除用户组", getResMsgByStatus(res.Status), jdata)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -232,8 +233,8 @@ func HighUserGroupSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highuser/groupsearch {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highuser/groupsearch ", &res)
+		//log.Printf("POST /highuser/groupsearch {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highuser/groupsearch ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -285,8 +286,8 @@ func HighUserListHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highuser/list {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highuser/list ", &res)
+		//log.Printf("POST /highuser/list {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highuser/list ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -338,8 +339,9 @@ func HighUserAddHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highuser/add {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highuser/add ", &res)
+		//log.Printf("POST /highuser/add {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highuser/add ", &res)
+		defer LogInsertSys(uname, "添加用户", getResMsgByStatus(res.Status), jdata)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -390,8 +392,9 @@ func HighUserDelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highuser/del {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highuser/del ", &res)
+		//log.Printf("POST /highuser/del {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highuser/del ", &res)
+		defer LogInsertSys(uname, "删除用户", getResMsgByStatus(res.Status), jdata)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
@@ -442,8 +445,8 @@ func HighUserSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		jdata := r.PostFormValue("Data")
 
-		log.Printf("POST /highuser/search {User:%s, Data=%s}", uname, jdata)
-		defer log.Println("RESP /highuser/search ", &res)
+		//log.Printf("POST /highuser/search {User:%s, Data=%s}", uname, jdata)
+		//defer log.Println("RESP /highuser/search ", &res)
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {
