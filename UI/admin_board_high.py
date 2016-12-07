@@ -125,6 +125,14 @@ class AdminBoardHigh(QtGui.QWidget):
         self.adminTagHighTagPermBkg.setGeometry(QtCore.QRect(0, 113, 1000, 307))
         self.adminTagHighTagPermBkg.setObjectName(_fromUtf8("adminTagHighTagPermBkg"))
         self.adminTagHighTagPermBkg.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_white.png);"))
+        self.AddAdminTagHighPerm()
+
+        # 高级设置当前模式
+        self.adminHighPermMode = QtGui.QPushButton(self.adminTagHighBkg)
+        self.adminHighPermMode.setGeometry(QtCore.QRect(800, 80, 140, 30))
+        self.adminHighPermMode.setObjectName(_fromUtf8("adminTagSpecialMode"))
+        self.adminHighPermMode.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_mode_off.png);"))
+        self.adminHighPermMode.setText(_translate("adminHighPermMode", "", None))
 
         # 初始化变量
         self.adminTagsHighTags = {
@@ -135,6 +143,10 @@ class AdminBoardHigh(QtGui.QWidget):
             self.adminTagHighTagObjNet    : self.adminTagHighTagObjNetBkg,
             self.adminTagHighTagPerm      : self.adminTagHighTagPermBkg,
         }
+        self.adminHighPermModeValue = 0
+
+        # 获取High设置状态
+        self.AdminHighPermModeGetStatus()
 
         # 默认显示首页
         self._onAdminHighChangeTags(self.adminTagHighTagUser)
@@ -146,6 +158,7 @@ class AdminBoardHigh(QtGui.QWidget):
         self.connect(self.adminTagHighTagObjProc, QtCore.SIGNAL("clicked()"), self.onAdminTagHighTagObjProc)
         self.connect(self.adminTagHighTagObjNet, QtCore.SIGNAL("clicked()"), self.onAdminTagHighTagObjNet)
         self.connect(self.adminTagHighTagPerm, QtCore.SIGNAL("clicked()"), self.onAdminTagHighTagPerm)
+        self.connect(self.adminHighPermMode, QtCore.SIGNAL("clicked()"), self.onAdminHighPermModeClick)
 
     def _onAdminHighChangeTags(self, tagBtn):
         for btn, bkg in self.adminTagsHighTags.items():
@@ -185,5 +198,51 @@ class AdminBoardHigh(QtGui.QWidget):
         if self.AdminBoardCheckPopUp():
             return
         self._onAdminHighChangeTags(self.adminTagHighTagPerm)
+        self.onAdminTagHighPermGroupSet()  # 更新权限页 - 用户列表
+
+    def onAdminHighPermModeClick(self):
+        if self.adminHighPermModeValue == 0:
+            self.adminHighPermModeValue = 1
+            self.adminHighPermMode.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_mode_on.png);"))
+        else:
+            self.adminHighPermModeValue = 0
+            self.adminHighPermMode.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_mode_off.png);"))
+        url = 'https://%s:%s/statuser/set/%s' % (
+        self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
+        data = {
+            'Tokey': self.Tokey,
+            'Mode': self.adminHighPermModeValue,
+        }
+        param = {'Data': json.dumps(data)}
+        print url, data
+        rt = HttpsPost(url, param)
+        print rt
+        if rt[0] == 0:
+            QtGui.QMessageBox.about(self, u"设置", u"设置成功:")
+        else:
+            QtGui.QMessageBox.about(self, u"设置", u"设置失败:" + rt[1])
+
+    def AdminHighPermModeGetStatus(self):
+        url = 'https://%s:%s/statuser/get/%s' % (
+        self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
+        data = {
+            'Tokey': self.Tokey,
+        }
+        #print url, data
+        param = {'Data': json.dumps(data)}
+        rt = HttpsPost(url, param)
+        #print rt
+        if rt[0] == 0:
+            res = rt[1]
+            if res['Mode'] == 0:
+                self.adminHighPermModeValue = 0
+                self.adminHighPermMode.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_mode_off.png);"))
+            elif res['Mode'] == 1:
+                self.adminHighPermModeValue = 1
+                self.adminHighPermMode.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_mode_on.png);"))
+            else:
+                QtGui.QMessageBox.about(self, u"设置", u"获取设置失败:Mode=%d" % (res['Mode']) + rt[1])
+        else:
+            QtGui.QMessageBox.about(self, u"设置", u"获取设置失败:" + rt[1])
 
 import images_rc

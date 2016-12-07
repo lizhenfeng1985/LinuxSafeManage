@@ -54,6 +54,7 @@ type HighPermSearchResponse struct {
 	Status    int
 	ErrMsg    string
 	PermItems []PermItem
+	Total     int
 }
 
 func HighPermErrResponse(res *HighPermResponse, status int, errMsg string) []byte {
@@ -91,7 +92,7 @@ func HighPermAddHandler(w http.ResponseWriter, r *http.Request) {
 		jdata := r.PostFormValue("Data")
 
 		//log.Printf("POST /highperm/add {User:%s, Data=%s}", uname, jdata)
-		//defer //log.Println("RESP /highperm/add ", &res)
+		//defer log.Println("RESP /highperm/add ", &res)
 		defer LogInsertSys(uname, "添加权限", getResMsgByStatus(res.Status), jdata)
 
 		// check data
@@ -211,7 +212,7 @@ func HighPermSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		res.PermItems, err = DBHighPermSearch(GHandleDBRuleUser, req.UserGroup, req.Start, req.Length)
+		res.PermItems, res.Total, err = DBHighPermSearch(GHandleDBRuleUser, req.UserGroup, req.Start, req.Length)
 		if err != nil {
 			w.Write(HighPermSearchErrResponse(&res, -1, err.Error()))
 			return

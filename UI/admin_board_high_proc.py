@@ -91,14 +91,21 @@ class AdminBoardHighProc(QtGui.QWidget):
 
         # 上一页
         self.adminTagHighProcPrev = QtGui.QPushButton(self.adminTagHighTagProcBkg)
-        self.adminTagHighProcPrev.setGeometry(QtCore.QRect(440, 8, 70, 25))
+        self.adminTagHighProcPrev.setGeometry(QtCore.QRect(420, 8, 70, 25))
         #self.adminTagHighProcPrev.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_grey.png);'))
         self.adminTagHighProcPrev.setObjectName(_fromUtf8('adminTagHighProcPrev'))
         self.adminTagHighProcPrev.setText(_translate('adminTagHighProcPrev', '<<  上一页', None))
 
+        # 当前页
+        self.adminTagHighProcPageText = QtGui.QLabel(self.adminTagHighTagProcBkg)
+        self.adminTagHighProcPageText.setGeometry(QtCore.QRect(490, 8, 30, 25))
+        self.adminTagHighProcPageText.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignCenter)
+        self.adminTagHighProcPageText.setObjectName(_fromUtf8('adminTagHighProcPageText'))
+        self.adminTagHighProcPageText.setText(_translate('adminTagHighProcPageText', '0/0', None))
+
         # 下一页
         self.adminTagHighProcNext = QtGui.QPushButton(self.adminTagHighTagProcBkg)
-        self.adminTagHighProcNext.setGeometry(QtCore.QRect(520, 8, 70, 25))
+        self.adminTagHighProcNext.setGeometry(QtCore.QRect(530, 8, 70, 25))
         #self.adminTagHighProcNext.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_grey.png);'))
         self.adminTagHighProcNext.setObjectName(_fromUtf8('adminTagHighProcNext'))
         self.adminTagHighProcNext.setText(_translate('adminTagHighProcNext', '下一页  >>', None))
@@ -286,11 +293,23 @@ class AdminBoardHighProc(QtGui.QWidget):
                 it.setCheckState(2)
         else:
             pass
-        
+
+    def setAdminTagHighProcNowPageText(self):
+        tot = self.adminTagHighProcTotal
+        page = self.adminTagHighProcPage
+        length = self.adminTagHighProcPageLength
+        page_str = '0/0'
+        if tot > 0:
+            if tot % length > 0:
+                page_str = '%d/%d' % (page + 1, (tot / length) + 1)
+            else:
+                page_str = '%d/%d' % (page + 1, tot / length)
+        self.adminTagHighProcPageText.setText(_translate('adminTagHighProcPageText', page_str, None))
+
     # 设置程序列表
     def AdminTagHighProcSet(self, start, length):
         group = unicode(self.adminTagHighProcGroupName.text())
-        print group, start, length
+        #print group, start, length
         # 查找当前组程序列表
         url = 'https://%s:%s/highproc/search/%s' % (self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
         data = {
@@ -299,10 +318,10 @@ class AdminBoardHighProc(QtGui.QWidget):
             'Start'   : start,
             'Length'  : length
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:
@@ -326,6 +345,7 @@ class AdminBoardHighProc(QtGui.QWidget):
                         newItemChkbox.setTextAlignment(QtCore.Qt.AlignCenter)
                         self.adminTagHighProcTable.setItem(i, 1, newItemChkbox)
                     self.adminTagHighProcPage = start / self.adminTagHighProcPageLength
+                self.setAdminTagHighProcNowPageText()
             else:
                 QtGui.QMessageBox.about(self, u'错误提示', res['ErrMsg'])
         else:
@@ -364,16 +384,16 @@ class AdminBoardHighProc(QtGui.QWidget):
                 dellist.append(proc)
 
         url = 'https://%s:%s/highproc/del/%s' % (self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
-        print url
+        #print url
         for proc in dellist:
             data = {
                 'Tokey'   : self.Tokey,
                 'Proc'    : proc
             }
-            print data
+            #print data
             param = {'Data' : json.dumps(data)} 
             rt = HttpsPost(url, param)
-            print rt
+            #print rt
             if rt[0] == 0:
                 res = rt[1]
                 if res['Status'] == 0:             
@@ -393,17 +413,17 @@ class AdminBoardHighProc(QtGui.QWidget):
         data = {
             'Tokey'   : self.Tokey
         }
-        print url, data
-        param = {'Data' : json.dumps(data)}        
+        #print url, data
+        param = {'Data' : json.dumps(data)}
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
-            if res['Status'] == 0:             
+            if res['Status'] == 0:
                 self.adminTagHighProcGroupTree.clear()
                 if res['Groups'] == None:
                     return
-                for group in res['Groups']:                    
+                for group in res['Groups']:
                     self.AdddminTagHighProcGroupTree(group, group)
             else:
                 QtGui.QMessageBox.about(self, u'错误提示', u'查找组列表失败:' + res['ErrMsg'])
@@ -428,10 +448,10 @@ class AdminBoardHighProc(QtGui.QWidget):
             'Tokey'   : self.Tokey,
             'Group'   : group
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:
@@ -460,10 +480,10 @@ class AdminBoardHighProc(QtGui.QWidget):
             'Tokey'   : self.Tokey,
             'Group'   : group
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:              
@@ -492,10 +512,10 @@ class AdminBoardHighProc(QtGui.QWidget):
         data = {
             'Tokey'   : self.Tokey
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:             
@@ -520,10 +540,10 @@ class AdminBoardHighProc(QtGui.QWidget):
             'Group'   : group,
             'Proc'    : uname,
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:             

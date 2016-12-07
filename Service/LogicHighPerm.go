@@ -145,7 +145,29 @@ func DBHighPermAdd(db *sql.DB, UserGroup, ProcGroup, ObjGroup, ObjType, Perm str
 		return err
 	}
 
-	sqlstr := fmt.Sprintf("INSERT INTO perms (id, user, proc, obj, objtype, perm) VALUES (null, '%s', '%s', '%s', '%s', '%s');", UserGroup, ProcGroup, ObjGroup, ObjType, Perm)
+	// 检查是否存在
+	sqlstr := fmt.Sprintf("SELECT id FROM perms WHERE user = '%s' and proc = '%s' and obj = '%s' and objtype = '%s' and perm = '%s';",
+		UserGroup, ProcGroup, ObjGroup, ObjType, Perm)
+
+	rows, err := db.Query(sqlstr)
+	if err != nil {
+		log.Printf("DBHighPermAdd(): %s, %s", err, sqlstr)
+		return errors.New("错误:查询权限表失败")
+	}
+	defer rows.Close()
+
+	var cnt int = 0
+	for rows.Next() {
+		rows.Scan(&cnt)
+		break
+	}
+	rows.Close()
+	if cnt > 0 {
+		return errors.New("错误:权限表记录已经存在")
+	}
+
+	// 添加
+	sqlstr = fmt.Sprintf("INSERT INTO perms (id, user, proc, obj, objtype, perm) VALUES (null, '%s', '%s', '%s', '%s', '%s');", UserGroup, ProcGroup, ObjGroup, ObjType, Perm)
 	_, err = tx.Exec(sqlstr)
 	if err != nil {
 		log.Printf("DBHighPermAdd:tx.Exec((): %s, %s\n", err, sqlstr)
@@ -224,20 +246,41 @@ func DBHighPermDel(db *sql.DB, UserGroup, ProcGroup, ObjGroup, ObjType, Perm str
 	return nil
 }
 
-func DBHighPermSearch(db *sql.DB, UserGroup string, Start, Length int) (PermItems []PermItem, err error) {
+func DBHighPermSearch(db *sql.DB, UserGroup string, Start, Length int) (PermItems []PermItem, total int, err error) {
 	//db := GHandleDBRuleUser
 
 	tx, err := db.Begin()
 	if err != nil {
 		log.Printf("DBHighPermSearch: %s\n", err)
-		return PermItems, err
+		return PermItems, total, err
 	}
 
-	sqlstr := fmt.Sprintf("SELECT user, proc, obj, objtype, perm FROM perms WHERE user = '%s' ;", UserGroup)
+	// 查找数量
+	sqlstr := fmt.Sprintf("SELECT COUNT(*) FROM perms WHERE user = '%s' ;", UserGroup)
+
 	rows, err := db.Query(sqlstr)
 	if err != nil {
 		log.Printf("DBHighPermSearch(): %s, %s", err, sqlstr)
-		return PermItems, errors.New("错误:查询权限表失败")
+		return PermItems, total, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		rows.Scan(&total)
+		break
+	}
+	rows.Close()
+
+	if total == 0 {
+		return PermItems, total, nil
+	}
+
+	// 查找权限
+	sqlstr = fmt.Sprintf("SELECT user, proc, obj, objtype, perm FROM perms WHERE user = '%s' ORDER BY objtype ASC LIMIT %d, %d;", UserGroup, Start, Length)
+	rows, err = db.Query(sqlstr)
+	if err != nil {
+		log.Printf("DBHighPermSearch(): %s, %s", err, sqlstr)
+		return PermItems, total, errors.New("错误:查询权限表失败")
 	}
 	defer rows.Close()
 
@@ -253,7 +296,7 @@ func DBHighPermSearch(db *sql.DB, UserGroup string, Start, Length int) (PermItem
 	if err != nil {
 		log.Printf("DBHighPermSearch:tx.Commit: %s\n", err)
 		tx.Rollback()
-		return PermItems, err
+		return PermItems, total, err
 	}
-	return PermItems, nil
+	return PermItems, total, nil
 }

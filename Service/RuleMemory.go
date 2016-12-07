@@ -136,7 +136,7 @@ func MemRuleInitRule(db *sql.DB) (rh RuleMemHandle, err error) {
 
 	// 获取权限 - 客体
 	for _, group := range user_groups {
-		perm_items, err := DBHighPermSearch(db, group, 0, 256)
+		perm_items, _, err := DBHighPermSearch(db, group, 0, 256)
 		if err != nil {
 			return rh, err
 		}

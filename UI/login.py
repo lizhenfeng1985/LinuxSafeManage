@@ -160,7 +160,7 @@ class LoginBoard(QtGui.QWidget):
             if res['Status'] == 0:
                 self._user = res['User']
                 self.Tokey = res['Tokey']
-                print 'Login OK :', self._user, self.Tokey
+                #print 'Login OK :', self._user, self.Tokey
                 # 进入Admin页面
                 if self.LoginName == 'Admin':
                     self.LoadAdminBoard()

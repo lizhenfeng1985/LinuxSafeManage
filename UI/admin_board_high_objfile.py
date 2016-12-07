@@ -93,14 +93,21 @@ class AdminBoardHighObjFile(QtGui.QWidget):
 
         # 上一页
         self.adminTagHighObjFilePrev = QtGui.QPushButton(self.adminTagHighTagObjFileBkg)
-        self.adminTagHighObjFilePrev.setGeometry(QtCore.QRect(440, 8, 70, 25))
+        self.adminTagHighObjFilePrev.setGeometry(QtCore.QRect(420, 8, 70, 25))
         #self.adminTagHighObjFilePrev.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_grey.png);'))
         self.adminTagHighObjFilePrev.setObjectName(_fromUtf8('adminTagHighObjFilePrev'))
         self.adminTagHighObjFilePrev.setText(_translate('adminTagHighObjFilePrev', '<<  上一页', None))
 
+        # 当前页
+        self.adminTagHighObjFilePageText = QtGui.QLabel(self.adminTagHighTagObjFileBkg)
+        self.adminTagHighObjFilePageText.setGeometry(QtCore.QRect(490, 8, 30, 25))
+        self.adminTagHighObjFilePageText.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignCenter)
+        self.adminTagHighObjFilePageText.setObjectName(_fromUtf8('adminTagHighObjFilePageText'))
+        self.adminTagHighObjFilePageText.setText(_translate('adminTagHighObjFilePageText', '0/0', None))
+
         # 下一页
         self.adminTagHighObjFileNext = QtGui.QPushButton(self.adminTagHighTagObjFileBkg)
-        self.adminTagHighObjFileNext.setGeometry(QtCore.QRect(520, 8, 70, 25))
+        self.adminTagHighObjFileNext.setGeometry(QtCore.QRect(530, 8, 70, 25))
         #self.adminTagHighObjFileNext.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_grey.png);'))
         self.adminTagHighObjFileNext.setObjectName(_fromUtf8('adminTagHighObjFileNext'))
         self.adminTagHighObjFileNext.setText(_translate('adminTagHighObjFileNext', '下一页  >>', None))
@@ -324,10 +331,10 @@ class AdminBoardHighObjFile(QtGui.QWidget):
             'Tokey'   : self.Tokey,
             'ObjDir'  : upath
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:
@@ -363,11 +370,23 @@ class AdminBoardHighObjFile(QtGui.QWidget):
                 it.setCheckState(2)
         else:
             pass
-        
+
+    def setAdminTagHighObjFileNowPageText(self):
+        tot = self.adminTagHighObjFileTotal
+        page = self.adminTagHighObjFilePage
+        length = self.adminTagHighObjFilePageLength
+        page_str = '0/0'
+        if tot > 0:
+            if tot % length > 0:
+                page_str = '%d/%d' % (page + 1, (tot / length) + 1)
+            else:
+                page_str = '%d/%d' % (page + 1, tot / length)
+        self.adminTagHighObjFilePageText.setText(_translate('adminTagHighObjFilePageText', page_str, None))
+
     # 设置客体文件列表
     def AdminTagHighObjFileSet(self, start, length):
         group = unicode(self.adminTagHighObjFileGroupName.text())
-        print group, start, length
+        #print group, start, length
         # 查找当前组客体文件列表
         url = 'https://%s:%s/highobjfile/search/%s' % (self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
         data = {
@@ -376,10 +395,10 @@ class AdminBoardHighObjFile(QtGui.QWidget):
             'Start'   : start,
             'Length'  : length
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:
@@ -403,6 +422,7 @@ class AdminBoardHighObjFile(QtGui.QWidget):
                         newItemChkbox.setTextAlignment(QtCore.Qt.AlignCenter)
                         self.adminTagHighObjFileTable.setItem(i, 1, newItemChkbox)
                     self.adminTagHighObjFilePage = start / self.adminTagHighObjFilePageLength
+                self.setAdminTagHighObjFileNowPageText()
             else:
                 QtGui.QMessageBox.about(self, u'错误提示', res['ErrMsg'])
         else:
@@ -441,16 +461,16 @@ class AdminBoardHighObjFile(QtGui.QWidget):
                 dellist.append(ofile)
 
         url = 'https://%s:%s/highobjfile/del/%s' % (self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
-        print url
+        #print url
         for ofile in dellist:
             data = {
                 'Tokey'   : self.Tokey,
                 'ObjFile'    : ofile
             }
-            print data
+            #print data
             param = {'Data' : json.dumps(data)} 
             rt = HttpsPost(url, param)
-            print rt
+            #print rt
             if rt[0] == 0:
                 res = rt[1]
                 if res['Status'] == 0:             
@@ -470,10 +490,10 @@ class AdminBoardHighObjFile(QtGui.QWidget):
         data = {
             'Tokey'   : self.Tokey
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:             
@@ -505,10 +525,10 @@ class AdminBoardHighObjFile(QtGui.QWidget):
             'Tokey'   : self.Tokey,
             'Group'   : group
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:
@@ -537,10 +557,10 @@ class AdminBoardHighObjFile(QtGui.QWidget):
             'Tokey'   : self.Tokey,
             'Group'   : group
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:               
@@ -570,10 +590,10 @@ class AdminBoardHighObjFile(QtGui.QWidget):
             'Tokey'   : self.Tokey,
             'ObjDir'  : '/'
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:             
@@ -597,8 +617,8 @@ class AdminBoardHighObjFile(QtGui.QWidget):
         fname = unicode(self.adminTagHighObjFileAddDlgFName.text())
         ext   = unicode(self.adminTagHighObjFileAddDlgExt.text())
 
-        print '---'
-        print fname, ext
+        #print '---'
+        #print fname, ext
         if len(fname) == 0:
             QtGui.QMessageBox.about(self, u'错误提示', u'请先选择目录或文件')
             return
@@ -621,10 +641,10 @@ class AdminBoardHighObjFile(QtGui.QWidget):
             'Group'   : group,
             'ObjFile'    : uname,
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:             

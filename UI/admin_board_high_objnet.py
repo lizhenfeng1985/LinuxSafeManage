@@ -92,14 +92,21 @@ class AdminBoardHighObjNet(QtGui.QWidget):
 
         # 上一页
         self.adminTagHighObjNetPrev = QtGui.QPushButton(self.adminTagHighTagObjNetBkg)
-        self.adminTagHighObjNetPrev.setGeometry(QtCore.QRect(440, 8, 70, 25))
+        self.adminTagHighObjNetPrev.setGeometry(QtCore.QRect(420, 8, 70, 25))
         #self.adminTagHighObjNetPrev.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_grey.png);'))
         self.adminTagHighObjNetPrev.setObjectName(_fromUtf8('adminTagHighObjNetPrev'))
         self.adminTagHighObjNetPrev.setText(_translate('adminTagHighObjNetPrev', '<<  上一页', None))
 
+        # 当前页
+        self.adminTagHighObjNetPageText = QtGui.QLabel(self.adminTagHighTagObjNetBkg)
+        self.adminTagHighObjNetPageText.setGeometry(QtCore.QRect(490, 8, 30, 25))
+        self.adminTagHighObjNetPageText.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignCenter)
+        self.adminTagHighObjNetPageText.setObjectName(_fromUtf8('adminTagHighObjNetPageText'))
+        self.adminTagHighObjNetPageText.setText(_translate('adminTagHighObjNetPageText', '0/0', None))
+
         # 下一页
         self.adminTagHighObjNetNext = QtGui.QPushButton(self.adminTagHighTagObjNetBkg)
-        self.adminTagHighObjNetNext.setGeometry(QtCore.QRect(520, 8, 70, 25))
+        self.adminTagHighObjNetNext.setGeometry(QtCore.QRect(530, 8, 70, 25))
         #self.adminTagHighObjNetNext.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_grey.png);'))
         self.adminTagHighObjNetNext.setObjectName(_fromUtf8('adminTagHighObjNetNext'))
         self.adminTagHighObjNetNext.setText(_translate('adminTagHighObjNetNext', '下一页  >>', None))
@@ -299,11 +306,23 @@ class AdminBoardHighObjNet(QtGui.QWidget):
                 it.setCheckState(2)
         else:
             pass
-        
+
+    def setAdminTagHighObjNetNowPageText(self):
+        tot = self.adminTagHighObjNetTotal
+        page = self.adminTagHighObjNetPage
+        length = self.adminTagHighObjNetPageLength
+        page_str = '0/0'
+        if tot > 0:
+            if tot % length > 0:
+                page_str = '%d/%d' % (page + 1, (tot / length) + 1)
+            else:
+                page_str = '%d/%d' % (page + 1, tot / length)
+        self.adminTagHighObjNetPageText.setText(_translate('adminTagHighObjNetPageText', page_str, None))
+
     # 设置客体网络列表
     def AdminTagHighObjNetSet(self, start, length):
         group = unicode(self.adminTagHighObjNetGroupName.text())
-        print group, start, length
+        #print group, start, length
         # 查找当前组客体网络列表
         url = 'https://%s:%s/highobjnet/search/%s' % (self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
         data = {
@@ -312,10 +331,10 @@ class AdminBoardHighObjNet(QtGui.QWidget):
             'Start'   : start,
             'Length'  : length
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:
@@ -339,6 +358,7 @@ class AdminBoardHighObjNet(QtGui.QWidget):
                         newItemChkbox.setTextAlignment(QtCore.Qt.AlignCenter)
                         self.adminTagHighObjNetTable.setItem(i, 1, newItemChkbox)
                     self.adminTagHighObjNetPage = start / self.adminTagHighObjNetPageLength
+                self.setAdminTagHighObjNetNowPageText()
             else:
                 QtGui.QMessageBox.about(self, u'错误提示', res['ErrMsg'])
         else:
@@ -377,16 +397,16 @@ class AdminBoardHighObjNet(QtGui.QWidget):
                 dellist.append(net)
 
         url = 'https://%s:%s/highobjnet/del/%s' % (self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
-        print url
+        #print url
         for net in dellist:
             data = {
                 'Tokey'   : self.Tokey,
                 'ObjNet'    : net
             }
-            print data
+            #print data
             param = {'Data' : json.dumps(data)} 
             rt = HttpsPost(url, param)
-            print rt
+            #print rt
             if rt[0] == 0:
                 res = rt[1]
                 if res['Status'] == 0:             
@@ -406,10 +426,10 @@ class AdminBoardHighObjNet(QtGui.QWidget):
         data = {
             'Tokey'   : self.Tokey
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:             
@@ -441,10 +461,10 @@ class AdminBoardHighObjNet(QtGui.QWidget):
             'Tokey'   : self.Tokey,
             'Group'   : group
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:
@@ -473,10 +493,10 @@ class AdminBoardHighObjNet(QtGui.QWidget):
             'Tokey'   : self.Tokey,
             'Group'   : group
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:            
@@ -525,7 +545,7 @@ class AdminBoardHighObjNet(QtGui.QWidget):
 
         addr = u'%s:%s' %(ip, port)
 
-        print nettype, addr
+        #print nettype, addr
 
         # 添加客体网络
         url = 'https://%s:%s/highobjnet/add/%s' % (self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
@@ -534,10 +554,10 @@ class AdminBoardHighObjNet(QtGui.QWidget):
             'Group'   : group,
             'ObjNet'  : addr,
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:             

@@ -19,6 +19,7 @@ import admin_board_high_proc
 import admin_board_high_objproc
 import admin_board_high_objfile
 import admin_board_high_objnet
+import admin_board_high_perm
 
 
 try:
@@ -44,7 +45,8 @@ class GuiMain(QtGui.QDialog, \
               admin_board_high_proc.AdminBoardHighProc, \
               admin_board_high_objproc.AdminBoardHighObjProc, \
               admin_board_high_objfile.AdminBoardHighObjFile, \
-              admin_board_high_objnet.AdminBoardHighObjNet):
+              admin_board_high_objnet.AdminBoardHighObjNet, \
+              admin_board_high_perm.AdminBoardHighPerm):
     def __init__(self,parent=None):
         super(GuiMain,self).__init__(parent)        
         self.setupUi(self)

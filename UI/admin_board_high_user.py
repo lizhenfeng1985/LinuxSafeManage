@@ -91,14 +91,21 @@ class AdminBoardHighUser(QtGui.QWidget):
 
         # 上一页
         self.adminTagHighUserPrev = QtGui.QPushButton(self.adminTagHighTagUserBkg)
-        self.adminTagHighUserPrev.setGeometry(QtCore.QRect(440, 8, 70, 25))
+        self.adminTagHighUserPrev.setGeometry(QtCore.QRect(420, 8, 70, 25))
         #self.adminTagHighUserPrev.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_grey.png);'))
         self.adminTagHighUserPrev.setObjectName(_fromUtf8('adminTagHighUserPrev'))
         self.adminTagHighUserPrev.setText(_translate('adminTagHighUserPrev', '<<  上一页', None))
 
+        # 当前页
+        self.adminTagHighUserPageText = QtGui.QLabel(self.adminTagHighTagUserBkg)
+        self.adminTagHighUserPageText.setGeometry(QtCore.QRect(490, 8, 30, 25))
+        self.adminTagHighUserPageText.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignCenter)
+        self.adminTagHighUserPageText.setObjectName(_fromUtf8('adminTagHighUserPageText'))
+        self.adminTagHighUserPageText.setText(_translate('adminTagHighUserPageText', '0/0', None))
+
         # 下一页
         self.adminTagHighUserNext = QtGui.QPushButton(self.adminTagHighTagUserBkg)
-        self.adminTagHighUserNext.setGeometry(QtCore.QRect(520, 8, 70, 25))
+        self.adminTagHighUserNext.setGeometry(QtCore.QRect(530, 8, 70, 25))
         #self.adminTagHighUserNext.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_grey.png);'))
         self.adminTagHighUserNext.setObjectName(_fromUtf8('adminTagHighUserNext'))
         self.adminTagHighUserNext.setText(_translate('adminTagHighUserNext', '下一页  >>', None))
@@ -136,10 +143,10 @@ class AdminBoardHighUser(QtGui.QWidget):
         self.adminTagHighUserTable.setColumnCount(2)
         self.adminTagHighUserTable.setHorizontalHeaderLabels([_fromUtf8('用户名'),_fromUtf8('选择')])
         self.adminTagHighUserTable.setShowGrid(False)
-        self.adminTagHighUserTable.setColumnWidth(0,400)
-        self.adminTagHighUserTable.setColumnWidth(1,330)
+        self.adminTagHighUserTable.setColumnWidth(0, 400)
+        self.adminTagHighUserTable.setColumnWidth(1, 330)
         for i in range(0, self.adminTagHighUserPageLength):
-            self.adminTagHighUserTable.setRowHeight(i,21)
+            self.adminTagHighUserTable.setRowHeight(i, 21)
 
         #####################################################
         # 添加用户弹出
@@ -279,11 +286,23 @@ class AdminBoardHighUser(QtGui.QWidget):
                 it.setCheckState(2)
         else:
             pass
-        
+
+    def setAdminTagHighUserNowPageText(self):
+        tot = self.adminTagHighUserTotal
+        page = self.adminTagHighUserPage
+        length = self.adminTagHighUserPageLength
+        page_str = '0/0'
+        if tot > 0:
+            if tot % length > 0:
+                page_str = '%d/%d' % (page + 1, (tot / length) + 1)
+            else:
+                page_str = '%d/%d' % (page + 1, tot / length)
+        self.adminTagHighUserPageText.setText(_translate('adminTagHighUserPageText', page_str, None))
+
     # 设置用户列表
     def AdminTagHighUserSet(self, start, length):
         group = unicode(self.adminTagHighUserGroupName.text())
-        print group, start, length
+        #print group, start, length
         # 查找当前组用户列表
         url = 'https://%s:%s/highuser/search/%s' % (self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
         data = {
@@ -292,10 +311,10 @@ class AdminBoardHighUser(QtGui.QWidget):
             'Start'   : start,
             'Length'  : length
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:
@@ -319,6 +338,7 @@ class AdminBoardHighUser(QtGui.QWidget):
                         newItemChkbox.setTextAlignment(QtCore.Qt.AlignCenter)
                         self.adminTagHighUserTable.setItem(i, 1, newItemChkbox)
                     self.adminTagHighUserPage = start / self.adminTagHighUserPageLength
+                self.setAdminTagHighUserNowPageText()
             else:
                 QtGui.QMessageBox.about(self, u'错误提示', res['ErrMsg'])
         else:
@@ -357,16 +377,16 @@ class AdminBoardHighUser(QtGui.QWidget):
                 dellist.append(user)
 
         url = 'https://%s:%s/highuser/del/%s' % (self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
-        print url
+        #print url
         for user in dellist:
             data = {
                 'Tokey'   : self.Tokey,
                 'User'    : user
             }
-            print data
+            #print data
             param = {'Data' : json.dumps(data)} 
             rt = HttpsPost(url, param)
-            print rt
+            #print rt
             if rt[0] == 0:
                 res = rt[1]
                 if res['Status'] == 0:             
@@ -386,10 +406,10 @@ class AdminBoardHighUser(QtGui.QWidget):
         data = {
             'Tokey'   : self.Tokey
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:             
@@ -421,10 +441,10 @@ class AdminBoardHighUser(QtGui.QWidget):
             'Tokey'   : self.Tokey,
             'Group'   : group
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:
@@ -453,10 +473,10 @@ class AdminBoardHighUser(QtGui.QWidget):
             'Tokey'   : self.Tokey,
             'Group'   : group
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:               
@@ -485,10 +505,10 @@ class AdminBoardHighUser(QtGui.QWidget):
         data = {
             'Tokey'   : self.Tokey
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:             
@@ -513,10 +533,10 @@ class AdminBoardHighUser(QtGui.QWidget):
             'Group'   : group,
             'User'    : uname,
         }
-        print url, data
+        #print url, data
         param = {'Data' : json.dumps(data)}        
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             res = rt[1]
             if res['Status'] == 0:             

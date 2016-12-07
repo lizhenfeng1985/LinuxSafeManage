@@ -81,6 +81,25 @@ func DBHighObjNetGroupDel(db *sql.DB, group string) (err error) {
 		return errors.New("错误:请先删除当前组中的客体网络")
 	}
 
+	// 查找是否关联了权限，如果关联了权限，不允许删除
+	sqlstr = fmt.Sprintf("SELECT count(*) FROM perms WHERE obj = '%s' and objtype = '网络对象';", group)
+	rows, err = db.Query(sqlstr)
+	if err != nil {
+		log.Printf("DBHighObjNetGroupDel(): %s, %s", err, sqlstr)
+		return errors.New("错误:查询关联的权限失败")
+	}
+	defer rows.Close()
+
+	cnt = 0
+	for rows.Next() {
+		rows.Scan(&cnt)
+	}
+	rows.Close()
+	if cnt > 0 {
+		return errors.New("错误:请先删除关联的权限")
+	}
+
+	// 删除
 	sqlstr = fmt.Sprintf("DELETE FROM obj_net_group WHERE groupname = '%s' and gtype != 1;", group)
 	_, err = tx.Exec(sqlstr)
 	if err != nil {
