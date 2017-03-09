@@ -56,6 +56,9 @@
     
     <file>images/admin_high_logo.png</file>
     <file>images/admin_high_title.png</file>
+
+    <file>images/admin_config_logo.png</file>
+    <file>images/admin_config_title.png</file>
      
   </qresource>
 </RCC>

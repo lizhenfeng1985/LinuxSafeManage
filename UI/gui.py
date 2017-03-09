@@ -20,6 +20,9 @@ import admin_board_high_objproc
 import admin_board_high_objfile
 import admin_board_high_objnet
 import admin_board_high_perm
+import admin_board_config
+import admin_board_config_passwd
+import admin_board_config_procwhite
 
 
 try:
@@ -46,7 +49,10 @@ class GuiMain(QtGui.QDialog, \
               admin_board_high_objproc.AdminBoardHighObjProc, \
               admin_board_high_objfile.AdminBoardHighObjFile, \
               admin_board_high_objnet.AdminBoardHighObjNet, \
-              admin_board_high_perm.AdminBoardHighPerm):
+              admin_board_high_perm.AdminBoardHighPerm, \
+              admin_board_config.AdminBoardConfig, \
+              admin_board_config_passwd.AdminBoardConfigPasswd, \
+              admin_board_config_procwhite.AdminBoardConfigProcWhite):
     def __init__(self,parent=None):
         super(GuiMain,self).__init__(parent)        
         self.setupUi(self)
@@ -79,7 +85,7 @@ class GuiMain(QtGui.QDialog, \
 import images_rc
 
 if __name__ == "__main__":
-    app=QtGui.QApplication(sys.argv)
-    win=GuiMain()
+    app = QtGui.QApplication(sys.argv)
+    win = GuiMain()
     win.show()
     app.exec_()

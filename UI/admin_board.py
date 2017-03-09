@@ -105,7 +105,8 @@ class AdminBoard(QtGui.QWidget):
         self.adminTagConfigBkg = QtGui.QWidget(self.adminBoard)
         self.adminTagConfigBkg.setGeometry(QtCore.QRect(0, 30, 1000, 420))
         self.adminTagConfigBkg.setObjectName(_fromUtf8("adminTagConfigBkg"))
-        self.adminTagConfigBkg.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_white.png);"))  
+        self.adminTagConfigBkg.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_white.png);"))
+        self.AddAdminTagConfig()
 
         # 画线 
         self.adminBoardSpace1 = QtGui.QWidget(self.adminBoard)

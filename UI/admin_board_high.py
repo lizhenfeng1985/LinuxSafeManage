@@ -214,9 +214,9 @@ class AdminBoardHigh(QtGui.QWidget):
             'Mode': self.adminHighPermModeValue,
         }
         param = {'Data': json.dumps(data)}
-        print url, data
+        #print url, data
         rt = HttpsPost(url, param)
-        print rt
+        #print rt
         if rt[0] == 0:
             QtGui.QMessageBox.about(self, u"设置", u"设置成功:")
         else:
