@@ -11,6 +11,7 @@ from PyQt4 import QtCore, QtGui
 import sys
 import login
 import admin_board
+import admin_board_home
 import admin_board_special
 import admin_board_safe
 import admin_board_high
@@ -41,6 +42,7 @@ except AttributeError:
 
 class GuiMain(QtGui.QDialog, \
               login.LoginBoard, admin_board.AdminBoard, \
+              admin_board_home.AdminBoardHome, \
               admin_board_special.AdminBoardSpecial, \
               admin_board_safe.AdminBoardSafe, \
               admin_board_high.AdminBoardHigh, \

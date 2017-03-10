@@ -53,6 +53,8 @@ class AdminBoard(QtGui.QWidget):
         self.adminTagHomeBkg.setGeometry(QtCore.QRect(0, 30, 1000, 420))
         self.adminTagHomeBkg.setObjectName(_fromUtf8("adminTagHomeBkg"))
         self.adminTagHomeBkg.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_white.png);"))
+        self.AddAdminTagHome()
+
 
         # Admin Safe 标签页
         self.adminTagSafe = QtGui.QPushButton(self.adminBoard)
@@ -65,7 +67,6 @@ class AdminBoard(QtGui.QWidget):
         self.adminTagSafeBkg.setGeometry(QtCore.QRect(0, 30, 1000, 420))
         self.adminTagSafeBkg.setObjectName(_fromUtf8("adminTagSafeBkg"))
         self.adminTagSafeBkg.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_white.png);"))
-
         self.AddAdminTagSafe()
 
         # Admin Special 标签页
@@ -79,7 +80,6 @@ class AdminBoard(QtGui.QWidget):
         self.adminTagSpecialBkg.setGeometry(QtCore.QRect(0, 30, 1000, 420))
         self.adminTagSpecialBkg.setObjectName(_fromUtf8("adminTagSpecialBkg"))
         self.adminTagSpecialBkg.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_white.png);"))
-
         self.AddAdminTagSpecial()
 
         # 高级配置 标签页

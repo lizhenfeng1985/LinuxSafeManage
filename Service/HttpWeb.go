@@ -1,10 +1,15 @@
 package main
 
 import (
+	"html/template"
 	"net/http"
 
 	"github.com/gorilla/mux"
 )
+
+type TplData struct {
+	Data interface{}
+}
 
 func getResMsgByStatus(status int) (msg string) {
 	if status == 0 {
@@ -13,9 +18,17 @@ func getResMsgByStatus(status int) (msg string) {
 	return "失败"
 }
 
+func Render(w http.ResponseWriter, tplName string, tplData TplData) {
+	t, err := template.ParseFiles(tplName)
+	if err == nil {
+		t.Execute(w, tplData)
+	}
+}
+
 func HttpInitWeb(run_in_thread bool) {
 	// Add Routers
 	rhttps := mux.NewRouter()
+
 	// 登录
 	rhttps.HandleFunc("/login/{UserName}", LoginHandler)
 
@@ -94,6 +107,14 @@ func HttpInitWeb(run_in_thread bool) {
 	rhttps.HandleFunc("/statuser/get/{UserName}", RuleStatUserGetHandler)
 	rhttps.HandleFunc("/statuser/set/{UserName}", RuleStatUserSetHandler)
 
+	// 管理员首页
+	rhttps.HandleFunc("/home/admin/{UserName}", HomeAdminHandler)
+
+	// rhttps添加
+	http.Handle("/", rhttps)
+
+	// 静态文件
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 	/*
 		rhttp := mux.NewRouter()
 		rhttp.HandleFunc("/test", HandlerTest)
@@ -101,9 +122,11 @@ func HttpInitWeb(run_in_thread bool) {
 		go http.ListenAndServe(":9000", rhttp)
 	*/
 	if run_in_thread == true {
-		go http.ListenAndServeTLS(GHttpWebAddr, "server.crt", "server.key", rhttps)
+		go http.ListenAndServe(GHttpWebAddr, nil)
+		//go http.ListenAndServeTLS(GHttpWebAddr, "server.crt", "server.key", nil)
 	} else {
-		http.ListenAndServeTLS(GHttpWebAddr, "server.crt", "server.key", rhttps)
+		http.ListenAndServe(GHttpWebAddr, nil)
+		//http.ListenAndServeTLS(GHttpWebAddr, "server.crt", "server.key", nil)
 	}
 
 }
