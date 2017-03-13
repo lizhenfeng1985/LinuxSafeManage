@@ -4,7 +4,9 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"runtime"
 )
 
 func DBHighObjFileGroupAdd(db *sql.DB, group string) (err error) {
@@ -156,14 +158,25 @@ func DBHighObjFileGroupSearch(db *sql.DB) (groups []string, err error) {
 }
 
 // 获取客体文件列表
-func DBHighObjFileList() (obj_files map[string]int, err error) {
+func DBHighObjFileList(dir_path string) (obj_files map[string]int, err error) {
 	obj_files = make(map[string]int)
+	if dir_path == "" {
+		if runtime.GOOS == "windows" { // for test
+			dir_path = "C:"
+		} else {
+			dir_path = "/"
+		}
+	}
 
-	obj_files["dir1"] = 1
-	obj_files["dir2"] = 1
-	obj_files["file1"] = 0
-	obj_files["file2"] = 0
-	return obj_files, err
+	files, _ := ioutil.ReadDir(dir_path)
+	for _, fi := range files {
+		if fi.IsDir() {
+			obj_files[dir_path+"/"+fi.Name()] = 1
+		} else {
+			obj_files[dir_path+"/"+fi.Name()] = 0
+		}
+	}
+	return obj_files, nil
 }
 
 // 添加客体文件

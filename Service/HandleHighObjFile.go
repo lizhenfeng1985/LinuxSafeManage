@@ -303,7 +303,7 @@ func HighObjFileListHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		res.ObjFiles, err = DBHighObjFileList()
+		res.ObjFiles, err = DBHighObjFileList(req.ObjDir)
 		if err != nil {
 			w.Write(HighObjFileListErrResponse(&res, -1, err.Error()))
 			return
