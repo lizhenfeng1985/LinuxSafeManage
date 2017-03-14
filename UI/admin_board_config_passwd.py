@@ -71,7 +71,7 @@ class AdminBoardConfigPasswd(QtGui.QWidget):
         self.adminTagConfigPasswdOld.setGeometry(QtCore.QRect(130, 75, 290, 25))
         self.adminTagConfigPasswdOld.setEchoMode(QtGui.QLineEdit.Password)
         self.adminTagConfigPasswdOld.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_grey_line.png);"))
-        self.adminTagConfigPasswdOld.setInputMethodHints(QtCore.Qt.ImhNone)
+        #self.adminTagConfigPasswdOld.setInputMethodHints(QtCore.Qt.ImhNone)
         self.adminTagConfigPasswdOld.setObjectName(_fromUtf8('adminTagConfigPasswdOldText'))
 
         # 密码 - 新 - 文字
@@ -86,7 +86,7 @@ class AdminBoardConfigPasswd(QtGui.QWidget):
         self.adminTagConfigPasswdNew.setGeometry(QtCore.QRect(130, 125, 290, 25))
         self.adminTagConfigPasswdNew.setEchoMode(QtGui.QLineEdit.Password)
         self.adminTagConfigPasswdNew.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_grey_line.png);"))
-        self.adminTagConfigPasswdNew.setInputMethodHints(QtCore.Qt.ImhNone)
+        #self.adminTagConfigPasswdNew.setInputMethodHints(QtCore.Qt.ImhNone)
         self.adminTagConfigPasswdNew.setObjectName(_fromUtf8('adminTagConfigPasswdNew'))
 
         # 密码 - 确认新 - 文字
@@ -101,7 +101,7 @@ class AdminBoardConfigPasswd(QtGui.QWidget):
         self.adminTagConfigPasswdConfirmNew.setGeometry(QtCore.QRect(130, 175, 290, 25))
         self.adminTagConfigPasswdConfirmNew.setEchoMode(QtGui.QLineEdit.Password)
         self.adminTagConfigPasswdConfirmNew.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_grey_line.png);"))
-        self.adminTagConfigPasswdConfirmNew.setInputMethodHints(QtCore.Qt.ImhNone)
+        #self.adminTagConfigPasswdConfirmNew.setInputMethodHints(QtCore.Qt.ImhNone)
         self.adminTagConfigPasswdConfirmNew.setObjectName(_fromUtf8('adminTagConfigPasswdConfirmNew'))
 
         # 密码 - 提交修改

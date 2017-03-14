@@ -62,7 +62,7 @@ class LoginBoard(QtGui.QWidget):
         self.loginPwd.setGeometry(QtCore.QRect(610, 200, 250, 31))
         self.loginPwd.setEchoMode( QtGui.QLineEdit.Password )
         self.loginPwd.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_grey_line.png);"))
-        self.loginPwd.setInputMethodHints(QtCore.Qt.ImhNone)
+        #self.loginPwd.setInputMethodHints(QtCore.Qt.ImhNone)
         self.loginPwd.setText(_fromUtf8("123456"))
         self.loginPwd.setObjectName(_fromUtf8("loginPwd"))
 
@@ -173,5 +173,6 @@ class LoginBoard(QtGui.QWidget):
                 QtGui.QMessageBox.about(self, u"登录", u'%s' % (res['ErrMsg']))
         else:
             QtGui.QMessageBox.about(self, u"登录", u'%s' % (rt[1]))
+
 
 import images_rc
