@@ -129,6 +129,12 @@ func SpecialSetHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		// 检测授权
+		if CheckSerialAndCloseProtest() != nil {
+			w.Write(SpecialErrResponse(&res, -3, "错误:软件未注册"))
+			return
+		}
+
 		// logic
 		err := DBSpecialConfigSet(req.Mode, req.SetTime, req.ShutDown, req.Usb, req.Cdrom)
 		if err != nil {

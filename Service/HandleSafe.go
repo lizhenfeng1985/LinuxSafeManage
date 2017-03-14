@@ -137,6 +137,12 @@ func SafeSetHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		// 检测授权
+		if CheckSerialAndCloseProtest() != nil {
+			w.Write(SafeErrResponse(&res, -3, "错误:软件未注册"))
+			return
+		}
+
 		// logic
 		err := DBSafeConfigSet(req.Mode, req.FileEtc, req.FileLib, req.FileBin, req.FileBoot, req.NetFtp, req.NetTelnet, req.NetMail, req.NetWeb)
 		if err != nil {

@@ -110,17 +110,24 @@ func HttpInitWeb(run_in_thread bool) {
 	// 管理员首页
 	rhttps.HandleFunc("/home/admin/{UserName}", HomeAdminHandler)
 
+	// 设置 - 授权
+	rhttps.HandleFunc("/sysconfig/serial/get/{UserName}", SysConfigSnGetHandler)
+	rhttps.HandleFunc("/sysconfig/serial/set/{UserName}", SysConfigSnSetHandler)
+
+	// 设置 - 修改密码
+	rhttps.HandleFunc("/sysconfig/passwd/set/{UserName}", SysConfigPasswdSetHandler)
+
+	// 设置 - 进程白名单
+	rhttps.HandleFunc("/sysconfig/whiteproc/add/{UserName}", SysConfigWhiteProcAddHandler)
+	rhttps.HandleFunc("/sysconfig/whiteproc/del/{UserName}", SysConfigWhiteProcDelHandler)
+	rhttps.HandleFunc("/sysconfig/whiteproc/search/{UserName}", SysConfigWhiteProcSearchHandler)
+
 	// rhttps添加
 	http.Handle("/", rhttps)
 
 	// 静态文件
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
-	/*
-		rhttp := mux.NewRouter()
-		rhttp.HandleFunc("/test", HandlerTest)
 
-		go http.ListenAndServe(":9000", rhttp)
-	*/
 	if run_in_thread == true {
 		go http.ListenAndServe(GHttpWebAddr, nil)
 		//go http.ListenAndServeTLS(GHttpWebAddr, "server.crt", "server.key", nil)

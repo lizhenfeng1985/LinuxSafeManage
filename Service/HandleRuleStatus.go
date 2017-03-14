@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -220,7 +221,7 @@ func RuleStatUserSetHandler(w http.ResponseWriter, r *http.Request) {
 		jdata := r.PostFormValue("Data")
 
 		//log.Printf("POST /statuser/set {User:%s, Data=%s}", uname, jdata)
-		//defer //log.Println("RESP /statuser/set ", &res)
+		//defer log.Println("RESP /statuser/set ", &res)
 		defer LogInsertSys(uname, "设置用户保护策略状态", getResMsgByStatus(res.Status), jdata)
 
 		// Check User
@@ -240,6 +241,15 @@ func RuleStatUserSetHandler(w http.ResponseWriter, r *http.Request) {
 			w.Write(RuleStatErrResponse(&res, -2, "错误:请重新登录"))
 			return
 		}
+
+		// 检测授权
+		log.Printf("check verify")
+		if CheckSerialAndCloseProtest() != nil {
+			log.Printf("check verify 1")
+			w.Write(RuleStatErrResponse(&res, -3, "错误:软件未注册"))
+			return
+		}
+		log.Printf("check verify 2")
 
 		// logic
 		err := DBRuleStatUserSet(req.Mode, req.Mode, req.Mode)

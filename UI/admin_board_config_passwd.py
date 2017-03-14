@@ -174,26 +174,94 @@ class AdminBoardConfigPasswd(QtGui.QWidget):
         self.connect(self.adminTagConfigPasswSubmit, QtCore.SIGNAL('clicked()'), self.onAdminTagConfigPasswSubmit)
         self.connect(self.adminTagConfigSerialSubmit, QtCore.SIGNAL('clicked()'), self.onAdminTagConfigSerialSubmit)
 
+        # 获取授权状态
+        self.onAdminTagConfigSerialGet()
+
     def onAdminTagConfigPasswSubmit(self):
         old_pwd = unicode(self.adminTagConfigPasswdOld.text())
         new_pwd = unicode(self.adminTagConfigPasswdNew.text())
         new_pwd_confirm = unicode(self.adminTagConfigPasswdConfirmNew.text())
-        print old_pwd, new_pwd, new_pwd_confirm
         if len(old_pwd) < 1 or len(new_pwd) < 1:
-            QtGui.QMessageBox.about(self, u"修改密码", u'输入的密码不能为空')
+            QtGui.QMessageBox.about(self, u"修改密码", u'错误提示:输入的密码不能为空')
             return
         if new_pwd != new_pwd_confirm:
-            QtGui.QMessageBox.about(self, u"修改密码", u'两次输入的新密码不一致')
+            QtGui.QMessageBox.about(self, u"修改密码", u'错误提示:两次输入的新密码不一致')
+            return
+        if new_pwd == old_pwd:
+            QtGui.QMessageBox.about(self, u"修改密码",  u'错误提示:新旧密码相同')
+            return
         else:
-            QtGui.QMessageBox.about(self, u"修改密码", u'成功')
+            url = 'https://%s:%s/sysconfig/passwd/set/%s' % (
+                self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
+            data = {
+                'Tokey': self.Tokey,
+                'OldPwd': old_pwd,
+                'NewPwd': new_pwd
+            }
+            # print url, data
+            param = {'Data': json.dumps(data)}
+            rt = HttpsPost(url, param)
+            # print rt
+            if rt[0] == 0:
+                res = rt[1]
+                if res['Status'] == 0:
+                    QtGui.QMessageBox.about(self, u"修改密码", u'成功')
+                else:
+                    QtGui.QMessageBox.about(self, u'修改密码', u'错误提示:' + res['ErrMsg'])
+            else:
+                QtGui.QMessageBox.about(self, u'修改密码', u'错误提示:' + rt[1])
 
     def onAdminTagConfigSerialSubmit(self):
         code = unicode(self.adminTagConfigSerialCode.text())
         sn = unicode(self.adminTagConfigSerialSN.toPlainText())
-        print code, sn
         if len(sn) < 1:
-            QtGui.QMessageBox.about(self, u"注册", u'注册码不能为空')
+            QtGui.QMessageBox.about(self, u"注册", u'错误提示:注册码不能为空')
+            return
+        # 注册授权
+        url = 'https://%s:%s/sysconfig/serial/set/%s' % (
+        self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
+        data = {
+            'Tokey': self.Tokey,
+            'Lic': sn
+        }
+        # print url, data
+        param = {'Data': json.dumps(data)}
+        rt = HttpsPost(url, param)
+        # print rt
+        if rt[0] == 0:
+            res = rt[1]
+            if res['Status'] == 0:
+                self.onAdminTagConfigSerialGet()
+                QtGui.QMessageBox.about(self, u"注册授权", u'成功')
+            else:
+                QtGui.QMessageBox.about(self, u'注册授权', u'错误提示:' + res['ErrMsg'])
         else:
-            QtGui.QMessageBox.about(self, u"注册", u'成功')
+            QtGui.QMessageBox.about(self, u'注册授权', u'错误提示:' + rt[1])
+
+    def onAdminTagConfigSerialGet(self):
+        # 获取授权
+        url = 'https://%s:%s/sysconfig/serial/get/%s' % (
+            self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
+        data = {
+            'Tokey': self.Tokey
+        }
+        # print url, data
+        param = {'Data': json.dumps(data)}
+        rt = HttpsPost(url, param)
+        # print rt
+        if rt[0] == 0:
+            res = rt[1]
+            if res['Status'] != 0:
+                QtGui.QMessageBox.about(self, u'获取授权', u'获取授权失败:' + res['ErrMsg'])
+            self.adminTagConfigSerialCode.setText(
+                _translate('adminTagConfigSerialCode', res['Code'], None))
+            self.adminTagConfigSerialSN.setText(_translate('adminTagConfigSerialCode', res['Lic'], None))
+            if res['IsReg'] == 1:
+                self.adminTagConfigSerialStatus.setText(u'有效期 ' + res['Validate'])
+            else:
+                self.adminTagConfigSerialStatus.setText(
+                    _translate('adminTagConfigSerialStatus', '未注册', None))
+        else:
+            QtGui.QMessageBox.about(self, u'获取授权', u'错误提示:' + rt[1])
 
 

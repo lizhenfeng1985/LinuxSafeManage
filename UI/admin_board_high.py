@@ -201,24 +201,33 @@ class AdminBoardHigh(QtGui.QWidget):
         self.onAdminTagHighPermGroupSet()  # 更新权限页 - 用户列表
 
     def onAdminHighPermModeClick(self):
+        newHighPermModeValue = 0
         if self.adminHighPermModeValue == 0:
-            self.adminHighPermModeValue = 1
-            self.adminHighPermMode.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_mode_on.png);"))
+            newHighPermModeValue = 1
         else:
-            self.adminHighPermModeValue = 0
-            self.adminHighPermMode.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_mode_off.png);"))
+            newHighPermModeValue = 0
         url = 'https://%s:%s/statuser/set/%s' % (
         self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
         data = {
             'Tokey': self.Tokey,
-            'Mode': self.adminHighPermModeValue,
+            'Mode': newHighPermModeValue,
         }
         param = {'Data': json.dumps(data)}
         #print url, data
         rt = HttpsPost(url, param)
         #print rt
         if rt[0] == 0:
-            QtGui.QMessageBox.about(self, u"设置", u"设置成功:")
+            res = rt[1]
+            if res['Status'] == 0:
+                if self.adminHighPermModeValue == 0:
+                    self.adminHighPermModeValue = 1
+                    self.adminHighPermMode.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_mode_on.png);"))
+                else:
+                    self.adminHighPermModeValue = 0
+                    self.adminHighPermMode.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_mode_off.png);"))
+                QtGui.QMessageBox.about(self, u"设置", u"设置成功:")
+            else:
+                QtGui.QMessageBox.about(self, u"设置", u'错误提示:' + res['ErrMsg'])
         else:
             QtGui.QMessageBox.about(self, u"设置", u"设置失败:" + rt[1])
 

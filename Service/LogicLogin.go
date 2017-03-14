@@ -49,12 +49,17 @@ func UserTokeyCheck(uname, tokey string) bool {
 }
 
 func CheckLogin(uname, pwd string) (tokey string, err error) {
+	// 登录时候检测注册状态，未注册，关闭保护
+	CheckSerialAndCloseProtest()
+
 	user, err := DBUserGet(uname)
 	if err != nil {
 		return tokey, err
 	}
 
 	encodePwd := GetMd5String(pwd)
+	fmt.Println("pwd:", pwd)
+	fmt.Println("encodePwd:", encodePwd)
 	if encodePwd != user.Pwd {
 		return tokey, errors.New("错误:密码不正确")
 	}

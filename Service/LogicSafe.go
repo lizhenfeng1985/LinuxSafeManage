@@ -68,12 +68,9 @@ func DBSafeConfigSet(mode, fileetc, filelib, filebin, fileboot, netftp, nettelne
 	}
 	//log.Println("DB_SET:", mode, settime, shutdown, usb, cdrom)
 
-	// 更新内存
-	LockGMemRuleSafeHandle.Lock()
-	GMemRuleSafeHandle.StatusFile = mode
-	GMemRuleSafeHandle.StatusNet = mode
-	GMemRuleSafeHandle.StatusProc = mode
+	// 更新数据库和内存 - 基础安全的保护状态是永远开启的，只是增删不同的规则
+	// DBRuleStatSafeSet(mode, mode, mode)
+
 	// 根据每项的结果，添加不同的策略
-	LockGMemRuleSafeHandle.Unlock()
 	return nil
 }

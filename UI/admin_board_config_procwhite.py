@@ -184,7 +184,42 @@ class AdminBoardConfigProcWhite(QtGui.QWidget):
 
     # 删除
     def onAdminTagConfigProcWhiteDel(self):
-        pass
+        itemcnt = self.adminTagConfigProcWhiteTable.rowCount()
+        dellist = []
+
+        for i in range(0, itemcnt):
+            it = self.adminTagConfigProcWhiteTable.item(i, 1)
+            if it == None:
+                continue
+            chk = it.checkState()
+            if chk == 2:  # 状态有0和2
+                proc = unicode(self.adminTagConfigProcWhiteTable.item(i, 0).text())
+                dellist.append(proc)
+
+        url = 'https://%s:%s/sysconfig/whiteproc/del/%s' % (
+        self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
+        # print url
+        for proc in dellist:
+            data = {
+                'Tokey': self.Tokey,
+                'Proc': proc
+            }
+            # print data
+            param = {'Data': json.dumps(data)}
+            rt = HttpsPost(url, param)
+            # print rt
+            if rt[0] == 0:
+                res = rt[1]
+                if res['Status'] == 0:
+                    # QtGui.QMessageBox.about(self, u'提示', u'删除客体程序成功:' + proc)
+                    pass
+                else:
+                    QtGui.QMessageBox.about(self, u'错误提示', u'删除白名单程序失败:' + proc + ':' + res['ErrMsg'])
+            else:
+                QtGui.QMessageBox.about(self, u'错误提示', u'删除白名单程序失败:' + rt[1])
+
+        # 刷新列表
+        self.AdminTagConfigProcWhiteSet(0, self.adminTagConfigProcWhitePageLength)
 
     # 更新页计数
     def setAdminTagConfigProcWhiteNowPageText(self):
@@ -201,27 +236,48 @@ class AdminBoardConfigProcWhite(QtGui.QWidget):
         
     # 设置白名单列表
     def AdminTagConfigProcWhiteSet(self, start, length):
-        cnt = 55
-        self.adminTagConfigProcWhiteTotal = cnt
+        url = 'https://%s:%s/sysconfig/whiteproc/search/%s' % (
+        self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
+        data = {
+            'Tokey': self.Tokey,
+            'Start': start,
+            'Length': length
+        }
+        # print url, data
+        param = {'Data': json.dumps(data)}
+        rt = HttpsPost(url, param)
+        # print rt
+        if rt[0] == 0:
+            res = rt[1]
+            if res['Status'] == 0:
+                self.adminTagConfigProcWhiteTotal = res['Total']
 
-        # 清空列表
-        for i in xrange(0, self.adminTagConfigProcWhitePageLength):
-            self.adminTagConfigProcWhiteTable.setItem(i, 0, None)
-            self.adminTagConfigProcWhiteTable.setItem(i, 1, None)
-            self.adminTagConfigProcWhitePage = 0
+                # 清空列表
+                for i in xrange(0, self.adminTagConfigProcWhitePageLength):
+                    self.adminTagConfigProcWhiteTable.setItem(i, 0, None)
+                    self.adminTagConfigProcWhiteTable.setItem(i, 1, None)
+                    self.adminTagConfigProcWhitePage = 0
 
-        # 添加列表
-        for i in xrange(0, 9):
-            newItem = QtGui.QTableWidgetItem('/proc/white/%d.exe' % (i + 1))
-            newItem.setTextAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
-            self.adminTagConfigProcWhiteTable.setItem(i, 0, newItem)
+                if res['Procs'] != None:
+                    # 添加列表
+                    cnt = len(res['Procs'])
+                    for i in xrange(0, cnt):
+                        newItem = QtGui.QTableWidgetItem(res['Procs'][i])
+                        #newItem.setTextAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
+                        newItem.setTextAlignment(QtCore.Qt.AlignCenter)
+                        self.adminTagConfigProcWhiteTable.setItem(i, 0, newItem)
 
-            newItemChkbox = QtGui.QTableWidgetItem()
-            newItemChkbox.setCheckState(False)
-            newItemChkbox.setTextAlignment(QtCore.Qt.AlignCenter)
-            self.adminTagConfigProcWhiteTable.setItem(i, 1, newItemChkbox)
-        self.adminTagConfigProcWhitePage = start / self.adminTagConfigProcWhitePageLength
-        self.setAdminTagConfigProcWhiteNowPageText()
+                        newItemChkbox = QtGui.QTableWidgetItem()
+                        newItemChkbox.setCheckState(False)
+                        newItemChkbox.setTextAlignment(QtCore.Qt.AlignCenter)
+                        self.adminTagConfigProcWhiteTable.setItem(i, 1, newItemChkbox)
+                    self.adminTagConfigProcWhitePage = start / self.adminTagConfigProcWhitePageLength
+                self.setAdminTagConfigProcWhiteNowPageText()
+            else:
+                QtGui.QMessageBox.about(self, u'错误提示', res['ErrMsg'])
+        else:
+            QtGui.QMessageBox.about(self, u'错误提示', u'查找组列表失败:' + rt[1])
+
 
     # 用户 - 全选
     def onAdminTagConfigProcWhiteSelect(self):
@@ -246,8 +302,26 @@ class AdminBoardConfigProcWhite(QtGui.QWidget):
     # 弹出 - 添加 - 确认
     def onAdminTagConfigProcWhiteAddDlgOK(self):
         proc_path = unicode(self.adminTagConfigProcWhiteAddDlgPath.text())
-        print proc_path
-        QtGui.QMessageBox.about(self, u'添加白名单进程', u'成功')
+        # 添加客体程序
+        url = 'https://%s:%s/sysconfig/whiteproc/add/%s' % (
+        self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
+        data = {
+            'Tokey': self.Tokey,
+            'Proc': proc_path
+        }
+        # print url, data
+        param = {'Data': json.dumps(data)}
+        rt = HttpsPost(url, param)
+        # print rt
+        if rt[0] == 0:
+            res = rt[1]
+            if res['Status'] == 0:
+                # QtGui.QMessageBox.about(self, u'设置', u'添加成功:')
+                self.AdminTagConfigProcWhiteSet(0, self.adminTagConfigProcWhitePageLength)
+            else:
+                QtGui.QMessageBox.about(self, u'错误提示', u'添加白名单程序失败:' + res['ErrMsg'])
+        else:
+            QtGui.QMessageBox.about(self, u'错误提示', u'添加白名单程序失败:' + rt[1])
 
     # 弹出 - 添加 - 取消
     def onAdminTagConfigProcWhiteAddDlgCancel(self):

@@ -88,7 +88,7 @@ class AdminBoardConfig(QtGui.QWidget):
         self.adminTagConfigTagSelfProtectBkg.setGeometry(QtCore.QRect(0, 113, 1000, 307))
         self.adminTagConfigTagSelfProtectBkg.setObjectName(_fromUtf8("adminTagConfigTagSelfProtectBkg"))
         self.adminTagConfigTagSelfProtectBkg.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_white.png);"))
-        #self.AddAdminTagConfigSelfProtect()
+        self.AddAdminTagConfigSelfProtect()
 
         # 初始化变量
         self.adminTagsConfigTags = {

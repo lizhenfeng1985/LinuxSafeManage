@@ -24,6 +24,7 @@ import admin_board_high_perm
 import admin_board_config
 import admin_board_config_passwd
 import admin_board_config_procwhite
+import admin_board_config_selfprotect
 
 
 try:
@@ -54,7 +55,8 @@ class GuiMain(QtGui.QDialog, \
               admin_board_high_perm.AdminBoardHighPerm, \
               admin_board_config.AdminBoardConfig, \
               admin_board_config_passwd.AdminBoardConfigPasswd, \
-              admin_board_config_procwhite.AdminBoardConfigProcWhite):
+              admin_board_config_procwhite.AdminBoardConfigProcWhite, \
+              admin_board_config_selfprotect.AdminBoardConfigSelfProtect):
     def __init__(self,parent=None):
         super(GuiMain,self).__init__(parent)        
         self.setupUi(self)

@@ -97,3 +97,61 @@ func DBSuperProcDel(proc string) (err error) {
 	//log.Println("DBSuperProcDel:", proc)
 	return nil
 }
+
+func DBSuperProcSearch(start, length int) (procs []string, total int, err error) {
+	db := GHandleDBRuleCfg
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Printf("DBSuperProcSearch: %s\n", err)
+		return procs, total, err
+	}
+
+	// 查找数量
+	sqlstr := "SELECT COUNT(procname) FROM super_process;"
+
+	rows, err := db.Query(sqlstr)
+	if err != nil {
+		log.Printf("DBSuperProcSearch(): %s, %s", err, sqlstr)
+		return procs, total, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		rows.Scan(&total)
+		break
+	}
+	rows.Close()
+
+	if total == 0 {
+		return procs, total, nil
+	}
+
+	// 查找用户
+	sqlstr = fmt.Sprintf("SELECT procname FROM super_process ORDER BY procname ASC LIMIT %d, %d;", start, length)
+
+	rows, err = db.Query(sqlstr)
+	if err != nil {
+		log.Printf("DBSuperProcSearch(): %s, %s", err, sqlstr)
+		return procs, total, err
+	}
+	defer rows.Close()
+
+	var proc string
+	for rows.Next() {
+		rows.Scan(&proc)
+		procs = append(procs, proc)
+	}
+	rows.Close()
+
+	//log.Println("DBSuperProcSearch:", start, length, procs)
+
+	// 事务提交
+	err = tx.Commit()
+	if err != nil {
+		log.Printf("DBSuperProcSearch:tx.Commit: %s\n", err)
+		tx.Rollback()
+		return procs, total, err
+	}
+	return procs, total, nil
+}
