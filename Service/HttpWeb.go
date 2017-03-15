@@ -122,6 +122,12 @@ func HttpInitWeb(run_in_thread bool) {
 	rhttps.HandleFunc("/sysconfig/whiteproc/del/{UserName}", SysConfigWhiteProcDelHandler)
 	rhttps.HandleFunc("/sysconfig/whiteproc/search/{UserName}", SysConfigWhiteProcSearchHandler)
 
+	// 日志 - 安全日志
+	rhttps.HandleFunc("/log/eventsafe/query/{UserName}", LogEventSafeQueryHandler)
+
+	// 日志 - 运行日志
+	rhttps.HandleFunc("/log/eventsys/query/{UserName}", LogEventSysQueryHandler)
+
 	// rhttps添加
 	http.Handle("/", rhttps)
 

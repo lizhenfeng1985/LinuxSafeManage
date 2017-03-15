@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from PyQt4 import QtCore, QtGui
+import json
+from http import *
 import images_rc
+
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -116,11 +119,11 @@ class AuditBoardSafeEvent(QtGui.QWidget):
         self.auditTagSafeEventQuery.setText(_translate("auditTagSafeEventStopText", "", None))
 
         # 查询
-        self.auditTagSafeEventQueryText = QtGui.QPushButton(self.auditTagSafeEventBkg)
-        self.auditTagSafeEventQueryText.setGeometry(QtCore.QRect(910, 80, 60, 25))
-        self.auditTagSafeEventQueryText.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_grey_line.png);"))
-        self.auditTagSafeEventQueryText.setObjectName(_fromUtf8("auditTagSafeEventQueryText"))
-        self.auditTagSafeEventQueryText.setText(_translate("auditTagSafeEventQueryText", "查询", None))
+        self.auditTagSafeEventQuerySubmit = QtGui.QPushButton(self.auditTagSafeEventBkg)
+        self.auditTagSafeEventQuerySubmit.setGeometry(QtCore.QRect(910, 80, 60, 25))
+        self.auditTagSafeEventQuerySubmit.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_grey_line.png);"))
+        self.auditTagSafeEventQuerySubmit.setObjectName(_fromUtf8("auditTagSafeEventQuerySubmit"))
+        self.auditTagSafeEventQuerySubmit.setText(_translate("auditTagSafeEventQuerySubmit", "查询", None))
 
         # 日志表格
         self.auditTagSafeEventTable = QtGui.QTableWidget(self.auditTagSafeEventBkg)
@@ -148,3 +151,126 @@ class AuditBoardSafeEvent(QtGui.QWidget):
         self.auditTagSafeEventTable.setColumnWidth(8, 110)
         for i in range(0, self.auditTagSafeEventPageLength):
             self.auditTagSafeEventTable.setRowHeight(i, 23)
+
+        # 添加消息
+        self.connect(self.auditTagSafeEventPrev, QtCore.SIGNAL('clicked()'), self.onAuditTagSafeEventPrev)
+        self.connect(self.auditTagSafeEventNext, QtCore.SIGNAL('clicked()'), self.onAuditTagSafeEventNext)
+        self.connect(self.auditTagSafeEventQuerySubmit, QtCore.SIGNAL('clicked()'), self.onAuditTagSafeEventQuerySubmit)
+
+        
+    # 上一页
+    def onAuditTagSafeEventPrev(self):
+        start = self.auditTagSafeEventPageLength * (self.auditTagSafeEventPage - 1)
+        if start < 0:
+            QtGui.QMessageBox.about(self, u'错误提示', u'已经是第一页')
+        else:
+            self.AuditTagSafeEventQuerySet(start, self.auditTagSafeEventPageLength)
+
+    # 下一页
+    def onAuditTagSafeEventNext(self):
+        start = self.auditTagSafeEventPageLength * (self.auditTagSafeEventPage + 1)
+        if start >= self.selfauditTagSafeEventTotal:
+            QtGui.QMessageBox.about(self, u'错误提示', u'已经是最后一页')
+        else:
+            self.AuditTagSafeEventQuerySet(start, self.auditTagSafeEventPageLength)
+
+    # 更新页计数
+    def setAuditTagSafeEventPageText(self):
+        tot = self.selfauditTagSafeEventTotal
+        page = self.auditTagSafeEventPage
+        length = self.auditTagSafeEventPageLength
+        page_str = '0/0'
+        if tot > 0:
+            if tot % length > 0:
+                page_str = '%d/%d' % (page + 1, (tot / length) + 1)
+            else:
+                page_str = '%d/%d' % (page + 1, tot / length)
+        self.auditTagSafeEventPageText.setText(_translate('auditTagSafeEventPageText', page_str, None))
+
+    def AuditTagSafeEventQuerySet(self, start, length):
+        start_time = unicode(self.auditTagSafeEventStart.dateTime().toString('yyyy-MM-dd HH:mm:ss'))
+        stop_time = unicode(self.auditTagSafeEventStop.dateTime().toString('yyyy-MM-dd HH:mm:ss'))
+        key_word = unicode(self.auditTagSafeEventQuery.text())
+
+        url = 'https://%s:%s/log/eventsafe/query/%s' % (
+                self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
+        data = {
+            'Tokey': self.Tokey,
+            'TimeStart': start_time,
+            'TimeStop': stop_time,
+            'KeyWord': key_word,
+            'Start': start,
+            'Length': length
+        }
+        # print url, data
+        param = {'Data': json.dumps(data)}
+        rt = HttpsPost(url, param)
+        # print rt
+        if rt[0] == 0:
+            res = rt[1]
+            if res['Status'] == 0:
+                self.selfauditTagSafeEventTotal = res['Total']
+
+                # 清空列表
+                for i in xrange(0, self.auditTagSafeEventPageLength):
+                    self.auditTagSafeEventTable.setItem(i, 0, None)
+                    self.auditTagSafeEventTable.setItem(i, 1, None)
+                    self.auditTagSafeEventTable.setItem(i, 2, None)
+                    self.auditTagSafeEventTable.setItem(i, 3, None)
+                    self.auditTagSafeEventTable.setItem(i, 4, None)
+                    self.auditTagSafeEventTable.setItem(i, 5, None)
+                    self.auditTagSafeEventTable.setItem(i, 6, None)
+                    self.auditTagSafeEventTable.setItem(i, 7, None)
+                    self.auditTagSafeEventTable.setItem(i, 8, None)
+                    self.auditTagSafeEventPage = 0
+
+                if res['Results'] != None:
+                    # 添加列表
+                    cnt = len(res['Results'])
+                    for i in xrange(0, cnt):
+                        newItem = QtGui.QTableWidgetItem(res['Results'][i]['Module'])
+                        newItem.setTextAlignment(QtCore.Qt.AlignCenter)
+                        self.auditTagSafeEventTable.setItem(i, 0, newItem)
+
+                        newItem = QtGui.QTableWidgetItem(res['Results'][i]['Status'])
+                        newItem.setTextAlignment(QtCore.Qt.AlignCenter)
+                        self.auditTagSafeEventTable.setItem(i, 1, newItem)
+
+                        newItem = QtGui.QTableWidgetItem(res['Results'][i]['Etype'])
+                        newItem.setTextAlignment(QtCore.Qt.AlignCenter)
+                        self.auditTagSafeEventTable.setItem(i, 2, newItem)
+
+                        newItem = QtGui.QTableWidgetItem(res['Results'][i]['Eop'])
+                        newItem.setTextAlignment(QtCore.Qt.AlignCenter)
+                        self.auditTagSafeEventTable.setItem(i, 3, newItem)
+
+                        newItem = QtGui.QTableWidgetItem(res['Results'][i]['Result'])
+                        newItem.setTextAlignment(QtCore.Qt.AlignCenter)
+                        self.auditTagSafeEventTable.setItem(i, 4, newItem)
+
+                        newItem = QtGui.QTableWidgetItem(res['Results'][i]['Uname'])
+                        newItem.setTextAlignment(QtCore.Qt.AlignCenter)
+                        self.auditTagSafeEventTable.setItem(i, 5, newItem)
+
+                        newItem = QtGui.QTableWidgetItem(res['Results'][i]['Proc'])
+                        newItem.setTextAlignment(QtCore.Qt.AlignCenter)
+                        self.auditTagSafeEventTable.setItem(i, 6, newItem)
+
+                        newItem = QtGui.QTableWidgetItem(res['Results'][i]['Obj'])
+                        newItem.setTextAlignment(QtCore.Qt.AlignCenter)
+                        self.adminTagConfigProcWhiteTable.setItem(i, 7, newItem)
+
+                        newItem = QtGui.QTableWidgetItem(res['Results'][i]['LogTime'])
+                        newItem.setTextAlignment(QtCore.Qt.AlignCenter)
+                        self.auditTagSafeEventTable.setItem(i, 8, newItem)
+
+                    self.auditTagSafeEventPage = start / self.auditTagSafeEventPageLength
+                self.setAuditTagSafeEventPageText()
+            else:
+                QtGui.QMessageBox.about(self, u'错误提示', res['ErrMsg'])
+        else:
+            QtGui.QMessageBox.about(self, u'错误提示', u'查找日志失败:' + rt[1])
+
+    def onAuditTagSafeEventQuerySubmit(self):
+        AuditTagSafeEventQuerySet(0, self.auditTagSafeEventPageLength)
+

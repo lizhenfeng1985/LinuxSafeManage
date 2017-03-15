@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from PyQt4 import QtCore, QtGui
+import json
+from http import *
 import images_rc
 
 try:
@@ -116,11 +118,11 @@ class AuditBoardSysEvent(QtGui.QWidget):
         self.auditTagSysEventQuery.setText(_translate("auditTagSysEventStopText", "", None))
 
         # 查询
-        self.auditTagSysEventQueryText = QtGui.QPushButton(self.auditTagSysEventBkg)
-        self.auditTagSysEventQueryText.setGeometry(QtCore.QRect(910, 80, 60, 25))
-        self.auditTagSysEventQueryText.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_grey_line.png);"))
-        self.auditTagSysEventQueryText.setObjectName(_fromUtf8("auditTagSysEventQueryText"))
-        self.auditTagSysEventQueryText.setText(_translate("auditTagSysEventQueryText", "查询", None))
+        self.auditTagSysEventQuerySubmit = QtGui.QPushButton(self.auditTagSysEventBkg)
+        self.auditTagSysEventQuerySubmit.setGeometry(QtCore.QRect(910, 80, 60, 25))
+        self.auditTagSysEventQuerySubmit.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_grey_line.png);"))
+        self.auditTagSysEventQuerySubmit.setObjectName(_fromUtf8("auditTagSysEventQuerySubmit"))
+        self.auditTagSysEventQuerySubmit.setText(_translate("auditTagSysEventQuerySubmit", "查询", None))
 
         # 日志表格
         self.auditTagSysEventTable = QtGui.QTableWidget(self.auditTagSysEventBkg)
@@ -143,3 +145,106 @@ class AuditBoardSysEvent(QtGui.QWidget):
         self.auditTagSysEventTable.setColumnWidth(4, 490)
         for i in range(0, self.auditTagSysEventPageLength):
             self.auditTagSysEventTable.setRowHeight(i, 23)
+            
+        # 添加消息
+        self.connect(self.auditTagSysEventPrev, QtCore.SIGNAL('clicked()'), self.onAuditTagSysEventPrev)
+        self.connect(self.auditTagSysEventNext, QtCore.SIGNAL('clicked()'), self.onAuditTagSysEventNext)
+        self.connect(self.auditTagSysEventQuerySubmit, QtCore.SIGNAL('clicked()'), self.onAuditTagSysEventQuerySubmit)
+
+        
+    # 上一页
+    def onAuditTagSysEventPrev(self):
+        start = self.auditTagSysEventPageLength * (self.auditTagSysEventPage - 1)
+        if start < 0:
+            QtGui.QMessageBox.about(self, u'错误提示', u'已经是第一页')
+        else:
+            self.AuditTagSysEventQuerySet(start, self.auditTagSysEventPageLength)
+
+    # 下一页
+    def onAuditTagSysEventNext(self):
+        start = self.auditTagSysEventPageLength * (self.auditTagSysEventPage + 1)
+        if start >= self.selfauditTagSysEventTotal:
+            QtGui.QMessageBox.about(self, u'错误提示', u'已经是最后一页')
+        else:
+            self.AuditTagSysEventQuerySet(start, self.auditTagSysEventPageLength)
+
+    # 更新页计数
+    def setAuditTagSysEventPageText(self):
+        tot = self.selfauditTagSysEventTotal
+        page = self.auditTagSysEventPage
+        length = self.auditTagSysEventPageLength
+        page_str = '0/0'
+        if tot > 0:
+            if tot % length > 0:
+                page_str = '%d/%d' % (page + 1, (tot / length) + 1)
+            else:
+                page_str = '%d/%d' % (page + 1, tot / length)
+        self.auditTagSysEventPageText.setText(_translate('auditTagSysEventPageText', page_str, None))
+
+    def AuditTagSysEventQuerySet(self, start, length):
+        start_time = unicode(self.auditTagSysEventStart.dateTime().toString('yyyy-MM-dd HH:mm:ss'))
+        stop_time = unicode(self.auditTagSysEventStop.dateTime().toString('yyyy-MM-dd HH:mm:ss'))
+        key_word = unicode(self.auditTagSysEventQuery.text())
+
+        url = 'https://%s:%s/log/eventsys/query/%s' % (
+                self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
+        data = {
+            'Tokey': self.Tokey,
+            'TimeStart': start_time,
+            'TimeStop': stop_time,
+            'KeyWord': key_word,
+            'Start': start,
+            'Length': length
+        }
+        # print url, data
+        param = {'Data': json.dumps(data)}
+        rt = HttpsPost(url, param)
+        # print rt
+        if rt[0] == 0:
+            res = rt[1]
+            if res['Status'] == 0:
+                self.selfauditTagSysEventTotal = res['Total']
+
+                # 清空列表
+                for i in xrange(0, self.auditTagSysEventPageLength):
+                    self.auditTagSysEventTable.setItem(i, 0, None)
+                    self.auditTagSysEventTable.setItem(i, 1, None)
+                    self.auditTagSysEventTable.setItem(i, 2, None)
+                    self.auditTagSysEventTable.setItem(i, 3, None)
+                    self.auditTagSysEventTable.setItem(i, 4, None)
+                    self.auditTagSysEventPage = 0
+
+                if res['Results'] != None:
+                    # 添加列表
+                    cnt = len(res['Results'])
+                    for i in xrange(0, cnt):
+                        newItem = QtGui.QTableWidgetItem(res['Results'][i]['LoginName'])
+                        newItem.setTextAlignment(QtCore.Qt.AlignCenter)
+                        self.auditTagSysEventTable.setItem(i, 0, newItem)
+
+                        newItem = QtGui.QTableWidgetItem(res['Results'][i]['Op'])
+                        newItem.setTextAlignment(QtCore.Qt.AlignCenter)
+                        self.auditTagSysEventTable.setItem(i, 1, newItem)
+
+                        newItem = QtGui.QTableWidgetItem(res['Results'][i]['Result'])
+                        newItem.setTextAlignment(QtCore.Qt.AlignCenter)
+                        self.auditTagSysEventTable.setItem(i, 2, newItem)
+
+                        newItem = QtGui.QTableWidgetItem(res['Results'][i]['LogTime'])
+                        newItem.setTextAlignment(QtCore.Qt.AlignCenter)
+                        self.auditTagSysEventTable.setItem(i, 3, newItem)
+
+                        newItem = QtGui.QTableWidgetItem(res['Results'][i]['Info'])
+                        newItem.setTextAlignment(QtCore.Qt.AlignCenter)
+                        self.auditTagSysEventTable.setItem(i, 4, newItem)
+
+                    self.auditTagSysEventPage = start / self.auditTagSysEventPageLength
+                self.setAuditTagSysEventPageText()
+            else:
+                QtGui.QMessageBox.about(self, u'错误提示', res['ErrMsg'])
+        else:
+            QtGui.QMessageBox.about(self, u'错误提示', u'查找日志失败:' + rt[1])
+            
+    def onAuditTagSysEventQuerySubmit(self):
+        self.AuditTagSysEventQuerySet(0, self.auditTagSysEventPageLength)
+
