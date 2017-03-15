@@ -89,7 +89,7 @@ class AuditBoardSysEvent(QtGui.QWidget):
 
         # 上一页
         self.auditTagSysEventPrev = QtGui.QPushButton(self.auditTagSysEventBkg)
-        self.auditTagSysEventPrev.setGeometry(QtCore.QRect(410, 80, 70, 25))
+        self.auditTagSysEventPrev.setGeometry(QtCore.QRect(450, 80, 70, 25))
         self.auditTagSysEventPrev.setObjectName(_fromUtf8('auditTagSysEventPrev'))
         self.auditTagSysEventPrev.setText(_translate('auditTagSysEventPrev', '<<  上一页', None))
 
