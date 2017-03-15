@@ -62,7 +62,7 @@ class AuditBoardSysEvent(QtGui.QWidget):
 
         # 开始时间 - 日历
         self.auditTagSysEventStart = QtGui.QDateTimeEdit(self.auditTagSysEventBkg)
-        self.auditTagSysEventStart.setGeometry(QtCore.QRect(70, 80, 135, 25))
+        self.auditTagSysEventStart.setGeometry(QtCore.QRect(70, 80, 140, 25))
         self.auditTagSysEventStart.setCalendarPopup(True)
         # self.auditTagSysEventStart.setFrame(True)
         self.auditTagSysEventStart.setDisplayFormat("yyyy-MM-dd hh:mm:ss")
@@ -72,14 +72,14 @@ class AuditBoardSysEvent(QtGui.QWidget):
 
         # 结束时间 - 文字
         self.auditTagSysEventStopText = QtGui.QLabel(self.auditTagSysEventBkg)
-        self.auditTagSysEventStopText.setGeometry(QtCore.QRect(215, 80, 40, 25))
+        self.auditTagSysEventStopText.setGeometry(QtCore.QRect(220, 80, 40, 25))
         self.auditTagSysEventStopText.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignCenter)
         self.auditTagSysEventStopText.setObjectName(_fromUtf8("auditTagSysEventStopText"))
         self.auditTagSysEventStopText.setText(_translate("auditTagSysEventStopText", "结束：", None))
 
         # 结束时间 - 日历
         self.auditTagSysEventStop = QtGui.QDateTimeEdit(self.auditTagSysEventBkg)
-        self.auditTagSysEventStop.setGeometry(QtCore.QRect(265, 80, 135, 25))
+        self.auditTagSysEventStop.setGeometry(QtCore.QRect(270, 80, 140, 25))
         self.auditTagSysEventStop.setCalendarPopup(True)
         # self.auditTagSysEventStart.setFrame(True)
         self.auditTagSysEventStop.setDisplayFormat("yyyy-MM-dd hh:mm:ss")
@@ -89,26 +89,26 @@ class AuditBoardSysEvent(QtGui.QWidget):
 
         # 上一页
         self.auditTagSysEventPrev = QtGui.QPushButton(self.auditTagSysEventBkg)
-        self.auditTagSysEventPrev.setGeometry(QtCore.QRect(410, 80, 70, 25))
+        self.auditTagSysEventPrev.setGeometry(QtCore.QRect(420, 80, 70, 25))
         self.auditTagSysEventPrev.setObjectName(_fromUtf8('auditTagSysEventPrev'))
         self.auditTagSysEventPrev.setText(_translate('auditTagSysEventPrev', '<<  上一页', None))
 
         # 当前页
         self.auditTagSysEventPageText = QtGui.QLabel(self.auditTagSysEventBkg)
-        self.auditTagSysEventPageText.setGeometry(QtCore.QRect(490, 80, 50, 25))
+        self.auditTagSysEventPageText.setGeometry(QtCore.QRect(500, 80, 50, 25))
         self.auditTagSysEventPageText.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignCenter)
         self.auditTagSysEventPageText.setObjectName(_fromUtf8('auditTagSysEventPageText'))
         self.auditTagSysEventPageText.setText(_translate('auditTagSysEventPageText', '0/0', None))
 
         # 下一页
         self.auditTagSysEventNext = QtGui.QPushButton(self.auditTagSysEventBkg)
-        self.auditTagSysEventNext.setGeometry(QtCore.QRect(550, 80, 70, 25))
+        self.auditTagSysEventNext.setGeometry(QtCore.QRect(560, 80, 70, 25))
         self.auditTagSysEventNext.setObjectName(_fromUtf8('auditTagSysEventNext'))
         self.auditTagSysEventNext.setText(_translate('auditTagSysEventNext', '下一页  >>', None))
 
         # 查询 - 输入框
         self.auditTagSysEventQuery = QtGui.QLineEdit(self.auditTagSysEventBkg)
-        self.auditTagSysEventQuery.setGeometry(QtCore.QRect(650, 80, 250, 25))
+        self.auditTagSysEventQuery.setGeometry(QtCore.QRect(660, 80, 240, 25))
         self.auditTagSysEventQuery.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_grey_line.png);"))
         self.auditTagSysEventQuery.setObjectName(_fromUtf8("auditTagSysEventQuery"))
         self.auditTagSysEventQuery.setText(_translate("auditTagSysEventStopText", "", None))
