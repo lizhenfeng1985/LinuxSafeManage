@@ -164,7 +164,7 @@ func DBHighUserList() (users []string, err error) {
 		if err != nil {
 			continue
 		}
-		users = users.append(users, user.Username)
+		users = append(users, user.Username)
 	}
 
 	return users, nil
