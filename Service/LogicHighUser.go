@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"os/user"
 )
 
 func DBHighUserGroupAdd(db *sql.DB, group string) (err error) {
@@ -158,10 +159,15 @@ func DBHighUserGroupSearch(db *sql.DB) (groups []string, err error) {
 
 // 获取用户列表
 func DBHighUserList() (users []string, err error) {
-	for i := 1; i <= 40; i++ {
-		users = append(users, fmt.Sprintf("user_%d", i))
+	for i := 0; i < 10001; i++ {
+		user, err := user.LookupId(fmt.Sprintf("%d", i))
+		if err != nil {
+			continue
+		}
+		users = users.append(users, user.Username)
 	}
-	return users, err
+
+	return users, nil
 }
 
 // 添加用户
