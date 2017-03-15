@@ -1,14 +1,15 @@
 <html>
 <head>
 <title>HomeCount</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <script type="text/javascript" src="../static/fusioncharts/jquery-1.9.1.js"></script>
-<script src="/static/fusioncharts/fusioncharts.js" type="text/javascript"></script>
-<script src="/static/fusioncharts/fusioncharts.charts.js" type="text/javascript"></script>
-<script src="/static/fusioncharts/fusioncharts.maps.js" type="text/javascript"></script>
-<script src="/static/fusioncharts/fusioncharts.widgets.js" type="text/javascript"></script>
-<script src="/static/fusioncharts/fusioncharts.gantt.js" type="text/javascript"></script>
-<script src="/static/fusioncharts/fusioncharts.powercharts.js" type="text/javascript"></script>
+<script src="../static/fusioncharts/fusioncharts.js" type="text/javascript"></script>
+<script src="../static/fusioncharts/fusioncharts.charts.js" type="text/javascript"></script>
+<script src="../static/fusioncharts/fusioncharts.maps.js" type="text/javascript"></script>
+<script src="../static/fusioncharts/fusioncharts.widgets.js" type="text/javascript"></script>
+<script src="../static/fusioncharts/fusioncharts.gantt.js" type="text/javascript"></script>
+<script src="../static/fusioncharts/fusioncharts.powercharts.js" type="text/javascript"></script>
 
 <!-- 安全事件总体概况 -->
 <script type="text/javascript">
@@ -32,7 +33,7 @@
 				"showBorder": "1",
             	"theme": "fint"
          	},
-        	"data": {{.Data}}
+        	"data": {{.DATA}}
       	}
   	});
 revenueChart.render();

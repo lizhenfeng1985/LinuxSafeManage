@@ -3,6 +3,7 @@ from PyQt4 import QtCore, QtGui
 from PyQt4 import QtWebKit
 import sys
 import json
+import images_rc
 from http import *
 
 try:
@@ -31,8 +32,28 @@ class AdminBoardHome(QtGui.QWidget):
         # webkit
         self.adminTagHomeWebkit = QtWebKit.QWebView(self.adminTagHomeBkg)
         self.adminTagHomeWebkit.setGeometry(QtCore.QRect(60, 40, 860, 400))
-        url = 'http://%s:%s/home/admin/%s' % (self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
-        self.adminTagHomeWebkit.load(QtCore.QUrl(url))
 
+        load_html_file = './html/admin_board_home.default.html'
 
-import images_rc
+        url = 'https://%s:%s/home/admin/%s' % (self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
+        data = {
+            'Tokey': self.Tokey
+        }
+        param = {'Data': json.dumps(data)}
+        rt = HttpsPost(url, param)
+        if rt[0] == 0:
+            res = rt[1]
+            if res['Status'] == 0:
+                try:
+                    fp = open("./html/admin_board_home.tpl", "r")
+                    html_text = fp.read()
+                    fp.close()
+                    html_text = html_text.replace("{{.DATA}}", json.dumps(res["LabValues"]))
+
+                    fp = open("./html/admin_board_home.html", "w")
+                    fp.write(html_text)
+                    fp.close()
+                    load_html_file = "./html/admin_board_home.html"
+                except Exception as e:
+                    pass
+        self.adminTagHomeWebkit.load(QtCore.QUrl(load_html_file))

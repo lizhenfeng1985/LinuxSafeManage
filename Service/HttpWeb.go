@@ -126,14 +126,14 @@ func HttpInitWeb(run_in_thread bool) {
 	http.Handle("/", rhttps)
 
 	// 静态文件
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
+	//http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 
 	if run_in_thread == true {
-		go http.ListenAndServe(GHttpWebAddr, nil)
-		//go http.ListenAndServeTLS(GHttpWebAddr, "server.crt", "server.key", nil)
+		//go http.ListenAndServe(GHttpWebAddr, nil)
+		go http.ListenAndServeTLS(GHttpWebAddr, "server.crt", "server.key", nil)
 	} else {
-		http.ListenAndServe(GHttpWebAddr, nil)
-		//http.ListenAndServeTLS(GHttpWebAddr, "server.crt", "server.key", nil)
+		//http.ListenAndServe(GHttpWebAddr, nil)
+		http.ListenAndServeTLS(GHttpWebAddr, "server.crt", "server.key", nil)
 	}
 
 }

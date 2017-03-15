@@ -58,8 +58,6 @@ func CheckLogin(uname, pwd string) (tokey string, err error) {
 	}
 
 	encodePwd := GetMd5String(pwd)
-	fmt.Println("pwd:", pwd)
-	fmt.Println("encodePwd:", encodePwd)
 	if encodePwd != user.Pwd {
 		return tokey, errors.New("错误:密码不正确")
 	}
