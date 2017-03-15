@@ -168,7 +168,10 @@ class LoginBoard(QtGui.QWidget):
                     self.adminBoard.show()
                 # 进入Audit页面
                 elif self.LoginName == 'Audit':
-                    QtGui.QMessageBox.about(self, u"登录", u'页面未添加')
+                    self.LoadAuditBoard()
+                    self.loginBoard.hide()
+                    self.auditBoard.show()
+                    #QtGui.QMessageBox.about(self, u"登录", u'页面未添加')
             else:
                 QtGui.QMessageBox.about(self, u"登录", u'%s' % (res['ErrMsg']))
         else:

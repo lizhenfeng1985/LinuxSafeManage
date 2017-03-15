@@ -26,6 +26,13 @@ import admin_board_config_passwd
 import admin_board_config_procwhite
 import admin_board_config_selfprotect
 
+import audit_board
+import audit_board_home
+import audit_board_config
+import audit_board_config_passwd
+import audit_board_safeevent
+import audit_board_sysevent
+
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -42,7 +49,8 @@ except AttributeError:
         return QtGui.QApplication.translate(context, text, disambig)
 
 class GuiMain(QtGui.QDialog, \
-              login.LoginBoard, admin_board.AdminBoard, \
+              login.LoginBoard, \
+              admin_board.AdminBoard, \
               admin_board_home.AdminBoardHome, \
               admin_board_special.AdminBoardSpecial, \
               admin_board_safe.AdminBoardSafe, \
@@ -56,7 +64,13 @@ class GuiMain(QtGui.QDialog, \
               admin_board_config.AdminBoardConfig, \
               admin_board_config_passwd.AdminBoardConfigPasswd, \
               admin_board_config_procwhite.AdminBoardConfigProcWhite, \
-              admin_board_config_selfprotect.AdminBoardConfigSelfProtect):
+              admin_board_config_selfprotect.AdminBoardConfigSelfProtect, \
+              audit_board.AuditBoard, \
+              audit_board_home.AuditBoardHome, \
+              audit_board_config.AuditBoardConfig, \
+              audit_board_config_passwd.AuditBoardConfigPasswd, \
+              audit_board_safeevent.AuditBoardSafeEvent, \
+              audit_board_sysevent.AuditBoardSysEvent):
     def __init__(self,parent=None):
         super(GuiMain,self).__init__(parent)        
         self.setupUi(self)

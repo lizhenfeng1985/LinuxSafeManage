@@ -59,6 +59,9 @@
 
     <file>images/admin_config_logo.png</file>
     <file>images/admin_config_title.png</file>
+    
+    <file>images/audit_config_logo.png</file>
+    <file>images/audit_config_title.png</file>
      
   </qresource>
 </RCC>

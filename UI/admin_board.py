@@ -4,8 +4,6 @@ import sys
 import json
 from http import *
 
-import admin_board_special
-
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
