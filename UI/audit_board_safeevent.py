@@ -66,7 +66,7 @@ class AuditBoardSafeEvent(QtGui.QWidget):
         self.auditTagSafeEventStart.setCalendarPopup(True)
         #self.auditTagSafeEventStart.setFrame(True)
         self.auditTagSafeEventStart.setDisplayFormat("yyyy-MM-dd hh:mm:ss")
-        self.auditTagSafeEventStart.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_bg_disable.png);'))
+        self.auditTagSafeEventStart.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_grey_line.png);'))
         self.auditTagSafeEventStart.setObjectName(_fromUtf8("auditTagSafeEventStart"))
         self.auditTagSafeEventStart.setDateTime(QtCore.QDateTime.currentDateTime())
 
@@ -83,7 +83,7 @@ class AuditBoardSafeEvent(QtGui.QWidget):
         self.auditTagSafeEventStop.setCalendarPopup(True)
         # self.auditTagSafeEventStart.setFrame(True)
         self.auditTagSafeEventStop.setDisplayFormat("yyyy-MM-dd hh:mm:ss")
-        self.auditTagSafeEventStop.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_bg_disable.png);'))
+        self.auditTagSafeEventStop.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_grey_line.png);'))
         self.auditTagSafeEventStop.setObjectName(_fromUtf8("auditTagSafeEventStop"))
         self.auditTagSafeEventStop.setDateTime(QtCore.QDateTime.currentDateTime())
 

@@ -64,9 +64,10 @@ class AuditBoardSysEvent(QtGui.QWidget):
         self.auditTagSysEventStart = QtGui.QDateTimeEdit(self.auditTagSysEventBkg)
         self.auditTagSysEventStart.setGeometry(QtCore.QRect(70, 80, 155, 25))
         self.auditTagSysEventStart.setCalendarPopup(True)
+        self.auditTagSysEventStart.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignCenter)
         # self.auditTagSysEventStart.setFrame(True)
         self.auditTagSysEventStart.setDisplayFormat("yyyy-MM-dd hh:mm:ss")
-        self.auditTagSysEventStart.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_bg_disable.png);'))
+        self.auditTagSysEventStart.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_grey_line.png);'))
         self.auditTagSysEventStart.setObjectName(_fromUtf8("auditTagSysEventStart"))
         self.auditTagSysEventStart.setDateTime(QtCore.QDateTime.currentDateTime())
 
@@ -81,9 +82,10 @@ class AuditBoardSysEvent(QtGui.QWidget):
         self.auditTagSysEventStop = QtGui.QDateTimeEdit(self.auditTagSysEventBkg)
         self.auditTagSysEventStop.setGeometry(QtCore.QRect(285, 80, 155, 25))
         self.auditTagSysEventStop.setCalendarPopup(True)
+        self.auditTagSysEventStop.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignCenter)
         # self.auditTagSysEventStart.setFrame(True)
         self.auditTagSysEventStop.setDisplayFormat("yyyy-MM-dd hh:mm:ss")
-        self.auditTagSysEventStop.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_bg_disable.png);'))
+        self.auditTagSysEventStop.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_grey_line.png);'))
         self.auditTagSysEventStop.setObjectName(_fromUtf8("auditTagSysEventStop"))
         self.auditTagSysEventStop.setDateTime(QtCore.QDateTime.currentDateTime())
 

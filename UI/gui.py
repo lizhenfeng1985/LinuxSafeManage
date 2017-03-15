@@ -71,8 +71,8 @@ class GuiMain(QtGui.QDialog, \
               audit_board_config_passwd.AuditBoardConfigPasswd, \
               audit_board_safeevent.AuditBoardSafeEvent, \
               audit_board_sysevent.AuditBoardSysEvent):
-    def __init__(self,parent=None):
-        super(GuiMain,self).__init__(parent)        
+    def __init__(self, parent=None):
+        super(GuiMain, self).__init__(parent)
         self.setupUi(self)
         
     def setupUi(self, mainBoard):
@@ -104,6 +104,7 @@ import images_rc
 
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
+    app.setApplicationName("LinuxSafeManage")
     win = GuiMain()
     win.show()
     app.exec_()
