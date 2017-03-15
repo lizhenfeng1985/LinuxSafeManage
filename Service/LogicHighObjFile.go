@@ -168,12 +168,25 @@ func DBHighObjFileList(dir_path string) (obj_files map[string]int, err error) {
 		}
 	}
 
+	flag := false
+	if dir_path[len(dir_path)-1] == '/' {
+		flag = true
+	}
+
 	files, _ := ioutil.ReadDir(dir_path)
 	for _, fi := range files {
 		if fi.IsDir() {
-			obj_files[dir_path+"/"+fi.Name()] = 1
+			if flag == true {
+				obj_files[dir_path+fi.Name()] = 1
+			} else {
+				obj_files[dir_path+"/"+fi.Name()] = 1
+			}
 		} else {
-			obj_files[dir_path+"/"+fi.Name()] = 0
+			if flag == true {
+				obj_files[dir_path+fi.Name()] = 0
+			} else {
+				obj_files[dir_path+"/"+fi.Name()] = 0
+			}
 		}
 	}
 	return obj_files, nil

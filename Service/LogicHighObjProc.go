@@ -4,7 +4,11 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"os"
+	"runtime"
+	"strconv"
 )
 
 func DBHighObjProcGroupAdd(db *sql.DB, group string) (err error) {
@@ -157,8 +161,24 @@ func DBHighObjProcGroupSearch(db *sql.DB) (groups []string, err error) {
 
 // 获取客体程序列表
 func DBHighObjProcList() (obj_procs []string, err error) {
-	for i := 1; i <= 40; i++ {
-		obj_procs = append(obj_procs, fmt.Sprintf("/obj_proc/%d.exe", i))
+	if runtime.GOOS == "windows" { // for test
+		for i := 1; i <= 40; i++ {
+			obj_procs = append(obj_procs, fmt.Sprintf("/proc/%d.exe", i))
+		}
+	} else {
+		files, _ := ioutil.ReadDir("/proc")
+		for _, fi := range files {
+			if fi.IsDir() {
+				_, err := strconv.Atoi(fi.Name())
+				if err == nil {
+					link, err := os.Readlink("/proc/" + fi.Name() + "/exe")
+					if err == nil {
+						obj_procs = append(obj_procs, link)
+					}
+				}
+			}
+		}
+		return obj_procs, nil
 	}
 	return obj_procs, err
 }

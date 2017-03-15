@@ -151,7 +151,7 @@ class AdminBoardHighProc(QtGui.QWidget):
         #####################################################
         # 添加程序弹出
         self.adminTagHighProcAddDlg = QtGui.QWidget(self.adminTagHighTagProcBkg)
-        self.adminTagHighProcAddDlg.setGeometry(QtCore.QRect(300, 0, 257, 300))
+        self.adminTagHighProcAddDlg.setGeometry(QtCore.QRect(300, 0, 457, 300))
         self.adminTagHighProcAddDlg.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_grey_frame.png);'))
         self.adminTagHighProcAddDlg.setObjectName(_fromUtf8('adminTagHighProcAddDlg'))
         self.adminTagHighProcAddDlg.hide()
@@ -164,7 +164,7 @@ class AdminBoardHighProc(QtGui.QWidget):
 
         # 添加程序弹出 - 程序列表
         self.adminTagHighProcAddDlgTree = QtGui.QTreeWidget(self.adminTagHighProcAddDlg)
-        self.adminTagHighProcAddDlgTree.setGeometry(QtCore.QRect(10, 35, 231, 192))
+        self.adminTagHighProcAddDlgTree.setGeometry(QtCore.QRect(10, 35, 431, 192))
         self.adminTagHighProcAddDlgTree.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_grey_line.png);'))
         self.adminTagHighProcAddDlgTree.setObjectName(_fromUtf8('adminTagHighProcAddDlgTree'))
         self.adminTagHighProcAddDlgTree.setHeaderHidden(True)
@@ -177,21 +177,21 @@ class AdminBoardHighProc(QtGui.QWidget):
         
         # 添加程序弹出 - 程序名称
         self.adminTagHighProcAddDlgUName = QtGui.QLineEdit(self.adminTagHighProcAddDlg)
-        self.adminTagHighProcAddDlgUName.setGeometry(QtCore.QRect(50, 240, 190, 21))
+        self.adminTagHighProcAddDlgUName.setGeometry(QtCore.QRect(50, 240, 390, 21))
         self.adminTagHighProcAddDlgUName.setObjectName(_fromUtf8('adminTagHighProcAddDlgUName'))
         self.adminTagHighProcAddDlgUName.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_white_frame.png);'))
         self.adminTagHighProcAddDlgUName.setText(_translate('adminTagHighProcAddDlgUName', '', None))
         
         # 添加程序弹出 - 添加
         self.adminTagHighProcAddDlgOk = QtGui.QPushButton(self.adminTagHighProcAddDlg)
-        self.adminTagHighProcAddDlgOk.setGeometry(QtCore.QRect(20, 270, 75, 23))
+        self.adminTagHighProcAddDlgOk.setGeometry(QtCore.QRect(120, 270, 75, 23))
         self.adminTagHighProcAddDlgOk.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_grey_line.png);'))
         self.adminTagHighProcAddDlgOk.setObjectName(_fromUtf8('adminTagHighProcAddDlgOk'))
         self.adminTagHighProcAddDlgOk.setText(_translate('adminTagHighProcAddDlgOk', '添加', None))
 
         # 添加程序弹出 - 取消
         self.adminTagHighProcAddDlgCancel = QtGui.QPushButton(self.adminTagHighProcAddDlg)
-        self.adminTagHighProcAddDlgCancel.setGeometry(QtCore.QRect(150, 270, 75, 23))
+        self.adminTagHighProcAddDlgCancel.setGeometry(QtCore.QRect(250, 270, 75, 23))
         self.adminTagHighProcAddDlgCancel.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_grey_line.png);'))
         self.adminTagHighProcAddDlgCancel.setObjectName(_fromUtf8('adminTagHighProcAddDlgOk'))
         self.adminTagHighProcAddDlgCancel.setText(_translate('adminTagHighProcAddDlgCancel', '取消', None))
