@@ -145,10 +145,10 @@ class AdminBoardHighObjFile(QtGui.QWidget):
         self.adminTagHighObjFileTable.setColumnCount(2)
         self.adminTagHighObjFileTable.setHorizontalHeaderLabels([_fromUtf8('客体文件名'),_fromUtf8('选择')])
         self.adminTagHighObjFileTable.setShowGrid(False)
-        self.adminTagHighObjFileTable.setColumnWidth(0,400)
-        self.adminTagHighObjFileTable.setColumnWidth(1,330)
+        self.adminTagHighObjFileTable.setColumnWidth(0, 600)
+        self.adminTagHighObjFileTable.setColumnWidth(1, 130)
         for i in range(0, self.adminTagHighObjFilePageLength):
-            self.adminTagHighObjFileTable.setRowHeight(i,21)
+            self.adminTagHighObjFileTable.setRowHeight(i, 21)
 
         #####################################################
         # 添加客体文件弹出

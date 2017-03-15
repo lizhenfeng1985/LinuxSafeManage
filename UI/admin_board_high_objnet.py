@@ -144,10 +144,10 @@ class AdminBoardHighObjNet(QtGui.QWidget):
         self.adminTagHighObjNetTable.setColumnCount(2)
         self.adminTagHighObjNetTable.setHorizontalHeaderLabels([_fromUtf8('客体网络地址'),_fromUtf8('选择')])
         self.adminTagHighObjNetTable.setShowGrid(False)
-        self.adminTagHighObjNetTable.setColumnWidth(0,400)
-        self.adminTagHighObjNetTable.setColumnWidth(1,330)
+        self.adminTagHighObjNetTable.setColumnWidth(0, 600)
+        self.adminTagHighObjNetTable.setColumnWidth(1, 130)
         for i in range(0, self.adminTagHighObjNetPageLength):
-            self.adminTagHighObjNetTable.setRowHeight(i,21)
+            self.adminTagHighObjNetTable.setRowHeight(i, 21)
 
         #####################################################
         # 添加客体网络弹出

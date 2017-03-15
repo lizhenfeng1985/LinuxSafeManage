@@ -143,8 +143,8 @@ class AdminBoardHighUser(QtGui.QWidget):
         self.adminTagHighUserTable.setColumnCount(2)
         self.adminTagHighUserTable.setHorizontalHeaderLabels([_fromUtf8('用户名'),_fromUtf8('选择')])
         self.adminTagHighUserTable.setShowGrid(False)
-        self.adminTagHighUserTable.setColumnWidth(0, 400)
-        self.adminTagHighUserTable.setColumnWidth(1, 330)
+        self.adminTagHighUserTable.setColumnWidth(0, 600)
+        self.adminTagHighUserTable.setColumnWidth(1, 130)
         for i in range(0, self.adminTagHighUserPageLength):
             self.adminTagHighUserTable.setRowHeight(i, 21)
 

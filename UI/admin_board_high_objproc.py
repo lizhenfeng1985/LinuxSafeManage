@@ -143,8 +143,8 @@ class AdminBoardHighObjProc(QtGui.QWidget):
         self.adminTagHighObjProcTable.setColumnCount(2)
         self.adminTagHighObjProcTable.setHorizontalHeaderLabels([_fromUtf8('客体程序名'),_fromUtf8('选择')])
         self.adminTagHighObjProcTable.setShowGrid(False)
-        self.adminTagHighObjProcTable.setColumnWidth(0,400)
-        self.adminTagHighObjProcTable.setColumnWidth(1,330)
+        self.adminTagHighObjProcTable.setColumnWidth(0, 600)
+        self.adminTagHighObjProcTable.setColumnWidth(1, 130)
         for i in range(0, self.adminTagHighObjProcPageLength):
             self.adminTagHighObjProcTable.setRowHeight(i,21)
 
