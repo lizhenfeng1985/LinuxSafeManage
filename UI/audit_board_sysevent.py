@@ -141,8 +141,8 @@ class AuditBoardSysEvent(QtGui.QWidget):
         self.auditTagSysEventTable.setColumnWidth(0, 100)
         self.auditTagSysEventTable.setColumnWidth(1, 130)
         self.auditTagSysEventTable.setColumnWidth(2, 80)
-        self.auditTagSysEventTable.setColumnWidth(3, 120)
-        self.auditTagSysEventTable.setColumnWidth(4, 490)
+        self.auditTagSysEventTable.setColumnWidth(3, 135)
+        self.auditTagSysEventTable.setColumnWidth(4, 480)
         for i in range(0, self.auditTagSysEventPageLength):
             self.auditTagSysEventTable.setRowHeight(i, 23)
             
@@ -235,7 +235,7 @@ class AuditBoardSysEvent(QtGui.QWidget):
                         self.auditTagSysEventTable.setItem(i, 3, newItem)
 
                         newItem = QtGui.QTableWidgetItem(res['Results'][i]['Info'])
-                        newItem.setTextAlignment(QtCore.Qt.AlignCenter)
+                        newItem.setTextAlignment(QtCore.Qt.AlignLeft)
                         self.auditTagSysEventTable.setItem(i, 4, newItem)
 
                     self.auditTagSysEventPage = start / self.auditTagSysEventPageLength

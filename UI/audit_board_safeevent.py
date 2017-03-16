@@ -253,11 +253,11 @@ class AuditBoardSafeEvent(QtGui.QWidget):
                         self.auditTagSafeEventTable.setItem(i, 5, newItem)
 
                         newItem = QtGui.QTableWidgetItem(res['Results'][i]['Proc'])
-                        newItem.setTextAlignment(QtCore.Qt.AlignCenter)
+                        newItem.setTextAlignment(QtCore.Qt.AlignLeft)
                         self.auditTagSafeEventTable.setItem(i, 6, newItem)
 
                         newItem = QtGui.QTableWidgetItem(res['Results'][i]['Obj'])
-                        newItem.setTextAlignment(QtCore.Qt.AlignCenter)
+                        newItem.setTextAlignment(QtCore.Qt.AlignLeft)
                         self.adminTagConfigProcWhiteTable.setItem(i, 7, newItem)
 
                         newItem = QtGui.QTableWidgetItem(res['Results'][i]['LogTime'])
