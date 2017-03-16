@@ -433,8 +433,7 @@ func MatchAll(hook *GoHookInfo) (perm bool, err error) {
 	var trim string = string(space[0:1])
 	perm = true
 
-	//User, err := user.LookupId(fmt.Sprintf("%d", hook.Uid))
-	User, err := user.LookupId("S-1-5-21-4019211918-2684473899-631832799-1000")
+	User, err := user.LookupId(fmt.Sprintf("%d", hook.Uid))
 	if err != nil {
 		return perm, err
 	}
