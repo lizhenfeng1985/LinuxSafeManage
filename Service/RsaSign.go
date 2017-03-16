@@ -7,12 +7,14 @@ import (
 	"crypto/sha1"
 	"crypto/x509"
 	"encoding/pem"
+	"errors"
 )
 
 const (
 	GSerialPubKey   string = "./license/pub.key"
 	GSerialLicense  string = "./license/lic"
 	GSerialCodeFile string = "/root/.LinuxManageInfo"
+	GSerialDateSize int    = 136
 )
 
 func RsaCreateKeys() (priKey, pubKey string, err error) {
@@ -47,7 +49,7 @@ func RsaCreateKeys() (priKey, pubKey string, err error) {
 func RsaSign(priKey, message string) (signature []byte, err error) {
 	block, _ := pem.Decode([]byte(priKey))
 	if block == nil {
-		return signature, err
+		return signature, errors.New("pem.Decode err")
 	}
 	priv, err := x509.ParsePKCS1PrivateKey(block.Bytes)
 	if err != nil {
@@ -69,7 +71,7 @@ func RsaSign(priKey, message string) (signature []byte, err error) {
 func RsaVerify(pubKey, message string, signature []byte) (err error) {
 	block, _ := pem.Decode([]byte(pubKey))
 	if block == nil {
-		return err
+		return errors.New("pem.Decode err")
 	}
 
 	pubInterface, _ := x509.ParsePKIXPublicKey(block.Bytes)

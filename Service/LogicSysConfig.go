@@ -63,22 +63,21 @@ func SerialCreate(priKey, code, validate string) (b64lic string, err error) {
 		return b64lic, errors.New("ValiDate format err.")
 	}
 
-	lic, err := RsaSign(priKey, code)
+	lic, err := RsaSign(priKey, validate+code)
 	if err != nil {
 		return b64lic, err
 	}
 
 	sn := validate + string(lic)
-
-	b64 := make([]byte, base64.StdEncoding.EncodedLen(len(sn)))
-	base64.StdEncoding.Encode(b64, []byte(sn))
+	b64 := make([]byte, base64.RawStdEncoding.EncodedLen(len(sn)))
+	base64.RawStdEncoding.Encode(b64, []byte(sn))
 
 	return string(b64), err
 }
 
 func SerialRegister(b64_lic string) (err error) {
-	lic := make([]byte, base64.StdEncoding.DecodedLen(len(b64_lic)))
-	_, err = base64.StdEncoding.Decode(lic, []byte(b64_lic))
+	lic := make([]byte, base64.RawStdEncoding.DecodedLen(len(b64_lic)))
+	_, err = base64.RawStdEncoding.Decode(lic, []byte(b64_lic))
 	if err != nil {
 		return err
 	}
@@ -98,15 +97,15 @@ func SerialRegister(b64_lic string) (err error) {
 	}
 
 	validate := string(lic[0:8])
-	sig := lic[8:len(lic)]
+	sig := lic[8:GSerialDateSize]
 
 	if time.Now().Format("20060102") > validate {
 		return errors.New("License Expired.")
 	}
 
-	err = RsaVerify(string(pubKey), string(code), sig)
+	err = RsaVerify(string(pubKey), validate+string(code), sig)
 	if err != nil {
-		return errors.New("Wrong License.")
+		return err
 	}
 
 	return ioutil.WriteFile(GSerialLicense, []byte(b64_lic), 0666)
@@ -125,8 +124,8 @@ func SerialGet() (code, license, validate string, err error) {
 
 	license = string(b64_lic)
 
-	lic := make([]byte, base64.StdEncoding.DecodedLen(len(b64_lic)))
-	_, err = base64.StdEncoding.Decode(lic, b64_lic)
+	lic := make([]byte, base64.RawStdEncoding.DecodedLen(len(b64_lic)))
+	_, err = base64.RawStdEncoding.Decode(lic, b64_lic)
 	if err != nil {
 		return code, license, validate, err
 	}
@@ -151,18 +150,17 @@ func SerialVerify() (err error) {
 		return err
 	}
 
-	lic := make([]byte, base64.StdEncoding.DecodedLen(len(b64_lic)))
-	base64.StdEncoding.Decode(lic, b64_lic)
+	lic := make([]byte, base64.RawStdEncoding.DecodedLen(len(b64_lic)))
+	base64.RawStdEncoding.Decode(lic, b64_lic)
 
 	validate := string(lic[0:8])
-
-	sig := lic[8:len(lic)]
+	sig := lic[8:GSerialDateSize]
 
 	if time.Now().Format("20060102") > validate {
 		return errors.New("License Expired.")
 	}
 
-	err = RsaVerify(string(pubKey), string(code), sig)
+	err = RsaVerify(string(pubKey), validate+string(code), sig)
 	if err != nil {
 		return errors.New("Wrong License.")
 	}
