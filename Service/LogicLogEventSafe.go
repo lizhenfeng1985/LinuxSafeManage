@@ -71,7 +71,7 @@ func LogEventSafeQuery(time_start, time_stop, key_word string, start, length int
 	}
 	rows.Close()
 
-	log.Println("LogEventSafeQuery:", start, length, rs)
+	//log.Println("LogEventSafeQuery:", start, length, rs)
 
 	// 事务提交
 	err = tx.Commit()

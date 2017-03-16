@@ -22,7 +22,7 @@ func DBInitUser(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitUser:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitUser:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -36,7 +36,7 @@ func DBInitUser(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitUser:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitUser:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -70,7 +70,7 @@ func DBInitRuleSpeical(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleSpeical:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleSpeical:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -80,7 +80,7 @@ func DBInitRuleSpeical(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleSpeical:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleSpeical:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -118,7 +118,7 @@ func DBInitRuleSafe(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleSafe:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleSafe:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -128,7 +128,7 @@ func DBInitRuleSafe(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleSafe:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleSafe:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -158,7 +158,7 @@ func DBInitRuleSuper(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleSuper:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleSuper:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -168,7 +168,7 @@ func DBInitRuleSuper(db *sql.DB) (err error) {
 
 		_, err = tx.Exec(sql)
 		if err != nil {
-			log.Printf("DBInitRuleSuper:tx.Exec((): %s, %s\n", err, sql)
+			log.Printf("DBInitRuleSuper:tx.Exec(): %s, %s\n", err, sql)
 			tx.Rollback()
 			return err
 		}
@@ -199,7 +199,7 @@ func DBInitRuleUserGroup(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleUserGroup:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleUserGroup:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -209,7 +209,7 @@ func DBInitRuleUserGroup(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleUserGroup:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleUserGroup:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -240,7 +240,7 @@ func DBInitRuleUser(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleUser:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleUser:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -271,7 +271,7 @@ func DBInitRuleProcGroup(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleProcGroup:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleProcGroup:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -281,7 +281,7 @@ func DBInitRuleProcGroup(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleProcGroup:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleProcGroup:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -312,7 +312,7 @@ func DBInitRuleProc(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleProc:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleProc:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -343,7 +343,7 @@ func DBInitRuleObjProcGroup(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleObjProcGroup:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleObjProcGroup:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -374,7 +374,7 @@ func DBInitRuleObjProc(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleObjProc:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleObjProc:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -405,7 +405,7 @@ func DBInitRuleObjFileGroup(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleObjFileGroup:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleObjFileGroup:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -436,7 +436,7 @@ func DBInitRuleObjFile(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleObjFile:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleObjFile:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -467,7 +467,7 @@ func DBInitRuleObjNetGroup(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleObjNetGroup:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleObjNetGroup:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -498,7 +498,7 @@ func DBInitRuleObjNet(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleObjNet:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleObjNet:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -532,7 +532,7 @@ func DBInitRulePerms(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRulePerms:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRulePerms:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -636,7 +636,7 @@ func DBInitRuleStatusSelf(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleStatusSelf:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleStatusSelf:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -646,7 +646,7 @@ func DBInitRuleStatusSelf(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleStatusSelf:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleStatusSelf:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -678,7 +678,7 @@ func DBInitRuleStatusUser(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleStatusUser:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleStatusUser:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -688,7 +688,7 @@ func DBInitRuleStatusUser(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleStatusUser:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleStatusUser:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -720,7 +720,7 @@ func DBInitRuleStatusSafe(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleStatusSafe:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleStatusSafe:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -730,7 +730,7 @@ func DBInitRuleStatusSafe(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitRuleStatusSafe:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitRuleStatusSafe:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -768,7 +768,7 @@ func DBInitLogSystem(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitLogSystem:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitLogSystem:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -814,7 +814,7 @@ func DBInitLogEvent(db *sql.DB) (err error) {
 
 	_, err = tx.Exec(sql)
 	if err != nil {
-		log.Printf("DBInitLogEvent:tx.Exec((): %s, %s\n", err, sql)
+		log.Printf("DBInitLogEvent:tx.Exec(): %s, %s\n", err, sql)
 		tx.Rollback()
 		return err
 	}
@@ -823,6 +823,38 @@ func DBInitLogEvent(db *sql.DB) (err error) {
 	err = tx.Commit()
 	if err != nil {
 		log.Printf("DBInitLogEvent:tx.Commit: %s\n", err)
+		tx.Rollback()
+		return err
+	}
+	return nil
+}
+
+func DBInitLogEventCount(db *sql.DB) (err error) {
+	sql := `create table if not exists log_event_count (
+			logdate     date not null primary key, 
+			modself     integer not null default 0,
+			modsafe     integer not null default 0,
+			modspecial  integer not null default 0,
+			moduser     integer not null default 0
+		);`
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Printf("DBInitLogEventCount:DB.Begin(): %s\n", err)
+		return err
+	}
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitLogEventCount:tx.Exec(): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
+	// 事务提交
+	err = tx.Commit()
+	if err != nil {
+		log.Printf("DBInitLogEventCount:tx.Commit: %s\n", err)
 		tx.Rollback()
 		return err
 	}
@@ -925,6 +957,13 @@ func FirstCreateDB() (err error) {
 	if err != nil {
 		errcnt += 1
 	}
+
+	// 初始化安全事件统计
+	err = DBInitLogEventCount(db)
+	if err != nil {
+		errcnt += 1
+	}
+
 	CloseSqlite(db)
 
 	if errcnt > 0 {

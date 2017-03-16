@@ -47,7 +47,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 		//log.Printf("POST /login {User:%s, Data:%s}", uname, jdata)
 		//defer log.Println("RESP /login ", &res)
-		defer LogInsertSys(uname, "登录", getResMsgByStatus(res.Status), jdata)
+		defer LogInsertSys(uname, "登录", getResMsgByStatus(res.Status), "Passwd:*****")
 
 		// check data
 		if json.Unmarshal([]byte(jdata), &req) != nil {

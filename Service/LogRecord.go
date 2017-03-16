@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"strings"
 	"sync"
 	"time"
@@ -140,4 +141,121 @@ func LogWriteCacheToDb() {
 	}
 	logWaitGroup.Done()
 	GHandleFileRunLog.Println("Write Process exit")
+}
+
+// 日志 - 获取指定模块的时间段内数量
+func getLogEventCount(start_time, stop_time, module string) (count int, err error) {
+	db := GHandleDBLog
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Printf("getLogEventCount: %s\n", err)
+		return count, err
+	}
+
+	// 统计日志
+	sqlstr := "SELECT COUNT(*) as md_count FROM log_event WHERE " +
+		"logtime >= '" + start_time + "' and " +
+		"logtime <= '" + stop_time + "' and " +
+		"module = '" + module + "'"
+
+	rows, err := db.Query(sqlstr)
+	if err != nil {
+		log.Printf("getLogEventCount(): %s, %s", err, sqlstr)
+		return count, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		rows.Scan(&count)
+		break
+	}
+	rows.Close()
+
+	// 事务提交
+	err = tx.Commit()
+	if err != nil {
+		log.Printf("getLogEventCount:tx.Commit: %s\n", err)
+		tx.Rollback()
+		return count, err
+	}
+	return count, nil
+}
+
+// 日志统计 - 更新
+func updateLogEventCount(cnt_self, cnt_safe, cnt_user, cnt_spec int, date string) (err error) {
+	db := GHandleDBLog
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Printf("updateLogEventCount: %s\n", err)
+		return err
+	}
+
+	// 统计日志
+	sqlstr := "SELECT COUNT(*) as md_count FROM log_event_count " +
+		fmt.Sprintf("WHERE logdate = '%s';", date)
+
+	rows, err := db.Query(sqlstr)
+	if err != nil {
+		log.Printf("updateLogEventCount(): %s, %s", err, sqlstr)
+		return err
+	}
+	defer rows.Close()
+
+	var count int = 0
+	for rows.Next() {
+		rows.Scan(&count)
+		break
+	}
+	rows.Close()
+
+	sqlstr = "INSERT INTO log_event_count (logdate, modself, modsafe, modspecial, moduser) VALUES " +
+		fmt.Sprintf("('%s', %d, %d, %d, %d);", date, cnt_self, cnt_safe, cnt_spec, cnt_user)
+
+	if count > 0 {
+		sqlstr = "UPDATE log_event_count set " +
+			fmt.Sprintf("modself = %d, modsafe = %d, modspecial = %d, moduser = %d ", cnt_self, cnt_safe, cnt_spec, cnt_user) +
+			fmt.Sprintf("WHERE logdate = '%s';", date)
+	}
+
+	_, err = tx.Exec(sqlstr)
+	if err != nil {
+		log.Printf("updateLogEventCount:tx.Exec(): %s, %s\n", err, sqlstr)
+		tx.Rollback()
+		return err
+	}
+
+	// 事务提交
+	err = tx.Commit()
+	if err != nil {
+		log.Printf("updateLogEventCount:tx.Commit: %s\n", err)
+		tx.Rollback()
+		return err
+	}
+	return nil
+}
+
+// 日志统计
+func LogEventCountService() {
+	var start_time, stop_time string
+	var time_now time.Time
+	GHandleFileRunLog.Println("LogEventCountService start")
+	for {
+		time.Sleep(60 * time.Second)
+		time_now = time.Now()
+
+		start_time = time_now.Format("2006-01-02") + " 00:00:00"
+		stop_time = time_now.Format("2006-01-02") + " 23:59:59"
+
+		cnt_self, _ := getLogEventCount(start_time, stop_time, "自我保护")
+		cnt_safe, _ := getLogEventCount(start_time, stop_time, "基础安全")
+		cnt_user, _ := getLogEventCount(start_time, stop_time, "用户策略")
+		cnt_spec, _ := getLogEventCount(start_time, stop_time, "特殊资源")
+
+		//fmt.Println("LogEventCountService:", cnt_self, cnt_safe, cnt_user, cnt_spec, time_now.Format("2006-01-02"))
+		updateLogEventCount(cnt_self, cnt_safe, cnt_user, cnt_spec, time_now.Format("2006-01-02"))
+
+	}
+	GHandleFileRunLog.Println("LogEventCountService exit")
 }

@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/donnie4w/go-logger/logger"
 	"github.com/gorilla/mux"
 )
 
@@ -39,13 +38,14 @@ type SysConfigSnGetResponse struct {
 func SysConfigSnSetHandler(w http.ResponseWriter, r *http.Request) {
 	var req SysConfigSnSetRequest
 	var res SysConfigSnSetResponse
-	var jdata string
+	var jdata, uname string
+	var ok bool
 
 	if r.Method == "POST" {
 		r.ParseForm()
 
 		vars := mux.Vars(r)
-		uname, ok := vars["UserName"]
+		uname, ok = vars["UserName"]
 		if !ok {
 			res.Status = -1
 			res.ErrMsg = "错误:缺少用户标识"
@@ -83,8 +83,8 @@ func SysConfigSnSetHandler(w http.ResponseWriter, r *http.Request) {
 		res.ErrMsg = "错误:不支持的数据请求方法"
 	}
 end:
+	LogInsertSys(uname, "设置注册码", getResMsgByStatus(res.Status), jdata)
 	jres, _ := json.Marshal(res)
-	logger.Info(r.URL, jdata, string(jres))
 	w.Write(jres)
 }
 
@@ -139,7 +139,7 @@ func SysConfigSnGetHandler(w http.ResponseWriter, r *http.Request) {
 	}
 end:
 	jres, _ := json.Marshal(res)
-	logger.Info(r.URL, jdata, string(jres))
+	//logger.Info(r.URL, jdata, string(jres))
 	w.Write(jres)
 }
 
@@ -162,13 +162,14 @@ type SysConfigPasswdSetResponse struct {
 func SysConfigPasswdSetHandler(w http.ResponseWriter, r *http.Request) {
 	var req SysConfigPasswdSetRequest
 	var res SysConfigPasswdSetResponse
-	var jdata string
+	var jdata, uname string
+	var ok bool
 
 	if r.Method == "POST" {
 		r.ParseForm()
 
 		vars := mux.Vars(r)
-		uname, ok := vars["UserName"]
+		uname, ok = vars["UserName"]
 		if !ok {
 			res.Status = -1
 			res.ErrMsg = "错误:缺少用户标识"
@@ -206,8 +207,9 @@ func SysConfigPasswdSetHandler(w http.ResponseWriter, r *http.Request) {
 		res.ErrMsg = "错误:不支持的数据请求方法"
 	}
 end:
+	LogInsertSys(uname, "修改密码", getResMsgByStatus(res.Status), jdata)
 	jres, _ := json.Marshal(res)
-	logger.Info(r.URL, jdata, string(jres))
+	//logger.Info(r.URL, jdata, string(jres))
 	w.Write(jres)
 }
 
@@ -254,14 +256,15 @@ type SysConfigWhiteProcSearchResponse struct {
 func SysConfigWhiteProcAddHandler(w http.ResponseWriter, r *http.Request) {
 	var req SysConfigWhiteProcAddRequest
 	var res SysConfigWhiteProcAddResponse
-	var jdata string
+	var jdata, uname string
+	var ok bool
 	var err error
 
 	if r.Method == "POST" {
 		r.ParseForm()
 
 		vars := mux.Vars(r)
-		uname, ok := vars["UserName"]
+		uname, ok = vars["UserName"]
 		if !ok {
 			res.Status = -1
 			res.ErrMsg = "错误:缺少用户标识"
@@ -299,21 +302,23 @@ func SysConfigWhiteProcAddHandler(w http.ResponseWriter, r *http.Request) {
 		res.ErrMsg = "错误:不支持的数据请求方法"
 	}
 end:
+	LogInsertSys(uname, "添加进程白名单", getResMsgByStatus(res.Status), jdata)
 	jres, _ := json.Marshal(res)
-	logger.Info(r.URL, jdata, string(jres))
+	//logger.Info(r.URL, jdata, string(jres))
 	w.Write(jres)
 }
 func SysConfigWhiteProcDelHandler(w http.ResponseWriter, r *http.Request) {
 	var req SysConfigWhiteProcDelRequest
 	var res SysConfigWhiteProcDelResponse
-	var jdata string
+	var jdata, uname string
+	var ok bool
 	var err error
 
 	if r.Method == "POST" {
 		r.ParseForm()
 
 		vars := mux.Vars(r)
-		uname, ok := vars["UserName"]
+		uname, ok = vars["UserName"]
 		if !ok {
 			res.Status = -1
 			res.ErrMsg = "错误:缺少用户标识"
@@ -351,8 +356,9 @@ func SysConfigWhiteProcDelHandler(w http.ResponseWriter, r *http.Request) {
 		res.ErrMsg = "错误:不支持的数据请求方法"
 	}
 end:
+	LogInsertSys(uname, "删除进程白名单", getResMsgByStatus(res.Status), jdata)
 	jres, _ := json.Marshal(res)
-	logger.Info(r.URL, jdata, string(jres))
+	//logger.Info(r.URL, jdata, string(jres))
 	w.Write(jres)
 }
 func SysConfigWhiteProcSearchHandler(w http.ResponseWriter, r *http.Request) {
@@ -404,6 +410,6 @@ func SysConfigWhiteProcSearchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 end:
 	jres, _ := json.Marshal(res)
-	logger.Info(r.URL, jdata, string(jres))
+	//logger.Info(r.URL, jdata, string(jres))
 	w.Write(jres)
 }

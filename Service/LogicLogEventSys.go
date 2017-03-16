@@ -63,7 +63,7 @@ func LogEventSysQuery(time_start, time_stop, key_word string, start, length int)
 	}
 	rows.Close()
 
-	log.Println("LogEventSysQuery:", start, length, rs)
+	//log.Println("LogEventSysQuery:", start, length, rs)
 
 	// 事务提交
 	err = tx.Commit()

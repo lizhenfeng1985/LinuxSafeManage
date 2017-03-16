@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/donnie4w/go-logger/logger"
 	"github.com/gorilla/mux"
 )
 
@@ -55,10 +54,17 @@ func HomeAdminHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// logic
-		res.LabValues = append(res.LabValues, LabValue{Label: "进程事件", Value: 10})
-		res.LabValues = append(res.LabValues, LabValue{Label: "文件事件", Value: 25})
-		res.LabValues = append(res.LabValues, LabValue{Label: "网络事件", Value: 15})
-		res.LabValues = append(res.LabValues, LabValue{Label: "特殊资源", Value: 8})
+		rcnt, err := LogicLogCountHomeAdmin()
+		if err != nil {
+			res.Status = -1
+			res.ErrMsg = err.Error()
+			goto end
+		}
+
+		res.LabValues = append(res.LabValues, LabValue{Label: "自我保护", Value: rcnt.CntSelf})
+		res.LabValues = append(res.LabValues, LabValue{Label: "基础安全", Value: rcnt.CntSafe})
+		res.LabValues = append(res.LabValues, LabValue{Label: "用户策略", Value: rcnt.CntSpec})
+		res.LabValues = append(res.LabValues, LabValue{Label: "特殊资源", Value: rcnt.CntUser})
 
 		// OK
 		res.Status = 0
@@ -69,6 +75,6 @@ func HomeAdminHandler(w http.ResponseWriter, r *http.Request) {
 	}
 end:
 	jres, _ := json.Marshal(res)
-	logger.Info(r.URL, jdata, string(jres))
+	//logger.Info(r.URL, jdata, string(jres))
 	w.Write(jres)
 }

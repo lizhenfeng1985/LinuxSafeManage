@@ -67,7 +67,7 @@ func HttpInitWeb(run_in_thread bool) {
 	rhttps.HandleFunc("/highobjproc/groupdel/{UserName}", HighObjProcGroupDelHandler)
 	rhttps.HandleFunc("/highobjproc/groupsearch/{UserName}", HighObjProcGroupSearchHandler)
 
-	// 高级安装 - 对象 - 程序
+	// 高级安全 - 对象 - 程序
 	rhttps.HandleFunc("/highobjproc/list/{UserName}", HighObjProcListHandler)
 	rhttps.HandleFunc("/highobjproc/add/{UserName}", HighObjProcAddHandler)
 	rhttps.HandleFunc("/highobjproc/del/{UserName}", HighObjProcDelHandler)

@@ -73,6 +73,8 @@ func InitAllRule() error {
 		return err
 	}
 
+	// 启动后台日志统计服务模块
+	go LogEventCountService()
 	return nil
 }
 
