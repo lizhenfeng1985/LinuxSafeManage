@@ -162,17 +162,18 @@ func DBInitRuleSuper(db *sql.DB) (err error) {
 		tx.Rollback()
 		return err
 	}
-	/*
-		sql = `insert into super_process (id, procname) values
-			(1, '/test');`
 
-		_, err = tx.Exec(sql)
-		if err != nil {
-			log.Printf("DBInitRuleSuper:tx.Exec(): %s, %s\n", err, sql)
-			tx.Rollback()
-			return err
-		}
-	*/
+	sql = `insert into super_process (id, procname) values
+			(1, '/usr/local/SafeManage/SafeManageService'),
+			(2, '/usr/local/SafeManage/SafeManageUI'),;`
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		log.Printf("DBInitRuleSuper:tx.Exec(): %s, %s\n", err, sql)
+		tx.Rollback()
+		return err
+	}
+
 	// 事务提交
 	err = tx.Commit()
 	if err != nil {

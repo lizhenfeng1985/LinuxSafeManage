@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DST_DIR=SafeManage
+DST_DIR=/usr/local/SafeManage
 DST_SERVICE=SafeManageService
 DST_UI=SafeManageUI
 
