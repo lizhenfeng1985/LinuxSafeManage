@@ -41,3 +41,6 @@ tar -zcf $DST_DIR.tar.gz $DST_DIR
 
 # clean dir
 rm -rf /tmp/UI 
+
+
+

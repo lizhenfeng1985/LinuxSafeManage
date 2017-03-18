@@ -378,7 +378,6 @@ func MatchAll(hook *GoHookInfo) (perm bool, err error) {
 	LockGMemRuleSuperHandle.Lock()
 	_, ok := GMemRuleSuperHandle[SubPath]
 	if ok {
-		fmt.Println("白名单进程：", SubPath)
 		LockGMemRuleSuperHandle.Unlock()
 		return true, nil
 	}
@@ -393,6 +392,7 @@ func MatchAll(hook *GoHookInfo) (perm bool, err error) {
 	ObjSrcPath := string(bytes.TrimRight(hook.ObjSrcPath[0:264], trim))
 	ObjDstPath := string(bytes.TrimRight(hook.ObjDstPath[0:264], trim))
 
+	fmt.Println("-------------------------")
 	switch hook.OpType {
 	case 1, 2:
 		fmt.Println("文件_读：", hook.OpType)
@@ -427,7 +427,8 @@ func MatchAll(hook *GoHookInfo) (perm bool, err error) {
 		fmt.Println("错误类型：", hook.OpType)
 
 	}
-	fmt.Println(perm, hook.OpType, UserName, SubPath, ObjSrcPath, ObjDstPath)
+
+	fmt.Printf("Sub=%s, ObjSrc=%s, ObjDst=%s, User=%s, Op=%s, Perm=%d\n", SubPath, ObjSrcPath, ObjDstPath, UserName, hook.OpType, perm)
 
 	return perm, nil
 }
