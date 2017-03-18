@@ -165,7 +165,8 @@ func DBInitRuleSuper(db *sql.DB) (err error) {
 
 	sql = `insert into super_process (id, procname) values
 			(1, '/usr/local/SafeManage/SafeManageService'),
-			(2, '/usr/local/SafeManage/SafeManageUI'),;`
+			(2, '/usr/local/SafeManage/SafeManageUI');
+		`
 
 	_, err = tx.Exec(sql)
 	if err != nil {
