@@ -63,8 +63,8 @@ func HomeAdminHandler(w http.ResponseWriter, r *http.Request) {
 
 		res.LabValues = append(res.LabValues, LabValue{Label: "自我保护", Value: rcnt.CntSelf})
 		res.LabValues = append(res.LabValues, LabValue{Label: "基础安全", Value: rcnt.CntSafe})
-		res.LabValues = append(res.LabValues, LabValue{Label: "用户策略", Value: rcnt.CntSpec})
-		res.LabValues = append(res.LabValues, LabValue{Label: "特殊资源", Value: rcnt.CntUser})
+		res.LabValues = append(res.LabValues, LabValue{Label: "用户策略", Value: rcnt.CntUser})
+		res.LabValues = append(res.LabValues, LabValue{Label: "特殊资源", Value: rcnt.CntSpec})
 
 		// OK
 		res.Status = 0

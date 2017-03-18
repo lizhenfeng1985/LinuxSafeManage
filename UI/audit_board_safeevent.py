@@ -258,7 +258,7 @@ class AuditBoardSafeEvent(QtGui.QWidget):
 
                         newItem = QtGui.QTableWidgetItem(res['Results'][i]['Obj'])
                         newItem.setTextAlignment(QtCore.Qt.AlignLeft)
-                        self.adminTagConfigProcWhiteTable.setItem(i, 7, newItem)
+                        self.auditTagSafeEventTable.setItem(i, 7, newItem)
 
                         newItem = QtGui.QTableWidgetItem(res['Results'][i]['LogTime'])
                         newItem.setTextAlignment(QtCore.Qt.AlignCenter)
@@ -272,5 +272,5 @@ class AuditBoardSafeEvent(QtGui.QWidget):
             QtGui.QMessageBox.about(self, u'错误提示', u'查找日志失败:' + rt[1])
 
     def onAuditTagSafeEventQuerySubmit(self):
-        AuditTagSafeEventQuerySet(0, self.auditTagSafeEventPageLength)
+        self.AuditTagSafeEventQuerySet(0, self.auditTagSafeEventPageLength)
 
