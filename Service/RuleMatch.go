@@ -69,14 +69,6 @@ func MatchProcPolicy(handle *RuleMemHandle, user, proc, obj_proc, op, rule_type 
 // 匹配进程
 func MatchProc(user, proc, obj_proc, op string) (perm bool, err error) {
 	perm = true
-	// 超级进程
-	LockGMemRuleSuperHandle.Lock()
-	_, ok := GMemRuleSuperHandle[proc]
-	if ok {
-		LockGMemRuleSuperHandle.Unlock()
-		return true, nil
-	}
-	LockGMemRuleSuperHandle.Unlock()
 
 	// cache 检测
 	in_cache, perm, err := MatchCacheProc(user, proc, obj_proc, op)
@@ -152,14 +144,6 @@ func MatchNetPolicy(handle *RuleMemHandle, user, proc, obj_net, op, rule_type st
 // 匹配网络
 func MatchNet(user, proc, obj_net, op string) (perm bool, err error) {
 	perm = true
-	// 超级进程
-	LockGMemRuleSuperHandle.Lock()
-	_, ok := GMemRuleSuperHandle[proc]
-	if ok {
-		LockGMemRuleSuperHandle.Unlock()
-		return true, nil
-	}
-	LockGMemRuleSuperHandle.Unlock()
 
 	// cache 检测
 	in_cache, perm, err := MatchCacheNet(user, proc, obj_net, op)
@@ -273,15 +257,6 @@ func MatchFilePolicy(handle *RuleMemHandle, user, proc, op, rule_type string, ob
 
 // 匹配文件
 func MatchFile(user, proc, obj_file, op string) (perm bool, err error) {
-	// 超级进程
-	LockGMemRuleSuperHandle.Lock()
-	_, ok := GMemRuleSuperHandle[proc]
-	if ok {
-		LockGMemRuleSuperHandle.Unlock()
-		return true, nil
-	}
-	LockGMemRuleSuperHandle.Unlock()
-
 	// cache 检测
 	in_cache, perm, err := MatchCacheNet(user, proc, obj_file, op)
 	if err == nil && in_cache == true {
@@ -323,15 +298,6 @@ func MatchFile(user, proc, obj_file, op string) (perm bool, err error) {
 
 // 匹配 设置时间
 func MatchSetTime(user, proc, obj_src, obj_dst, op string) (perm bool, err error) {
-	// 超级进程
-	LockGMemRuleSuperHandle.Lock()
-	_, ok := GMemRuleSuperHandle[proc]
-	if ok {
-		LockGMemRuleSuperHandle.Unlock()
-		return true, nil
-	}
-	LockGMemRuleSuperHandle.Unlock()
-
 	LockGMemRuleSpecialHandle.Lock()
 	if GMemRuleSpecialHandle.StatusSetTime == 1 {
 		perm = false
@@ -350,15 +316,6 @@ func MatchSetTime(user, proc, obj_src, obj_dst, op string) (perm bool, err error
 
 // 匹配 关机
 func MatchShutDown(user, proc, obj_src, op string) (perm bool, err error) {
-	// 超级进程
-	LockGMemRuleSuperHandle.Lock()
-	_, ok := GMemRuleSuperHandle[proc]
-	if ok {
-		LockGMemRuleSuperHandle.Unlock()
-		return true, nil
-	}
-	LockGMemRuleSuperHandle.Unlock()
-
 	LockGMemRuleSpecialHandle.Lock()
 	if GMemRuleSpecialHandle.StatusShutDown == 1 {
 		perm = false
@@ -376,15 +333,6 @@ func MatchShutDown(user, proc, obj_src, op string) (perm bool, err error) {
 
 // 匹配 USB
 func MatchUSB(user, proc, obj_src, op string) (perm bool, err error) {
-	// 超级进程
-	LockGMemRuleSuperHandle.Lock()
-	_, ok := GMemRuleSuperHandle[proc]
-	if ok {
-		LockGMemRuleSuperHandle.Unlock()
-		return true, nil
-	}
-	LockGMemRuleSuperHandle.Unlock()
-
 	LockGMemRuleSpecialHandle.Lock()
 	if GMemRuleSpecialHandle.StatusUsb == 1 {
 		perm = false
@@ -403,15 +351,6 @@ func MatchUSB(user, proc, obj_src, op string) (perm bool, err error) {
 
 // 匹配 CDROM
 func MatchCdRom(user, proc, obj_src, op string) (perm bool, err error) {
-	// 超级进程
-	LockGMemRuleSuperHandle.Lock()
-	_, ok := GMemRuleSuperHandle[proc]
-	if ok {
-		LockGMemRuleSuperHandle.Unlock()
-		return true, nil
-	}
-	LockGMemRuleSuperHandle.Unlock()
-
 	LockGMemRuleSpecialHandle.Lock()
 	if GMemRuleSpecialHandle.StatusCdrom == 1 {
 		perm = false
@@ -433,13 +372,24 @@ func MatchAll(hook *GoHookInfo) (perm bool, err error) {
 	var trim string = string(space[0:1])
 	perm = true
 
+	SubPath := string(bytes.TrimRight(hook.SubPath[0:264], trim))
+
+	// 超级进程
+	LockGMemRuleSuperHandle.Lock()
+	_, ok := GMemRuleSuperHandle[SubPath]
+	if ok {
+		fmt.Println("白名单进程：", SubPath)
+		LockGMemRuleSuperHandle.Unlock()
+		return true, nil
+	}
+	LockGMemRuleSuperHandle.Unlock()
+
 	User, err := user.LookupId(fmt.Sprintf("%d", hook.Uid))
 	if err != nil {
 		return perm, err
 	}
 
 	UserName := User.Username
-	SubPath := string(bytes.TrimRight(hook.SubPath[0:264], trim))
 	ObjSrcPath := string(bytes.TrimRight(hook.ObjSrcPath[0:264], trim))
 	ObjDstPath := string(bytes.TrimRight(hook.ObjDstPath[0:264], trim))
 
