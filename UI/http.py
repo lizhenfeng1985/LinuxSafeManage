@@ -54,7 +54,7 @@ def connect_patched(self):
  HTTPS GET
 '''
 def HttpsGet(url, params, timeout=3):
-    httplib.HTTPSConnection.connect = connect_patched
+    #httplib.HTTPSConnection.connect = connect_patched
     data = urllib.urlencode(params)
     try:
         f = urllib2.urlopen("%s?%s" % (url, data), timeout=timeout)
@@ -69,7 +69,7 @@ def HttpsGet(url, params, timeout=3):
  HTTPS POST
 '''
 def HttpsPost(url, params, timeout=3):
-    httplib.HTTPSConnection.connect = connect_patched
+    #httplib.HTTPSConnection.connect = connect_patched
     data = urllib.urlencode(params)
     try:
         f = urllib2.urlopen(url, data=data, timeout=timeout)

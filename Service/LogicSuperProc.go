@@ -67,6 +67,11 @@ func DBSuperProcSet(proc string) (err error) {
 		return err
 	}
 	//log.Println("DBSuperProcSet:", proc)
+
+	// 更新内存
+	LockGMemRuleSuperHandle.Lock()
+	GMemRuleSuperHandle[proc] = 0
+	LockGMemRuleSuperHandle.Unlock()
 	return nil
 }
 
@@ -95,6 +100,10 @@ func DBSuperProcDel(proc string) (err error) {
 		return err
 	}
 	//log.Println("DBSuperProcDel:", proc)
+	// 更新内存
+	LockGMemRuleSuperHandle.Lock()
+	delete(GMemRuleSuperHandle, proc)
+	LockGMemRuleSuperHandle.Unlock()
 	return nil
 }
 

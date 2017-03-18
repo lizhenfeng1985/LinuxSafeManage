@@ -25,7 +25,7 @@ mv Service/Service         $DST_DIR/$DST_SERVICE
 
 # compile
 cp -r UI /tmp/UI
-chown -R lzf.lzf /tmp/UI
+chown -R lzf /tmp/UI
 su lzf <<EOF
 cd /tmp/UI;
 pyinstaller -F -w gui.py
