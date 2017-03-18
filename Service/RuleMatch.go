@@ -428,7 +428,7 @@ func MatchAll(hook *GoHookInfo) (perm bool, err error) {
 
 	}
 
-	fmt.Printf("Sub=%s, ObjSrc=%s, ObjDst=%s, User=%s, Op=%s, Perm=%d\n", SubPath, ObjSrcPath, ObjDstPath, UserName, hook.OpType, perm)
+	fmt.Printf("Sub=%s, ObjSrc=%s, ObjDst=%s, User=%s, Op=%d, Perm=%d\n", SubPath, ObjSrcPath, ObjDstPath, UserName, hook.OpType, perm)
 
 	return perm, nil
 }
