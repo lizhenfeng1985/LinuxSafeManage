@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -243,13 +242,10 @@ func RuleStatUserSetHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// 检测授权
-		log.Printf("check verify")
 		if CheckSerialAndCloseProtect() != nil {
-			log.Printf("check verify 1")
 			w.Write(RuleStatErrResponse(&res, -3, "错误:软件未注册"))
 			return
 		}
-		log.Printf("check verify 2")
 
 		// logic
 		err := DBRuleStatUserSet(req.Mode, req.Mode, req.Mode)
