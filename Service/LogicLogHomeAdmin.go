@@ -1,10 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"log"
-	"time"
-)
+import "time"
 
 type LogCountHomeAdmin struct {
 	CntSelf int
@@ -14,42 +10,65 @@ type LogCountHomeAdmin struct {
 }
 
 func LogicLogCountHomeAdmin() (r LogCountHomeAdmin, err error) {
-	db := GHandleDBLog
-	time_start := time.Now().Format("2006-01-02")
+	time_now := time.Now()
 
-	tx, err := db.Begin()
+	start_time := time_now.Format("2006-01-02") + " 00:00:00"
+	stop_time := time_now.Format("2006-01-02") + " 23:59:59"
+
+	r.CntSelf, err = getLogEventCount(start_time, stop_time, "自我保护")
 	if err != nil {
-		log.Printf("LogCountHomeAdmin: %s\n", err)
 		return r, err
 	}
-
-	// 统计日志
-	sqlstr := "SELECT SUM(modself) as cntself, " +
-		"SUM(modsafe) as cntsafe, " +
-		"SUM(modspecial) as cntspec, " +
-		"SUM(moduser) as cntuser " +
-		"FROM log_event_count WHERE " +
-		fmt.Sprintf("logdate >= '%s' ;", time_start)
-
-	rows, err := db.Query(sqlstr)
+	r.CntSafe, err = getLogEventCount(start_time, stop_time, "基础安全")
 	if err != nil {
-		log.Printf("LogCountHomeAdmin(): %s, %s", err, sqlstr)
 		return r, err
 	}
-	defer rows.Close()
-
-	for rows.Next() {
-		rows.Scan(&r.CntSelf, &r.CntSafe, &r.CntSpec, &r.CntUser)
-		break
-	}
-	rows.Close()
-
-	// 事务提交
-	err = tx.Commit()
+	r.CntUser, err = getLogEventCount(start_time, stop_time, "用户策略")
 	if err != nil {
-		log.Printf("LogCountHomeAdmin:tx.Commit: %s\n", err)
-		tx.Rollback()
 		return r, err
 	}
+	r.CntSpec, err = getLogEventCount(start_time, stop_time, "特殊资源")
+	if err != nil {
+		return r, err
+	}
+	/*
+		db := GHandleDBLog
+		time_start := time.Now().Format("2006-01-02")
+
+		tx, err := db.Begin()
+		if err != nil {
+			log.Printf("LogCountHomeAdmin: %s\n", err)
+			return r, err
+		}
+
+		// 统计日志
+		sqlstr := "SELECT SUM(modself) as cntself, " +
+			"SUM(modsafe) as cntsafe, " +
+			"SUM(modspecial) as cntspec, " +
+			"SUM(moduser) as cntuser " +
+			"FROM log_event_count WHERE " +
+			fmt.Sprintf("logdate >= '%s' ;", time_start)
+
+		rows, err := db.Query(sqlstr)
+		if err != nil {
+			log.Printf("LogCountHomeAdmin(): %s, %s", err, sqlstr)
+			return r, err
+		}
+		defer rows.Close()
+
+		for rows.Next() {
+			rows.Scan(&r.CntSelf, &r.CntSafe, &r.CntSpec, &r.CntUser)
+			break
+		}
+		rows.Close()
+
+		// 事务提交
+		err = tx.Commit()
+		if err != nil {
+			log.Printf("LogCountHomeAdmin:tx.Commit: %s\n", err)
+			tx.Rollback()
+			return r, err
+		}
+	*/
 	return r, nil
 }

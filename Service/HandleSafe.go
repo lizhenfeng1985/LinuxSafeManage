@@ -138,7 +138,7 @@ func SafeSetHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// 检测授权
-		if CheckSerialAndCloseProtest() != nil {
+		if CheckSerialAndCloseProtect() != nil {
 			w.Write(SafeErrResponse(&res, -3, "错误:软件未注册"))
 			return
 		}

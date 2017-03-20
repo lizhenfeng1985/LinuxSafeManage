@@ -50,7 +50,7 @@ func UserTokeyCheck(uname, tokey string) bool {
 
 func CheckLogin(uname, pwd string) (tokey string, err error) {
 	// 登录时候检测注册状态，未注册，关闭保护
-	CheckSerialAndCloseProtest()
+	CheckSerialAndCloseProtect()
 
 	user, err := DBUserGet(uname)
 	if err != nil {

@@ -1,8 +1,9 @@
 #!/bin/bash
 
-DST_DIR=/usr/local/SafeManage
+DST_DIR=./SafeManage
 DST_SERVICE=SafeManageService
 DST_UI=SafeManageUI
+DST_PKG=SafeManage
 
 # Service
 mkdir -p $DST_DIR
@@ -37,7 +38,7 @@ cp -r UI/static       $DST_DIR/
 cp -r UI/html         $DST_DIR/
 cp -r UI/config.ini   $DST_DIR/config.ini
 
-tar -zcf $DST_DIR.tar.gz $DST_DIR
+tar -zcf $DST_PKG.tar.gz $DST_DIR
 
 # clean dir
 rm -rf /tmp/UI 

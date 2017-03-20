@@ -11,10 +11,13 @@ import (
 )
 
 const (
-	GSerialPubKey   string = "./license/pub.key"
-	GSerialLicense  string = "./license/lic"
-	GSerialCodeFile string = "/root/.LinuxManageInfo"
-	GSerialDateSize int    = 136
+	GSerialPubKey      string = "./license/pub.key"
+	GSerialLicense     string = "./license/lic"
+	GSerialCodeFile    string = "/root/.LinuxManageInfo"
+	GSerialDateSize    int    = 136
+	GSerialCodeTest    string = "This is a test data, for sn."
+	GSerialTypeDebug   int    = 1
+	GSerialTypeRelease int    = 1
 )
 
 func RsaCreateKeys() (priKey, pubKey string, err error) {

@@ -244,7 +244,7 @@ func RuleStatUserSetHandler(w http.ResponseWriter, r *http.Request) {
 
 		// 检测授权
 		log.Printf("check verify")
-		if CheckSerialAndCloseProtest() != nil {
+		if CheckSerialAndCloseProtect() != nil {
 			log.Printf("check verify 1")
 			w.Write(RuleStatErrResponse(&res, -3, "错误:软件未注册"))
 			return
