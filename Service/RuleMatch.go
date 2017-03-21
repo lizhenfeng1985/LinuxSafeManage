@@ -441,15 +441,16 @@ func RuleMatchNewClient(c *TCPClient) {
 }
 
 // 接收客户端消息 - 回调
-func RuleMatchNewMessage(c *TCPClient, message []byte, tid int) {
+func RuleMatchNewMessage(c *TCPClient, message []byte, tid int) (ifClose bool, err error) {
 	var perm GoPerm
 	var hook GoHookInfo
 
+	ifClose = false
 	sendbuf := new(bytes.Buffer)
 	perm.Perm = 0
 
 	buf := bytes.NewReader(message)
-	err := binary.Read(buf, binary.LittleEndian, &hook)
+	err = binary.Read(buf, binary.LittleEndian, &hook)
 	if err == nil {
 		// match
 		b_perm, err := MatchAll(&hook)
@@ -460,10 +461,21 @@ func RuleMatchNewMessage(c *TCPClient, message []byte, tid int) {
 				perm.Perm = 1 // forbid
 			}
 		}
+	} else {
+		return true, err
 	}
 
-	binary.Write(sendbuf, binary.LittleEndian, perm)
-	c.SendBytes(sendbuf.Bytes())
+	err = binary.Write(sendbuf, binary.LittleEndian, perm)
+	if err != nil {
+		return true, err
+	}
+
+	err = c.SendBytes(sendbuf.Bytes())
+	if err != nil {
+		return true, err
+	}
+
+	return ifClose, nil
 }
 
 // 客户端关闭 - 回调

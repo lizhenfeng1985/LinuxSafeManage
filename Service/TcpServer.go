@@ -12,7 +12,7 @@ type TCPClient struct {
 	Server           *TCPServer
 	RecvSize         int
 	SendSize         int
-	ClientNewMessage func(c *TCPClient, message []byte, tid int)
+	ClientNewMessage func(c *TCPClient, message []byte, tid int) (ifClose bool, err error)
 }
 
 // TCP server
@@ -21,13 +21,15 @@ type TCPServer struct {
 	address                  string // Address to open connection: localhost:9999
 	onNewClientCallback      func(c *TCPClient)
 	onClientConnectionClosed func(c *TCPClient, err error)
-	onNewMessage             func(c *TCPClient, message []byte, tid int)
+	onNewMessage             func(c *TCPClient, message []byte, tid int) (ifClose bool, err error)
 }
 
 // Read client data from channel
 func (c *TCPClient) listen(tid int) {
-	msgSize := c.RecvSize
 	var buf []byte
+	var ifClose bool
+
+	msgSize := c.RecvSize
 	buf = make([]byte, msgSize)
 	reader := bufio.NewReader(c.Conn)
 	for {
@@ -38,7 +40,12 @@ func (c *TCPClient) listen(tid int) {
 			return
 		}
 		//###c.Server.onNewMessage(c, buf)
-		c.ClientNewMessage(c, buf, tid)
+		ifClose, err = c.ClientNewMessage(c, buf, tid)
+		if ifClose == true || err != nil {
+			c.Conn.Close()
+			c.Server.onClientConnectionClosed(c, err)
+			return
+		}
 		/*
 			message, err := reader.ReadString('\n')
 			if err != nil {
@@ -78,7 +85,7 @@ func (s *TCPServer) OnClientConnectionClosed(callback func(c *TCPClient, err err
 }
 
 // Called when TCPClient receives new message
-func (s *TCPServer) OnNewMessage(callback func(c *TCPClient, message []byte, tid int)) {
+func (s *TCPServer) OnNewMessage(callback func(c *TCPClient, message []byte, tid int) (ifClose bool, err error)) {
 	s.onNewMessage = callback
 }
 
@@ -112,7 +119,7 @@ func TCPServerNew(address string) *TCPServer {
 	}
 
 	server.OnNewClient(func(c *TCPClient) {})
-	server.OnNewMessage(func(c *TCPClient, message []byte, tid int) {})
+	server.OnNewMessage(func(c *TCPClient, message []byte, tid int) (ifClose bool, err error) { return ifClose, err })
 	server.OnClientConnectionClosed(func(c *TCPClient, err error) {})
 
 	return server
