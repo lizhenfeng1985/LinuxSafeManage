@@ -23,6 +23,14 @@ type GoPerm struct {
 	Perm uint32
 }
 
+type CacheValue struct {
+	Perm       int
+	StatusMode int
+}
+
+var GCacheTestReqAll int64 = 0
+var GCacheTestReqFind int64 = 0
+
 func getStatusString(status int) (str_stat string) {
 	if status == 1 {
 		return "开启"
@@ -392,7 +400,28 @@ func MatchAll(hook *GoHookInfo) (perm bool, err error) {
 	ObjSrcPath := string(bytes.TrimRight(hook.ObjSrcPath[0:264], trim))
 	ObjDstPath := string(bytes.TrimRight(hook.ObjDstPath[0:264], trim))
 
-	fmt.Println("-------------------------")
+	/*
+		// 测试cache效果
+		key := "PolicyModule" + "_" + UserName + "_" + SubPath + "_" + ObjSrcPath + "_" + "eType" + "_" + "OP"
+		LockCacheRule.Lock()
+		GCacheTestReqAll += 1
+		_, ok = GCacheRule.CacheGet(key)
+		if ok {
+			// 找到
+			GCacheTestReqFind += 1
+		} else {
+			GCacheRule.CacheAdd(key, &CacheValue{Perm: 1, StatusMode: 1})
+		}
+
+		if GCacheTestReqAll%20 == 0 {
+			fmt.Println("ReqAll=", GCacheTestReqAll, "CacheFind=", GCacheTestReqFind, "CacheSize=", GCacheRule.CacheLen())
+		}
+		LockCacheRule.Unlock()
+		fmt.Println("-------------------------")
+		fmt.Printf("[%s], Sub=%s, ObjSrc=%s, ObjDst=%s, User=%s, Op=%d, Perm=%d\n", time.Now().Format("2006-01-02 15:04:05"), SubPath, ObjSrcPath, ObjDstPath, UserName, hook.OpType, perm)
+		return perm, nil
+		// 测试结束
+	*/
 	switch hook.OpType {
 	case 1, 2:
 		fmt.Println("文件_读：", hook.OpType)

@@ -151,6 +151,11 @@ func MemRuleInitRule(db *sql.DB) (rh RuleMemHandle, err error) {
 }
 
 func MemRuleInit() (err error) {
+	// 初始化缓存
+	LockCacheRule.Lock()
+	GCacheRule = CacheNew(GCacheRuleSize)
+	LockCacheRule.Unlock()
+
 	// 初始化 - 超级进程
 	err = MemRuleInitRuleSuper()
 	if err != nil {
