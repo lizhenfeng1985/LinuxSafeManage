@@ -68,9 +68,82 @@ func DBSafeConfigSet(mode, fileetc, filelib, filebin, fileboot, netftp, nettelne
 	}
 	//log.Println("DB_SET:", mode, settime, shutdown, usb, cdrom)
 
-	// 更新数据库和内存 - 基础安全的保护状态是永远开启的，只是增删不同的规则
-	// DBRuleStatSafeSet(mode, mode, mode)
+	// 更新数据库和内存
+	if fileetc == 1 {
+		DBHighObjFileAdd(GHandleDBRuleSafe, "文件只读组", "/etc/")
+		DBHighObjFileAdd(GHandleDBRuleSafe, "文件只读组", "/usr/etc/")
+		DBHighObjFileAdd(GHandleDBRuleSafe, "文件只读组", "/usr/local/etc/")
+	} else {
+		DBHighObjFileDel(GHandleDBRuleSafe, "/etc/")
+		DBHighObjFileDel(GHandleDBRuleSafe, "/usr/etc/")
+		DBHighObjFileDel(GHandleDBRuleSafe, "/usr/local/etc/")
+	}
 
-	// 根据每项的结果，添加不同的策略
+	if filelib == 1 {
+		DBHighObjFileAdd(GHandleDBRuleSafe, "文件只读组", "/lib/")
+		DBHighObjFileAdd(GHandleDBRuleSafe, "文件只读组", "/lib64/")
+		DBHighObjFileAdd(GHandleDBRuleSafe, "文件只读组", "/usr/lib/")
+		DBHighObjFileAdd(GHandleDBRuleSafe, "文件只读组", "/usr/lib64/")
+		DBHighObjFileAdd(GHandleDBRuleSafe, "文件只读组", "/usr/local/lib/")
+		DBHighObjFileAdd(GHandleDBRuleSafe, "文件只读组", "/usr/local/lib64/")
+	} else {
+		DBHighObjFileDel(GHandleDBRuleSafe, "/lib/")
+		DBHighObjFileDel(GHandleDBRuleSafe, "/lib64/")
+		DBHighObjFileDel(GHandleDBRuleSafe, "/usr/lib/")
+		DBHighObjFileDel(GHandleDBRuleSafe, "/usr/lib64/")
+		DBHighObjFileDel(GHandleDBRuleSafe, "/usr/local/lib/")
+		DBHighObjFileDel(GHandleDBRuleSafe, "/usr/local/lib64/")
+	}
+
+	if filebin == 1 {
+		DBHighObjFileAdd(GHandleDBRuleSafe, "文件只读组", "/bin/")
+		DBHighObjFileAdd(GHandleDBRuleSafe, "文件只读组", "/usr/bin/")
+		DBHighObjFileAdd(GHandleDBRuleSafe, "文件只读组", "/usr/local/bin/")
+	} else {
+		DBHighObjFileDel(GHandleDBRuleSafe, "/bin/")
+		DBHighObjFileDel(GHandleDBRuleSafe, "/usr/bin/")
+		DBHighObjFileDel(GHandleDBRuleSafe, "/usr/local/bin/")
+	}
+
+	if fileboot == 1 {
+		DBHighObjFileAdd(GHandleDBRuleSafe, "文件只读组", "/boot/")
+	} else {
+		DBHighObjFileDel(GHandleDBRuleSafe, "/boot/")
+	}
+
+	if netftp == 1 {
+		DBHighObjNetAdd(GHandleDBRuleSafe, "端口禁止连接组", "0.0.0.0:20")
+		DBHighObjNetAdd(GHandleDBRuleSafe, "端口禁止连接组", "0.0.0.0:21")
+	} else {
+		DBHighObjNetDel(GHandleDBRuleSafe, "0.0.0.0:20")
+		DBHighObjNetDel(GHandleDBRuleSafe, "0.0.0.0:21")
+	}
+
+	if nettelnet == 1 {
+		DBHighObjNetAdd(GHandleDBRuleSafe, "端口禁止连接组", "0.0.0.0:23")
+	} else {
+		DBHighObjNetDel(GHandleDBRuleSafe, "0.0.0.0:23")
+	}
+
+	if netmail == 1 {
+		DBHighObjNetAdd(GHandleDBRuleSafe, "端口禁止连接组", "0.0.0.0:25")
+		DBHighObjNetAdd(GHandleDBRuleSafe, "端口禁止连接组", "0.0.0.0:465")
+		DBHighObjNetAdd(GHandleDBRuleSafe, "端口禁止连接组", "0.0.0.0:587")
+	} else {
+		DBHighObjNetDel(GHandleDBRuleSafe, "0.0.0.0:25")
+		DBHighObjNetDel(GHandleDBRuleSafe, "0.0.0.0:465")
+		DBHighObjNetDel(GHandleDBRuleSafe, "0.0.0.0:587")
+	}
+
+	if netweb == 1 {
+		DBHighObjNetAdd(GHandleDBRuleSafe, "端口禁止连接组", "0.0.0.0:80")
+		DBHighObjNetAdd(GHandleDBRuleSafe, "端口禁止连接组", "0.0.0.0:8080")
+	} else {
+		DBHighObjNetDel(GHandleDBRuleSafe, "0.0.0.0:80")
+		DBHighObjNetDel(GHandleDBRuleSafe, "0.0.0.0:8080")
+	}
+
+	DBRuleStatSafeSet(mode, mode, mode)
+
 	return nil
 }

@@ -39,7 +39,7 @@ func InitAllRule() error {
 	}
 	GHandleDBRuleSafe = db
 
-	// 自保护规则DB
+	// 用户保护规则DB
 	hlog.Println("[INFO]", "ConnectSqlite():", DBFileRuleUser)
 	db, err = ConnectSqlite(DBFileRuleUser)
 	if err != nil {
@@ -73,6 +73,11 @@ func InitAllRule() error {
 		return err
 	}
 
+	/*
+		DBHighObjFileGroupAdd(db, "文件只读组")
+		DBHighObjNetGroupAdd(db, "端口禁止连接组")
+		DBHighPermAdd(db, "所有用户", "所有进程", "文件只读组", "文件对象", "只读")
+	*/
 	// 启动后台日志统计服务模块
 	//go LogEventCountService()
 	return nil
