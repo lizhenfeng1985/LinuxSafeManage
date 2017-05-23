@@ -216,13 +216,13 @@ func MatchFileSplitPath(obj_file string) (fs []string) {
 	}
 
 	// 上层目录
-	fs = append(fs, dir)
+	fs = append(fs, dir+"/")
 	for i := 0; i < 32; i++ {
 		new_dir := path.Dir(dir)
 		if new_dir == "/" || new_dir == "." {
 			return fs
 		} else {
-			fs = append(fs, new_dir)
+			fs = append(fs, new_dir+"/")
 			dir = new_dir
 		}
 	}
@@ -446,6 +446,15 @@ func MatchAll(hook *GoHookInfo) (perm bool, err error) {
 	case 51:
 		fmt.Println("时间_设置：", hook.OpType)
 		perm, err = MatchSetTime(UserName, SubPath, ObjSrcPath, ObjDstPath, "设置时间")
+	case 52:
+		fmt.Println("USB：", hook.OpType)
+		perm, err = MatchUSB(UserName, SubPath, ObjSrcPath, "挂载USB")
+	case 53:
+		fmt.Println("CDROM：", hook.OpType)
+		perm, err = MatchCdRom(UserName, SubPath, ObjSrcPath, "挂载CDROM")
+	case 71:
+		fmt.Println("关机：", hook.OpType)
+		perm, err = MatchShutDown(UserName, SubPath, ObjSrcPath, "关机重启")
 	case 61:
 		fmt.Println("网络_连接：", hook.OpType)
 		perm, err = MatchNet(UserName, SubPath, ObjSrcPath, "网络连接")

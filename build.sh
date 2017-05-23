@@ -16,6 +16,7 @@ cd Service
 /usr/local/go/bin/go build
 cd ..
 
+cp Service/db/*.db                 $DST_DIR/db/
 cp Service/license/pub.key $DST_DIR/license/pub.key
 cp Service/server.key      $DST_DIR/server.key
 cp Service/server.crt      $DST_DIR/server.crt
