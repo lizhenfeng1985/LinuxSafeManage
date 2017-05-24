@@ -251,9 +251,15 @@ func DBHighObjFileAdd(db *sql.DB, group, obj_file string) (err error) {
 	}
 
 	// 更新内存
-	LockGMemRuleUserHandle.Lock()
-	GMemRuleUserHandle.RObjFile[obj_file] = group
-	LockGMemRuleUserHandle.Unlock()
+	if db == GHandleDBRuleUser {
+		LockGMemRuleUserHandle.Lock()
+		GMemRuleUserHandle.RObjFile[obj_file] = group
+		LockGMemRuleUserHandle.Unlock()
+	}else if db == GHandleDBRuleSafe {
+		LockGMemRuleSafeHandle.Lock()
+		GMemRuleSafeHandle.RObjFile[obj_file] = group
+		LockGMemRuleSafeHandle.Unlock()
+	}
 	return nil
 }
 
@@ -305,9 +311,15 @@ func DBHighObjFileDel(db *sql.DB, obj_file string) (err error) {
 	}
 
 	// 更新内存
-	LockGMemRuleUserHandle.Lock()
-	delete(GMemRuleUserHandle.RObjFile, obj_file)
-	LockGMemRuleUserHandle.Unlock()
+	if db == GHandleDBRuleUser {
+		LockGMemRuleUserHandle.Lock()
+		delete(GMemRuleUserHandle.RObjFile, obj_file)
+		LockGMemRuleUserHandle.Unlock()
+	}else if db == GHandleDBRuleSafe {
+		LockGMemRuleSafeHandle.Lock()
+		delete(GMemRuleSafeHandle.RObjFile, obj_file)
+		LockGMemRuleSafeHandle.Unlock()
+	}
 	return nil
 }
 

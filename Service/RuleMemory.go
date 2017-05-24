@@ -1,6 +1,7 @@
 package main
 
 import "database/sql"
+import "fmt"
 
 type RuleUser map[string]string    // 用户名 - 组名
 type RuleProc map[string]string    // 进程名 - 组名
@@ -185,6 +186,7 @@ func MemRuleInit() (err error) {
 	if err != nil {
 		return err
 	}
+	fmt.Println("safe:", rh);
 	LockGMemRuleSafeHandle.Lock()
 	GMemRuleSafeHandle = rh
 	LockGMemRuleSafeHandle.Unlock()

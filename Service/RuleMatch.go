@@ -229,7 +229,7 @@ func MatchFileSplitPath(obj_file string) (fs []string) {
 	return fs
 }
 
-func MatchFilePolicy(handle *RuleMemHandle, user, proc, op, rule_type string, obj_files []string) (perm bool, err error) {
+func MatchFilePolicy(handle *RuleMemHandle, user, proc, op, rule_type, old_obj_file string, obj_files []string) (perm bool, err error) {
 	user_group, ok := handle.RUser[user]
 	if ok == false {
 		user_group = "所有用户" // 客体有组，用户无组 : 尝试默认组
@@ -250,7 +250,7 @@ func MatchFilePolicy(handle *RuleMemHandle, user, proc, op, rule_type string, ob
 		_, ok = handle.RPerm[perm_str]
 		if ok == false {
 			// add log
-			LogInsertEvent(rule_type, getStatusString(handle.StatusFile), "文件", op, user, proc, obj_file, "拦截")
+			LogInsertEvent(rule_type, getStatusString(handle.StatusFile), "文件", op, user, proc, old_obj_file, "拦截")
 
 			if handle.StatusFile == 0 {
 				//return true, nil // 维护模式 : 允许
@@ -276,7 +276,7 @@ func MatchFile(user, proc, obj_file, op string) (perm bool, err error) {
 
 	// 自保护策略
 	LockGMemRuleSelfHandle.Lock()
-	perm, err = MatchFilePolicy(&GMemRuleSelfHandle, user, proc, op, "自保护", obj_fs)
+	perm, err = MatchFilePolicy(&GMemRuleSelfHandle, user, proc, op, "自保护", obj_file, obj_fs)
 	LockGMemRuleSelfHandle.Unlock()
 	if err != nil {
 		return perm, err
@@ -287,8 +287,8 @@ func MatchFile(user, proc, obj_file, op string) (perm bool, err error) {
 
 	// 基础安全保护策略
 	LockGMemRuleSafeHandle.Lock()
-	perm, err = MatchFilePolicy(&GMemRuleSafeHandle, user, proc, op, "基础安全", obj_fs)
-	LockGMemRuleSafeHandle.Unlock()
+	perm, err = MatchFilePolicy(&GMemRuleSafeHandle, user, proc, op, "基础安全", obj_file, obj_fs)
+	LockGMemRuleSafeHandle.Unlock() 
 	if err != nil {
 		return perm, err
 	}
@@ -298,7 +298,7 @@ func MatchFile(user, proc, obj_file, op string) (perm bool, err error) {
 
 	// 用户策略
 	LockGMemRuleUserHandle.Lock()
-	perm, err = MatchFilePolicy(&GMemRuleUserHandle, user, proc, op, "用户策略", obj_fs)
+	perm, err = MatchFilePolicy(&GMemRuleUserHandle, user, proc, op, "用户策略", obj_file, obj_fs)
 	LockGMemRuleUserHandle.Unlock()
 
 	return perm, nil

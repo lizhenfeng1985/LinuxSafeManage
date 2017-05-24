@@ -13,7 +13,7 @@ mkdir -p $DST_DIR/log
 
 # compile
 cd Service
-/usr/local/go/bin/go build
+/usr/bin/go build
 cd ..
 
 cp Service/db/*.db                 $DST_DIR/db/

@@ -227,9 +227,15 @@ func DBHighObjNetAdd(db *sql.DB, group, obj_net string) (err error) {
 	}
 
 	// 更新内存
-	LockGMemRuleUserHandle.Lock()
-	GMemRuleUserHandle.RObjNet[obj_net] = group
-	LockGMemRuleUserHandle.Unlock()
+	if db == GHandleDBRuleUser{
+		LockGMemRuleUserHandle.Lock()
+		GMemRuleUserHandle.RObjNet[obj_net] = group
+		LockGMemRuleUserHandle.Unlock()
+	}else if  db == GHandleDBRuleSafe{
+		LockGMemRuleSafeHandle.Lock()
+		GMemRuleSafeHandle.RObjNet[obj_net] = group
+		LockGMemRuleSafeHandle.Unlock()
+	}
 	return nil
 }
 
@@ -280,9 +286,16 @@ func DBHighObjNetDel(db *sql.DB, obj_net string) (err error) {
 		return err
 	}
 	// 更新内存
-	LockGMemRuleUserHandle.Lock()
-	delete(GMemRuleUserHandle.RObjNet, obj_net)
-	LockGMemRuleUserHandle.Unlock()
+	if db == GHandleDBRuleUser{
+		LockGMemRuleUserHandle.Lock()
+		delete(GMemRuleUserHandle.RObjNet, obj_net)
+		LockGMemRuleUserHandle.Unlock()
+	}else if db == GHandleDBRuleSafe{
+		LockGMemRuleSafeHandle.Lock()
+		delete(GMemRuleSafeHandle.RObjNet, obj_net)
+		LockGMemRuleSafeHandle.Unlock()
+
+	}
 	return nil
 }
 
