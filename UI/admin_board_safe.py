@@ -66,7 +66,7 @@ class AdminBoardSafe(QtGui.QWidget):
         self.adminTagSafeOk.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_grey_line.png);"))
         self.adminTagSafeOk.setText(_translate("adminTagSafeOk", "应用到服务器", None))
 
-        self.adminTagSafeCount = 8
+        self.adminTagSafeCount = 7
         self.adminTagSafeTable = QtGui.QTableWidget(self.adminTagSafeBkg)
         self.adminTagSafeTable.setGeometry(QtCore.QRect(25, 122, 950, 290))
         self.adminTagSafeTable.setObjectName(_fromUtf8("specrc_list_widget"))
@@ -79,12 +79,12 @@ class AdminBoardSafe(QtGui.QWidget):
         self.adminTagSafeTable.setColumnCount(4)
         self.adminTagSafeTable.setHorizontalHeaderLabels([_fromUtf8("功能"),_fromUtf8("模式"),_fromUtf8("状态"),_fromUtf8("操作")])
         self.adminTagSafeTable.setShowGrid(False)
-        self.adminTagSafeTable.setColumnWidth(0,280)
-        self.adminTagSafeTable.setColumnWidth(1,160)
-        self.adminTagSafeTable.setColumnWidth(2,260)
-        self.adminTagSafeTable.setColumnWidth(3,225)
+        self.adminTagSafeTable.setColumnWidth(0, 280)
+        self.adminTagSafeTable.setColumnWidth(1, 160)
+        self.adminTagSafeTable.setColumnWidth(2, 260)
+        self.adminTagSafeTable.setColumnWidth(3, 225)
         for i in range(0, self.adminTagSafeCount):
-            self.adminTagSafeTable.setRowHeight(i,50)
+            self.adminTagSafeTable.setRowHeight(i, 50)
         
         self.adminTagSafeFileEtcModeText, self.adminTagSafeFileEtcOnOff, self.adminTagSafeFileEtcText = self.AddAdminTagSafeTableItem(\
                             self.adminTagSafeTable, 0, '/images/admin_safe_etc.png', '禁止修改系统配置','维护模式',\
@@ -95,20 +95,20 @@ class AdminBoardSafe(QtGui.QWidget):
         self.adminTagSafeFileBinModeText, self.adminTagSafeFileBinOnOff, self.adminTagSafeFileBinText = self.AddAdminTagSafeTableItem(\
                             self.adminTagSafeTable, 2, '/images/admin_safe_bin.png', '禁止修改系统程序文件','维护模式',\
                              '/images/btn_close_1.png','已应用到服务器')
-        self.adminTagSafeFileBootModeText, self.adminTagSafeFileBootOnOff, self.adminTagSafeFileBootText = self.AddAdminTagSafeTableItem(\
-                            self.adminTagSafeTable, 3, '/images/admin_safe_boot.png', '禁止修改系统启动文件','维护模式',\
-                             '/images/btn_close_1.png','已应用到服务器')
+        #self.adminTagSafeFileBootModeText, self.adminTagSafeFileBootOnOff, self.adminTagSafeFileBootText = self.AddAdminTagSafeTableItem(\
+        #                    self.adminTagSafeTable, 3, '/images/admin_safe_boot.png', '禁止修改系统启动文件','维护模式',\
+        #                     '/images/btn_close_1.png','已应用到服务器')
         self.adminTagSafeNetFtpModeText, self.adminTagSafeNetFtpOnOff, self.adminTagSafeNetFtpText = self.AddAdminTagSafeTableItem(\
-                            self.adminTagSafeTable, 4, '/images/admin_safe_ftp.png', '禁止FTP访问','维护模式',\
+                            self.adminTagSafeTable, 3, '/images/admin_safe_ftp.png', '禁止FTP访问','维护模式',\
                              '/images/btn_close_1.png','已应用到服务器')
         self.adminTagSafeNetTelnetModeText, self.adminTagSafeNetTelnetOnOff, self.adminTagSafeNetTelnetText = self.AddAdminTagSafeTableItem(\
-                            self.adminTagSafeTable, 5, '/images/admin_safe_telnet.png', '禁止Telnet访问','维护模式',\
+                            self.adminTagSafeTable, 4, '/images/admin_safe_telnet.png', '禁止Telnet访问','维护模式',\
                              '/images/btn_close_1.png','已应用到服务器')
         self.adminTagSafeNetMailModeText, self.adminTagSafeNetMailOnOff, self.adminTagSafeNetMailText = self.AddAdminTagSafeTableItem(\
-                            self.adminTagSafeTable, 6, '/images/admin_safe_email.png', '禁止POP/SMTP访问','维护模式',\
+                            self.adminTagSafeTable, 5, '/images/admin_safe_email.png', '禁止POP/SMTP访问','维护模式',\
                              '/images/btn_close_1.png','已应用到服务器')
         self.adminTagSafeNetWebModeText, self.adminTagSafeNetWebOnOff, self.adminTagSafeNetWebText = self.AddAdminTagSafeTableItem(\
-                            self.adminTagSafeTable, 7, '/images/admin_safe_web.png', '禁止HTTP访问','维护模式',\
+                            self.adminTagSafeTable, 6, '/images/admin_safe_web.png', '禁止HTTP访问','维护模式',\
                              '/images/btn_close_1.png','已应用到服务器')
 
         # 变量 - 安全保护
@@ -209,16 +209,16 @@ class AdminBoardSafe(QtGui.QWidget):
                 self.adminTagSafeFileBinValue = 0
                 self.adminTagSafeFileBinText.setText(_fromUtf8("等待应用到服务器"))
                 self.adminTagSafeFileBinOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_close_1.png);"))                
+        #elif line == 3 and col == 2:
+        #    if self.adminTagSafeFileBootValue == 0:
+        #        self.adminTagSafeFileBootValue = 1
+        #        self.adminTagSafeFileBootText.setText(_fromUtf8("等待应用到服务器"))
+        #        self.adminTagSafeFileBootOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_open_1.png);"))
+        #    else:
+        #        self.adminTagSafeFileBootValue = 0
+        #        self.adminTagSafeFileBootText.setText(_fromUtf8("等待应用到服务器"))
+        #        self.adminTagSafeFileBootOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_close_1.png);"))
         elif line == 3 and col == 2:
-            if self.adminTagSafeFileBootValue == 0:
-                self.adminTagSafeFileBootValue = 1
-                self.adminTagSafeFileBootText.setText(_fromUtf8("等待应用到服务器"))
-                self.adminTagSafeFileBootOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_open_1.png);"))
-            else:
-                self.adminTagSafeFileBootValue = 0
-                self.adminTagSafeFileBootText.setText(_fromUtf8("等待应用到服务器"))
-                self.adminTagSafeFileBootOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_close_1.png);"))
-        elif line == 4 and col == 2:
             if self.adminTagSafeNetFtpValue == 0:
                 self.adminTagSafeNetFtpValue = 1
                 self.adminTagSafeNetFtpText.setText(_fromUtf8("等待应用到服务器"))
@@ -227,7 +227,7 @@ class AdminBoardSafe(QtGui.QWidget):
                 self.adminTagSafeNetFtpValue = 0
                 self.adminTagSafeNetFtpText.setText(_fromUtf8("等待应用到服务器"))
                 self.adminTagSafeNetFtpOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_close_1.png);"))
-        elif line == 5 and col == 2:
+        elif line == 4 and col == 2:
             if self.adminTagSafeNetTelnetValue == 0:
                 self.adminTagSafeNetTelnetValue = 1
                 self.adminTagSafeNetTelnetText.setText(_fromUtf8("等待应用到服务器"))
@@ -236,7 +236,7 @@ class AdminBoardSafe(QtGui.QWidget):
                 self.adminTagSafeNetTelnetValue = 0
                 self.adminTagSafeNetTelnetText.setText(_fromUtf8("等待应用到服务器"))
                 self.adminTagSafeNetTelnetOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_close_1.png);"))
-        elif line == 6 and col == 2:
+        elif line == 5 and col == 2:
             if self.adminTagSafeNetMailValue == 0:
                 self.adminTagSafeNetMailValue = 1
                 self.adminTagSafeNetMailText.setText(_fromUtf8("等待应用到服务器"))
@@ -245,7 +245,7 @@ class AdminBoardSafe(QtGui.QWidget):
                 self.adminTagSafeNetMailValue = 0
                 self.adminTagSafeNetMailText.setText(_fromUtf8("等待应用到服务器"))
                 self.adminTagSafeNetMailOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_close_1.png);"))
-        elif line == 7 and col == 2:
+        elif line == 6 and col == 2:
             if self.adminTagSafeNetWebValue == 0:
                 self.adminTagSafeNetWebValue = 1
                 self.adminTagSafeNetWebText.setText(_fromUtf8("等待应用到服务器"))
@@ -311,7 +311,7 @@ class AdminBoardSafe(QtGui.QWidget):
             self.adminTagSafeFileEtcText.setText(_fromUtf8("已应用到服务器"))
             self.adminTagSafeFileLibText.setText(_fromUtf8("已应用到服务器"))
             self.adminTagSafeFileBinText.setText(_fromUtf8("已应用到服务器"))
-            self.adminTagSafeFileBootText.setText(_fromUtf8("已应用到服务器"))
+            #self.adminTagSafeFileBootText.setText(_fromUtf8("已应用到服务器"))
             self.adminTagSafeNetFtpText.setText(_fromUtf8("已应用到服务器"))
             self.adminTagSafeNetTelnetText.setText(_fromUtf8("已应用到服务器"))
             self.adminTagSafeNetMailText.setText(_fromUtf8("已应用到服务器"))
@@ -322,7 +322,7 @@ class AdminBoardSafe(QtGui.QWidget):
                 self.adminTagSafeFileEtcModeText.setText(_fromUtf8("保护模式"))
                 self.adminTagSafeFileLibModeText.setText(_fromUtf8("保护模式"))
                 self.adminTagSafeFileBinModeText.setText(_fromUtf8("保护模式"))
-                self.adminTagSafeFileBootModeText.setText(_fromUtf8("保护模式"))
+                #self.adminTagSafeFileBootModeText.setText(_fromUtf8("保护模式"))
                 self.adminTagSafeNetFtpModeText.setText(_fromUtf8("保护模式"))
                 self.adminTagSafeNetTelnetModeText.setText(_fromUtf8("保护模式"))
                 self.adminTagSafeNetMailModeText.setText(_fromUtf8("保护模式"))
@@ -332,7 +332,7 @@ class AdminBoardSafe(QtGui.QWidget):
                 self.adminTagSafeFileEtcModeText.setText(_fromUtf8("维护模式"))
                 self.adminTagSafeFileLibModeText.setText(_fromUtf8("维护模式"))
                 self.adminTagSafeFileBinModeText.setText(_fromUtf8("维护模式"))
-                self.adminTagSafeFileBootModeText.setText(_fromUtf8("维护模式"))
+                #self.adminTagSafeFileBootModeText.setText(_fromUtf8("维护模式"))
                 self.adminTagSafeNetFtpModeText.setText(_fromUtf8("维护模式"))
                 self.adminTagSafeNetTelnetModeText.setText(_fromUtf8("维护模式"))
                 self.adminTagSafeNetMailModeText.setText(_fromUtf8("维护模式"))
@@ -353,10 +353,10 @@ class AdminBoardSafe(QtGui.QWidget):
             else:
                 self.adminTagSafeFileBinOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_close_1.png);"))
                 
-            if self.adminTagSafeFileBootValue == 1:
-                self.adminTagSafeFileBootOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_open_1.png);"))
-            else:
-                self.adminTagSafeFileBootOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_close_1.png);"))
+            #if self.adminTagSafeFileBootValue == 1:
+            #    self.adminTagSafeFileBootOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_open_1.png);"))
+            #else:
+            #    self.adminTagSafeFileBootOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_close_1.png);"))
 
             if self.adminTagSafeNetFtpValue == 1:
                 self.adminTagSafeNetFtpOnOff.setStyleSheet(_fromUtf8("border-image: url(:/images/btn_open_1.png);"))
