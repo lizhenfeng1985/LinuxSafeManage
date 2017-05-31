@@ -33,6 +33,9 @@ class AuditBoardHome(QtGui.QWidget):
         self.auditTagHomeWebkit = QtWebKit.QWebView(self.auditTagHomeBkg)
         self.auditTagHomeWebkit.setGeometry(QtCore.QRect(60, 40, 860, 400))
 
+        self.AuditTagHomeReloadData()
+
+    def AuditTagHomeReloadData(self):
         load_html_file = './html/audit_board_home.default.html'
 
         # use same page as admin

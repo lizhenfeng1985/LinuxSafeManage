@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from PyQt4 import QtCore, QtGui
 import json
+import time
 from http import *
 import images_rc
 
@@ -72,7 +73,8 @@ class AuditBoardSafeEvent(QtGui.QWidget):
         self.auditTagSafeEventStart.setDisplayFormat("yyyy-MM-dd hh:mm:ss")
         self.auditTagSafeEventStart.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_grey_line.png);'))
         self.auditTagSafeEventStart.setObjectName(_fromUtf8("auditTagSafeEventStart"))
-        self.auditTagSafeEventStart.setDateTime(QtCore.QDateTime.currentDateTime())
+        self.auditTagSafeEventStart.setDateTime(QtCore.QDateTime.fromString(time.strftime("%Y-%m-%d 00:00:00", time.localtime()), "yyyy-MM-dd hh:mm:ss"))
+        #self.auditTagSafeEventStart.setDateTime(QtCore.QDateTime.currentDateTime())
 
         # 结束时间 - 文字
         self.auditTagSafeEventStopText = QtGui.QLabel(self.auditTagSafeEventBkg)
@@ -90,7 +92,8 @@ class AuditBoardSafeEvent(QtGui.QWidget):
         self.auditTagSafeEventStop.setDisplayFormat("yyyy-MM-dd hh:mm:ss")
         self.auditTagSafeEventStop.setStyleSheet(_fromUtf8('border-image: url(:/images/btn_grey_line.png);'))
         self.auditTagSafeEventStop.setObjectName(_fromUtf8("auditTagSafeEventStop"))
-        self.auditTagSafeEventStop.setDateTime(QtCore.QDateTime.currentDateTime())
+        self.auditTagSafeEventStop.setDateTime(QtCore.QDateTime.fromString(time.strftime("%Y-%m-%d 23:59:59", time.localtime()), "yyyy-MM-dd hh:mm:ss"))
+        #self.auditTagSafeEventStop.setDateTime(QtCore.QDateTime.currentDateTime())
 
         # 上一页
         self.auditTagSafeEventPrev = QtGui.QPushButton(self.auditTagSafeEventBkg)

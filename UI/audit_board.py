@@ -132,6 +132,7 @@ class AuditBoard(QtGui.QWidget):
         if self.AuditBoardCheckPopUp():
             return
         self._onAuditChangeTags(self.auditTagHome)
+        self.AuditTagHomeReloadData()
 
     def onAuditTagSafeEvent(self):
         if self.AuditBoardCheckPopUp():

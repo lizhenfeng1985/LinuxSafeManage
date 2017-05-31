@@ -144,6 +144,7 @@ class AdminBoard(QtGui.QWidget):
         if self.AdminBoardCheckPopUp():
             return
         self._onAdminChangeTags(self.adminTagHome)
+        self.AdminTagHomeReloadData()
 
     def onAdminTagSafe(self):
         if self.AdminBoardCheckPopUp():

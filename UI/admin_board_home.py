@@ -33,6 +33,9 @@ class AdminBoardHome(QtGui.QWidget):
         self.adminTagHomeWebkit = QtWebKit.QWebView(self.adminTagHomeBkg)
         self.adminTagHomeWebkit.setGeometry(QtCore.QRect(60, 40, 860, 400))
 
+        self.AdminTagHomeReloadData()
+
+    def AdminTagHomeReloadData(self):
         load_html_file = './html/admin_board_home.default.html'
 
         url = 'https://%s:%s/home/admin/%s' % (self._Config['Service']['IP'], self._Config['Service']['Port'], self.LoginName)
@@ -57,3 +60,4 @@ class AdminBoardHome(QtGui.QWidget):
                 except Exception as e:
                     pass
         self.adminTagHomeWebkit.load(QtCore.QUrl(load_html_file))
+

@@ -73,7 +73,7 @@ func LogFini() {
 // 插入系统日志
 func LogInsertSys(login_name, op, result, info string) {
 	sql := "insert into log_sys (id, login_name, op, result, info, logtime) values " +
-		fmt.Sprintf("(null, '%s', '%s', '%s', '%s', datetime())", login_name, op, result, info)
+		fmt.Sprintf("(null, '%s', '%s', '%s', '%s', datetime('now','localtime'))", login_name, op, result, info)
 
 	rwLockLog.Lock()
 	logCacheInsert = append(logCacheInsert, sql)
@@ -83,7 +83,7 @@ func LogInsertSys(login_name, op, result, info string) {
 // 插入拦截事件日志
 func LogInsertEvent(module, status, etype, eop, uname, proc, obj, result string) {
 	sql := "insert into log_event (id, module, status, etype, eop, uname, proc, obj, result, logtime) values " +
-		fmt.Sprintf("(null, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', datetime())",
+		fmt.Sprintf("(null, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', datetime('now','localtime'))",
 			module, status, etype, eop, uname, proc, obj, result)
 
 	rwLockLog.Lock()

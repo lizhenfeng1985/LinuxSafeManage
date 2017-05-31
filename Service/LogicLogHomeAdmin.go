@@ -10,8 +10,8 @@ type LogCountHomeAdmin struct {
 }
 
 func LogicLogCountHomeAdmin() (r LogCountHomeAdmin, err error) {
-	time_start := time.Now()
-	time_stop := time_start.AddDate(0, 0, -6)
+	time_stop := time.Now()
+	time_start := time_stop.AddDate(0, 0, -6)
 
 	start_time := time_start.Format("2006-01-02") + " 00:00:00"
 	stop_time := time_stop.Format("2006-01-02") + " 23:59:59"
